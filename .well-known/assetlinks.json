@@ -4,8 +4,9 @@
     "target": {
       "namespace": "android_app",
       "package_name": "com.tomekgacek.letsmeet",
-      "sha256_cert_fingerprints":
-        ["38:3A:08:EA:E0:8F:6B:D2:A3:34:85:14:44:7D:F0:90:48:62:13:E9:65:64:8E:17:F4:12:40:A5:C4:71:D4:7F"]
+      "sha256_cert_fingerprints": [
+        "FC:C6:35:A7:DF:B4:71:AA:27:46:32:03:0D:AE:4A:46:61:43:B9:A7:A6:09:ED:41:3D:71:2D:27:96:FF:05:CA"
+      ]
     }
   }
 ]
