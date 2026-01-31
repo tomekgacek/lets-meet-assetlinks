@@ -3,8 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <script>
-      // Przekierowanie wszystkich nieistniejących ścieżek na stronę główną
-      window.location.replace("/");
+      // Zachowujemy oryginalną ścieżkę
+      const path = window.location.pathname;
+
+      // Jeśli to /meeting/XYZ → ładujemy /meeting/index.html
+      if (path.startsWith("/meeting/")) {
+        window.location.replace("/meeting/index.html" + window.location.search + "#" + path);
+      } else {
+        // fallback
+        window.location.replace("/");
+      }
     </script>
   </head>
   <body></body>
