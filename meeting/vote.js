@@ -9,8 +9,24 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 // --- MeetingId z URL
-const hash = window.location.hash; // #/meeting/XYZ
-const meetingId = hash.split("/").pop();
+function getMeetingId() {
+  // przypadek 1: hash routing (#/meeting/XYZ)
+  if (window.location.hash.includes("/meeting/")) {
+    return window.location.hash.split("/meeting/")[1];
+  }
+
+  // przypadek 2: normalny path (/meeting/XYZ)
+  const parts = window.location.pathname.split("/");
+  return parts[parts.length - 1];
+}
+
+const meetingId = getMeetingId();
+
+if (!meetingId) {
+  alert("Brak ID spotkania w linku");
+  throw new Error("No meetingId");
+}
+
 
 
 // --- Nickname
