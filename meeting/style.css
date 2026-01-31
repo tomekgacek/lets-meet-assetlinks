@@ -1,1 +1,34 @@
+body {
+  font-family: system-ui, sans-serif;
+  background: #f2e9f7;
+  margin: 0;
+  padding: 16px;
+}
 
+#app {
+  max-width: 600px;
+  margin: auto;
+}
+
+.card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.08);
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+}
+
+button {
+  flex: 1;
+  border: none;
+  border-radius: 20px;
+  padding: 10px;
+  background: #6A89CC;
+  color: #fff;
+  font-weight: 600;
+}
