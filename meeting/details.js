@@ -15,7 +15,6 @@ const db = firebase.firestore();
 
 // ---------- Helpers ----------
 function getMeetingId() {
-  // obsługa: #/meeting/XYZ
   if (window.location.hash.includes("/meeting/")) {
     return window.location.hash.split("/meeting/")[1];
   }
@@ -37,9 +36,19 @@ if (!meetingId) {
   throw new Error("No meetingId");
 }
 
+// ---------- Nickname ----------
+let nickname = localStorage.getItem(`nickname_${meetingId}`);
+if (!nickname) {
+  nickname = prompt("Podaj swój nick (min 2 znaki):");
+  if (!nickname || nickname.trim().length < 2) {
+    alert("Nick jest wymagany");
+    location.reload();
+  }
+  localStorage.setItem(`nickname_${meetingId}`, nickname.trim());
+}
+
 // ---------- Load meeting ----------
-db.collection("meetings")
-  .doc(meetingId)
+db.collection("meetings").doc(meetingId)
   .onSnapshot(
     doc => {
       console.log("MEETING SNAP:", doc.exists);
@@ -69,33 +78,65 @@ db.collection(`meetings/${meetingId}/proposals`)
       proposalsEl.innerHTML = "";
 
       if (snapshot.empty) {
-        proposalsEl.innerHTML =
-          "<p>Brak zaproponowanych terminów</p>";
+        proposalsEl.innerHTML = "<p>Brak zaproponowanych terminów</p>";
         return;
       }
 
-      snapshot.forEach(doc => renderProposal(doc.data()));
+      snapshot.forEach(doc => renderProposal(doc.id, doc.data()));
     },
     err => {
       console.error("PROPOSALS ERROR:", err);
-      proposalsEl.innerHTML =
-        "<p>❌ Błąd ładowania terminów</p>";
+      proposalsEl.innerHTML = "<p>❌ Błąd ładowania terminów</p>";
     }
   );
 
 // ---------- Render ----------
-function renderProposal(p) {
+function renderProposal(id, p) {
+  const voters = p.voters || { yes: [], maybe: [], no: [] };
+
   const el = document.createElement("div");
   el.className = "card";
 
   el.innerHTML = `
     <h3>📅 ${p.date || ""} ${p.time || ""}</h3>
     <p>
-      ✅ ${(p.voters?.yes || []).length}
-      🤔 ${(p.voters?.maybe || []).length}
-      ❌ ${(p.voters?.no || []).length}
+      ✅ ${voters.yes.length} &nbsp; 
+      🤔 ${voters.maybe.length} &nbsp; 
+      ❌ ${voters.no.length}
     </p>
+    <div class="buttons">
+      <button onclick="vote('${id}','yes')">✅ Tak</button>
+      <button onclick="vote('${id}','maybe')">🤔 Może</button>
+      <button onclick="vote('${id}','no')">❌ Nie</button>
+    </div>
   `;
 
   proposalsEl.appendChild(el);
 }
+
+// ---------- Voting ----------
+window.vote = async (proposalId, type) => {
+  const ref = db.doc(`meetings/${meetingId}/proposals/${proposalId}`);
+
+  const snap = await ref.get();
+  if (!snap.exists) return;
+
+  const voters = snap.data().voters || { yes: [], maybe: [], no: [] };
+  const updates = {};
+
+  ["yes", "maybe", "no"].forEach(k => {
+    if (k === type) {
+      if (voters[k].includes(nickname)) {
+        updates[`voters.${k}`] = firebase.firestore.FieldValue.arrayRemove(nickname);
+      } else {
+        updates[`voters.${k}`] = firebase.firestore.FieldValue.arrayUnion(nickname);
+      }
+    } else {
+      if (voters[k].includes(nickname)) {
+        updates[`voters.${k}`] = firebase.firestore.FieldValue.arrayRemove(nickname);
+      }
+    }
+  });
+
+  await ref.update(updates);
+};
