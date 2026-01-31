@@ -9,7 +9,9 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 // --- MeetingId z URL
-const meetingId = window.location.pathname.split("/").pop();
+const hash = window.location.hash; // #/meeting/XYZ
+const meetingId = hash.split("/").pop();
+
 
 // --- Nickname
 let nickname = localStorage.getItem(`nickname_${meetingId}`);
