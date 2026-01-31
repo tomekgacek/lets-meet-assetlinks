@@ -2,24 +2,84 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8" />
-  <title>Let's Meet – Głosowanie</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lets Meet – Szczegóły spotkania</title>
+
+  <!-- Fonts / Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="./style.css" />
 </head>
+
 <body>
 
-  <div id="app">
-    <h1 id="title">📅 Głosowanie</h1>
-    <p id="desc"></p>
+  <!-- 🔝 APP BANNER -->
+  <header class="app-banner">
+    <div class="app-banner-left">
+      <img src="/logo.png" alt="Lets Meet" class="app-logo" />
+      <span>Otwórz w aplikacji Lets Meet</span>
+    </div>
 
-    <div id="proposals"></div>
-  </div>
+    <div class="app-banner-actions">
+      <a id="openAppBtn" class="btn btn-primary">Otwórz</a>
+      <a
+        href="https://play.google.com/store/apps/details?id=YOUR_PACKAGE_NAME"
+        class="btn btn-secondary"
+        target="_blank"
+      >
+        Google Play
+      </a>
+    </div>
+  </header>
 
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <!-- 📦 MAIN CONTENT -->
+  <main class="container">
 
-  <script src="./vote.js"></script>
+    <!-- 🏷️ TITLE -->
+    <section class="meeting-header">
+      <h1 id="meetingTitle">Ładowanie spotkania…</h1>
+
+      <div class="organizer" id="organizerRow" style="display:none">
+        <span>👤</span>
+        <span id="organizerName"></span>
+      </div>
+    </section>
+
+    <!-- 📝 DESCRIPTION -->
+    <section id="meetingDescription" class="description" style="display:none"></section>
+
+    <!-- 📍 LOCATION -->
+    <section id="locationSection" class="section" style="display:none">
+      <h2>📍 Lokalizacja</h2>
+
+      <div class="location-card">
+        <div class="location-name" id="locationName"></div>
+        <div class="location-address" id="locationAddress"></div>
+
+        <a id="mapLink" target="_blank">
+          <img id="mapImage" class="map-image" alt="Mapa lokalizacji" />
+        </a>
+      </div>
+    </section>
+
+    <!-- 📅 PROPOSALS -->
+    <section class="section">
+      <h2>📅 Proponowane terminy</h2>
+
+      <div id="proposalsList" class="proposals-list">
+        <!-- JS wstawi karty -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 🔽 STICKY CTA -->
+  <footer class="cta-bar">
+    <a id="voteBtn" class="cta-btn primary">👍 Głosuj</a>
+    <a id="openAppBtnFooter" class="cta-btn secondary">📲 Otwórz w aplikacji</a>
+  </footer>
+
+  <!-- JS -->
+  <script src="./details.js"></script>
 </body>
 </html>
-
