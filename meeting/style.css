@@ -1,34 +1,256 @@
-body {
-  font-family: system-ui, sans-serif;
-  background: #f2e9f7;
+/* =========================
+   RESET & BASE
+========================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
   margin: 0;
-  padding: 16px;
+  padding: 0;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f6f7fb;
+  color: #2d2a3a;
 }
 
-#app {
-  max-width: 600px;
-  margin: auto;
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
-.card {
-  background: #fff;
-  border-radius: 14px;
-  padding: 16px;
-  margin-bottom: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,.08);
+img {
+  max-width: 100%;
+  display: block;
 }
 
-.buttons {
+/* =========================
+   APP BANNER
+========================= */
+
+.app-banner {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #ffffff;
+  border-bottom: 1px solid #e6e7ef;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.app-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.app-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+}
+
+.app-banner-actions {
   display: flex;
   gap: 8px;
 }
 
-button {
-  flex: 1;
-  border: none;
-  border-radius: 20px;
-  padding: 10px;
-  background: #6A89CC;
-  color: #fff;
+/* =========================
+   BUTTONS
+========================= */
+
+.btn {
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 13px;
   font-weight: 600;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #6a89cc, #9a5dc6);
+  color: #fff;
+}
+
+.btn-secondary {
+  background: #f0f1f6;
+  color: #3a3750;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.container {
+  padding: 16px;
+  padding-bottom: 110px; /* miejsce na CTA */
+}
+
+.section {
+  margin-top: 26px;
+}
+
+/* =========================
+   MEETING HEADER
+========================= */
+
+.meeting-header h1 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.organizer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #6a6f91;
+}
+
+/* =========================
+   DESCRIPTION
+========================= */
+
+.description {
+  margin-top: 14px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #4a4764;
+}
+
+/* =========================
+   LOCATION
+========================= */
+
+.location-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 12px;
+  margin-top: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.location-name {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 2px;
+}
+
+.location-address {
+  font-size: 13px;
+  color: #6a6f91;
+  margin-bottom: 8px;
+}
+
+.map-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* =========================
+   PROPOSALS
+========================= */
+
+.proposals-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.proposal-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.proposal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.proposal-date {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.proposal-time {
+  font-size: 13px;
+  color: #6a6f91;
+  margin-top: 2px;
+}
+
+.vote-summary {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #4a4764;
+}
+
+/* 🔥 POPULAR */
+.proposal-card.popular {
+  border: 2px solid #ff6b00;
+  background: #fff4e6;
+}
+
+/* =========================
+   CTA BAR
+========================= */
+
+.cta-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-top: 1px solid #e6e7ef;
+  padding: 12px;
+  display: flex;
+  gap: 10px;
+}
+
+.cta-btn {
+  flex: 1;
+  text-align: center;
+  padding: 14px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.cta-btn.primary {
+  background: linear-gradient(135deg, #6a89cc, #9a5dc6);
+  color: #fff;
+}
+
+.cta-btn.secondary {
+  background: #f0f1f6;
+  color: #3a3750;
+}
+
+/* =========================
+   DESKTOP ENHANCEMENTS
+========================= */
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .meeting-header h1 {
+    font-size: 26px;
+  }
+
+  .map-image {
+    height: 220px;
+  }
 }
