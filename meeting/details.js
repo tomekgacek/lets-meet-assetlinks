@@ -2,15 +2,15 @@ console.log("✅ details.js loaded");
 
 // ---------- Firebase ----------
 const firebaseConfig = {
-  apiKey: "...",
-  authDomain: "...",
-  projectId: "...",
+  apiKey: "AIzaSyA...",
+  authDomain: "lets-meet.firebaseapp.com",
+  projectId: "lets-meet-app-47969",
+  storageBucket: "lets-meet.appspot.com",
+  messagingSenderId: "1234567890",
+  appId: "1:1234567890:web:abcdef123456"
 };
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
-
+firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 // ---------- Helpers ----------
