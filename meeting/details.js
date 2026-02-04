@@ -175,7 +175,7 @@ const openAppBtnFooter = document.getElementById("openAppBtnFooter");
 if (voteBtn) {
   voteBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    window.location.href = `/meeting/#/vote/${meetingId}`;
+    window.location.href = `/meeting/vote.html#/${meetingId}`;
   });
 }
 
