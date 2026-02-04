@@ -82,7 +82,9 @@ db.collection(`meetings/${meetingId}/proposals`)
         return;
       }
 
-      snapshot.forEach(doc => renderProposal(doc.id, doc.data()));
+      snapshot.forEach(doc =>
+  renderProposal({ id: doc.id, ...doc.data() })
+);
     },
     err => {
       console.error("PROPOSALS ERROR:", err);
@@ -90,13 +92,31 @@ db.collection(`meetings/${meetingId}/proposals`)
     }
   );
 
+function getVoters(p) {
+  if (p.voters && typeof p.voters === "object") {
+    return {
+      yes: Array.isArray(p.voters.yes) ? p.voters.yes : [],
+      maybe: Array.isArray(p.voters.maybe) ? p.voters.maybe : [],
+      no: Array.isArray(p.voters.no) ? p.voters.no : [],
+    };
+  }
+
+  return {
+    yes: Array.isArray(p.yes) ? p.yes : [],
+    maybe: Array.isArray(p.maybe) ? p.maybe : [],
+    no: Array.isArray(p.no) ? p.no : [],
+  };
+}
+
+
 // ---------- Render ----------
 function renderProposal(p) {
-  const voters = {
-    yes: Array.isArray(p.voters?.yes) ? p.voters.yes : [],
-    maybe: Array.isArray(p.voters?.maybe) ? p.voters.maybe : [],
-    no: Array.isArray(p.voters?.no) ? p.voters.no : []
-  };
+  const voters = getVoters(p);
+//  const voters = {
+  //  yes: Array.isArray(p.voters?.yes) ? p.voters.yes : [],
+    //maybe: Array.isArray(p.voters?.maybe) ? p.voters.maybe : [],
+    //no: Array.isArray(p.voters?.no) ? p.voters.no : []
+  //};
 
   const el = document.createElement("div");
   el.className = "card";
@@ -112,7 +132,7 @@ function renderProposal(p) {
   `;
 
   el.addEventListener("click", () => {
-    window.location.href = `/meeting/#/vote/${meetingId}`;
+    window.location.href = `/meeting/#/vote/${meetingId}/${p.id}`;
   });
 
   proposalsEl.appendChild(el);
@@ -153,11 +173,12 @@ const openAppBtn = document.getElementById("openAppBtn");
 const openAppBtnFooter = document.getElementById("openAppBtnFooter");
 
 if (voteBtn) {
-  voteBtn.addEventListener("click", () => {
-    // przekierowanie do głosowania
+  voteBtn.addEventListener("click", (e) => {
+    e.preventDefault();
     window.location.href = `/meeting/#/vote/${meetingId}`;
   });
 }
+
 
 function openApp() {
   // TODO: deep link do appki
