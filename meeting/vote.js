@@ -14,8 +14,8 @@ const db = firebase.firestore();
 // --- MeetingId z URL
 function getMeetingId() {
   // przypadek 1: hash routing (#/meeting/XYZ)
-  if (window.location.hash.includes("/meeting/")) {
-    return window.location.hash.split("/meeting/")[1];
+  if (window.location.hash) {
+    return window.location.hash.replace("#/", "");
   }
 
   // przypadek 2: normalny path (/meeting/XYZ)
