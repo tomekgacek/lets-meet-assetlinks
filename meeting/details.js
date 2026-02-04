@@ -108,35 +108,83 @@ function getVoters(p) {
   };
 }
 
+function renderProposal(p) {
+  const voters = getVoters(p);
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "proposal-row";
+
+  wrapper.innerHTML = `
+    <div class="proposal-summary">
+      <div class="proposal-date">
+        📅 ${p.date || ""} ${p.time || ""}
+      </div>
+
+      <div class="proposal-votes">
+        <span>✅ ${voters.yes.length}</span>
+        <span>🤔 ${voters.maybe.length}</span>
+        <span>❌ ${voters.no.length}</span>
+      </div>
+    </div>
+
+    <div class="proposal-details" style="display:none">
+      ${renderVotersList("✅ Tak", voters.yes)}
+      ${renderVotersList("🤔 Może", voters.maybe)}
+      ${renderVotersList("❌ Nie", voters.no)}
+    </div>
+  `;
+
+  const summary = wrapper.querySelector(".proposal-summary");
+  const details = wrapper.querySelector(".proposal-details");
+
+  summary.addEventListener("click", () => {
+    const open = details.style.display === "block";
+    details.style.display = open ? "none" : "block";
+    wrapper.classList.toggle("expanded", !open);
+  });
+
+  proposalsEl.appendChild(wrapper);
+}
 
 // ---------- Render ----------
 function renderProposal(p) {
   const voters = getVoters(p);
-//  const voters = {
-  //  yes: Array.isArray(p.voters?.yes) ? p.voters.yes : [],
-    //maybe: Array.isArray(p.voters?.maybe) ? p.voters.maybe : [],
-    //no: Array.isArray(p.voters?.no) ? p.voters.no : []
-  //};
 
-  const el = document.createElement("div");
-  el.className = "card";
-  el.style.cursor = "pointer";
+  const wrapper = document.createElement("div");
+  wrapper.className = "proposal-row";
 
-  el.innerHTML = `
-    <h3>📅 ${p.date || ""} ${p.time || ""}</h3>
-    <p>
-      ✅ ${voters.yes.length}
-      🤔 ${voters.maybe.length}
-      ❌ ${voters.no.length}
-    </p>
+  wrapper.innerHTML = `
+    <div class="proposal-summary">
+      <div class="proposal-date">
+        📅 ${p.date || ""} ${p.time || ""}
+      </div>
+
+      <div class="proposal-votes">
+        <span>✅ ${voters.yes.length}</span>
+        <span>🤔 ${voters.maybe.length}</span>
+        <span>❌ ${voters.no.length}</span>
+      </div>
+    </div>
+
+    <div class="proposal-details" style="display:none">
+      ${renderVotersList("✅ Tak", voters.yes)}
+      ${renderVotersList("🤔 Może", voters.maybe)}
+      ${renderVotersList("❌ Nie", voters.no)}
+    </div>
   `;
 
-  el.addEventListener("click", () => {
-    window.location.href = `/meeting/#/vote/${meetingId}/${p.id}`;
+  const summary = wrapper.querySelector(".proposal-summary");
+  const details = wrapper.querySelector(".proposal-details");
+
+  summary.addEventListener("click", () => {
+    const open = details.style.display === "block";
+    details.style.display = open ? "none" : "block";
+    wrapper.classList.toggle("expanded", !open);
   });
 
-  proposalsEl.appendChild(el);
+  proposalsEl.appendChild(wrapper);
 }
+
 
 
 
