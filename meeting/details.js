@@ -91,8 +91,12 @@ db.collection(`meetings/${meetingId}/proposals`)
   );
 
 // ---------- Render ----------
-function renderProposal(id, p) {
-  const voters = p.voters || { yes: [], maybe: [], no: [] };
+function renderProposal(p) {
+  const voters = {
+    yes: Array.isArray(p.voters?.yes) ? p.voters.yes : [],
+    maybe: Array.isArray(p.voters?.maybe) ? p.voters.maybe : [],
+    no: Array.isArray(p.voters?.no) ? p.voters.no : []
+  };
 
   const el = document.createElement("div");
   el.className = "card";
@@ -100,19 +104,15 @@ function renderProposal(id, p) {
   el.innerHTML = `
     <h3>📅 ${p.date || ""} ${p.time || ""}</h3>
     <p>
-      ✅ ${voters.yes.length} &nbsp; 
-      🤔 ${voters.maybe.length} &nbsp; 
+      ✅ ${voters.yes.length}
+      🤔 ${voters.maybe.length}
       ❌ ${voters.no.length}
     </p>
-    <div class="buttons">
-      <button onclick="vote('${id}','yes')">✅ Tak</button>
-      <button onclick="vote('${id}','maybe')">🤔 Może</button>
-      <button onclick="vote('${id}','no')">❌ Nie</button>
-    </div>
   `;
 
   proposalsEl.appendChild(el);
 }
+
 
 // ---------- Voting ----------
 window.vote = async (proposalId, type) => {
