@@ -203,6 +203,59 @@ img {
   background: #fff4e6;
 }
 
+.proposal-row {
+  padding: 14px 0;
+  border-bottom: 1px solid #e6e7ef;
+}
+
+.proposal-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.proposal-date {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.proposal-votes span {
+  margin-left: 10px;
+  font-size: 14px;
+  color: #4a4764;
+}
+
+.proposal-details {
+  margin-top: 12px;
+  padding-left: 6px;
+}
+
+.voters-block {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.voters-block strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.voters-block ul {
+  margin: 0;
+  padding-left: 16px;
+}
+
+.voters-block li {
+  line-height: 1.4;
+}
+
+.voters-empty {
+  color: #9aa0b8;
+  font-style: italic;
+}
+
+
 /* =========================
    CTA BAR
 ========================= */
