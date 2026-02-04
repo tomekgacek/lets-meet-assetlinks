@@ -100,6 +100,7 @@ function renderProposal(p) {
 
   const el = document.createElement("div");
   el.className = "card";
+  el.style.cursor = "pointer";
 
   el.innerHTML = `
     <h3>📅 ${p.date || ""} ${p.time || ""}</h3>
@@ -110,8 +111,13 @@ function renderProposal(p) {
     </p>
   `;
 
+  el.addEventListener("click", () => {
+    window.location.href = `/meeting/#/vote/${meetingId}`;
+  });
+
   proposalsEl.appendChild(el);
 }
+
 
 
 // ---------- Voting ----------
@@ -140,3 +146,23 @@ window.vote = async (proposalId, type) => {
 
   await ref.update(updates);
 };
+
+// ---------- Buttons ----------
+const voteBtn = document.getElementById("voteBtn");
+const openAppBtn = document.getElementById("openAppBtn");
+const openAppBtnFooter = document.getElementById("openAppBtnFooter");
+
+if (voteBtn) {
+  voteBtn.addEventListener("click", () => {
+    // przekierowanie do głosowania
+    window.location.href = `/meeting/#/vote/${meetingId}`;
+  });
+}
+
+function openApp() {
+  // TODO: deep link do appki
+  alert("📲 Otwieranie aplikacji (TODO)");
+}
+
+if (openAppBtn) openAppBtn.addEventListener("click", openApp);
+if (openAppBtnFooter) openAppBtnFooter.addEventListener("click", openApp);
