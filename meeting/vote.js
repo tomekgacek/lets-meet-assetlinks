@@ -68,7 +68,12 @@ db.collection(`meetings/${meetingId}/proposals`)
   });
 
 function renderProposal(id, p) {
-  const voters = p.voters || { yes: [], maybe: [], no: [] };
+  const voters = {
+  yes: Array.isArray(p.voters?.yes) ? p.voters.yes : (p.yes || []),
+  maybe: Array.isArray(p.voters?.maybe) ? p.voters.maybe : (p.maybe || []),
+  no: Array.isArray(p.voters?.no) ? p.voters.no : (p.no || []),
+};
+
 
   const el = document.createElement("div");
   el.className = "card";
