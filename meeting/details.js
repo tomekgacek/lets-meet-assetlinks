@@ -69,6 +69,22 @@ db.collection("meetings").doc(meetingId)
     }
   );
 
+//Render voters list
+
+function renderVotersList(label, list) {
+  if (!list || list.length === 0) {
+    return `<div class="voters-group"><strong>${label}:</strong> —</div>`;
+  }
+
+  return `
+    <div class="voters-group">
+      <strong>${label}:</strong>
+      ${list.map(n => `<span class="voter">${n}</span>`).join(", ")}
+    </div>
+  `;
+}
+
+
 // ---------- Load proposals ----------
 db.collection(`meetings/${meetingId}/proposals`)
   .orderBy("createdAt", "asc")
@@ -108,43 +124,7 @@ function getVoters(p) {
   };
 }
 
-function renderProposal(p) {
-  const voters = getVoters(p);
 
-  const wrapper = document.createElement("div");
-  wrapper.className = "proposal-row";
-
-  wrapper.innerHTML = `
-    <div class="proposal-summary">
-      <div class="proposal-date">
-        📅 ${p.date || ""} ${p.time || ""}
-      </div>
-
-      <div class="proposal-votes">
-        <span>✅ ${voters.yes.length}</span>
-        <span>🤔 ${voters.maybe.length}</span>
-        <span>❌ ${voters.no.length}</span>
-      </div>
-    </div>
-
-    <div class="proposal-details" style="display:none">
-      ${renderVotersList("✅ Tak", voters.yes)}
-      ${renderVotersList("🤔 Może", voters.maybe)}
-      ${renderVotersList("❌ Nie", voters.no)}
-    </div>
-  `;
-
-  const summary = wrapper.querySelector(".proposal-summary");
-  const details = wrapper.querySelector(".proposal-details");
-
-  summary.addEventListener("click", () => {
-    const open = details.style.display === "block";
-    details.style.display = open ? "none" : "block";
-    wrapper.classList.toggle("expanded", !open);
-  });
-
-  proposalsEl.appendChild(wrapper);
-}
 
 // ---------- Render ----------
 function renderProposal(p) {
