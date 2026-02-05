@@ -100,7 +100,20 @@ window.vote = async (proposalId, type) => {
   const snap = await ref.get();
   if (!snap.exists) return;
 
-  const voters = snap.data().voters || { yes: [], maybe: [], no: [] };
+  const data = snap.data();
+
+const voters = data.voters && typeof data.voters === "object"
+  ? {
+      yes: Array.isArray(data.voters.yes) ? data.voters.yes : [],
+      maybe: Array.isArray(data.voters.maybe) ? data.voters.maybe : [],
+      no: Array.isArray(data.voters.no) ? data.voters.no : []
+    }
+  : {
+      yes: Array.isArray(data.yes) ? data.yes : [],
+      maybe: Array.isArray(data.maybe) ? data.maybe : [],
+      no: Array.isArray(data.no) ? data.no : []
+    };
+
 
   const updates = {};
 
