@@ -138,6 +138,7 @@ img {
 }
 
 
+
 /* =========================
    DESCRIPTION
 ========================= */
@@ -228,9 +229,13 @@ img {
 }
 
 .proposal-row {
-  padding: 14px 0;
-  border-bottom: 1px solid #e6e7ef;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
 }
+
 
 .proposal-summary {
   display: flex;
@@ -314,6 +319,29 @@ img {
   background: #f0f1f6;
   color: #3a3750;
 }
+
+//SORT BAR
+.sort-bar {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.sort-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 10px;
+  border: none;
+  background: #f0f1f6;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.sort-btn.active {
+  background: #6a89cc;
+  color: #fff;
+}
+
 
 /* =========================
    DESKTOP ENHANCEMENTS
