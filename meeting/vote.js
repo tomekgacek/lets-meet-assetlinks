@@ -8,7 +8,10 @@ const firebaseConfig = {
   appId: "1:1234567890:web:abcdef123456"
 };
 
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
 const db = firebase.firestore();
 
 // --- MeetingId z URL
@@ -69,29 +72,57 @@ db.collection(`meetings/${meetingId}/proposals`)
 
 function renderProposal(id, p) {
   const voters = {
-  yes: Array.isArray(p.voters?.yes) ? p.voters.yes : (p.yes || []),
-  maybe: Array.isArray(p.voters?.maybe) ? p.voters.maybe : (p.maybe || []),
-  no: Array.isArray(p.voters?.no) ? p.voters.no : (p.no || []),
-};
+    yes: Array.isArray(p.voters?.yes) ? p.voters.yes : (p.yes || []),
+    maybe: Array.isArray(p.voters?.maybe) ? p.voters.maybe : (p.maybe || []),
+    no: Array.isArray(p.voters?.no) ? p.voters.no : (p.no || []),
+  };
 
+  const myVote =
+    voters.yes.includes(nickname) ? "yes" :
+    voters.maybe.includes(nickname) ? "maybe" :
+    voters.no.includes(nickname) ? "no" :
+    null;
 
   const el = document.createElement("div");
-  el.className = "card";
+  el.className = "proposal-row";
+
   el.innerHTML = `
-    <h3>📅 ${p.date} ${p.time || ""}</h3>
-    <p>
-      ✅ ${voters.yes.length}
-      🤔 ${voters.maybe.length}
-      ❌ ${voters.no.length}
-    </p>
-    <div class="buttons">
-      <button onclick="vote('${id}','yes')">✅ Tak</button>
-      <button onclick="vote('${id}','maybe')">🤔 Może</button>
-      <button onclick="vote('${id}','no')">❌ Nie</button>
+    <div class="proposal-summary">
+      <div class="proposal-date">
+        📅 ${p.date} ${p.time || ""}
+      </div>
+
+      <div class="proposal-votes">
+        <span>✅ ${voters.yes.length}</span>
+        <span>🤔 ${voters.maybe.length}</span>
+        <span>❌ ${voters.no.length}</span>
+      </div>
+    </div>
+
+    <div class="vote-buttons">
+      ${renderVoteButton(id, "yes", "✅ Tak", myVote)}
+      ${renderVoteButton(id, "maybe", "🤔 Może", myVote)}
+      ${renderVoteButton(id, "no", "❌ Nie", myVote)}
     </div>
   `;
+
   proposalsEl.appendChild(el);
 }
+function renderVoteButton(id, type, label, myVote) {
+  const isActive = myVote === type;
+  const disabled = myVote && myVote !== type;
+
+  return `
+    <button
+      class="vote-btn ${isActive ? "active" : ""}"
+      ${disabled ? "disabled" : ""}
+      onclick="vote('${id}','${type}')"
+    >
+      ${label}
+    </button>
+  `;
+}
+
 
 // --- Voting (1:1 z appki)
 window.vote = async (proposalId, type) => {
@@ -133,4 +164,12 @@ const voters = data.voters && typeof data.voters === "object"
 
   await ref.update(updates);
 };
+
+const backBtn = document.getElementById("backBtn");
+
+if (backBtn) {
+  backBtn.addEventListener("click", () => {
+    window.location.href = `/meeting/details.html#/meeting/${meetingId}`;
+  });
+}
 
