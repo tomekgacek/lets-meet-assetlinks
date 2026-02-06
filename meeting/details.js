@@ -21,16 +21,72 @@ function getMeetingId() {
   return null;
 }
 
-const meetingId = getMeetingId();
-console.log("MEETING ID:", meetingId);
+function getVoters(p) {
+  if (p.voters && typeof p.voters === "object") {
+    return {
+      yes: Array.isArray(p.voters.yes) ? p.voters.yes : [],
+      maybe: Array.isArray(p.voters.maybe) ? p.voters.maybe : [],
+      no: Array.isArray(p.voters.no) ? p.voters.no : [],
+    };
+  }
+
+  return {
+    yes: Array.isArray(p.yes) ? p.yes : [],
+    maybe: Array.isArray(p.maybe) ? p.maybe : [],
+    no: Array.isArray(p.no) ? p.no : [],
+  };
+}
+
+function getVoteStats(p) {
+  const v = getVoters(p);
+  const yes = v.yes.length;
+  const maybe = v.maybe.length;
+  const no = v.no.length;
+  const weight = yes + maybe * 0.5;
+  return { yes, maybe, no, weight };
+}
+
+function getMostPopularLocation(locations = []) {
+  if (!Array.isArray(locations) || locations.length === 0) return null;
+
+  return [...locations].sort((a, b) => {
+    const av = Array.isArray(a.voters) ? a.voters.length : 0;
+    const bv = Array.isArray(b.voters) ? b.voters.length : 0;
+    return bv - av;
+  })[0];
+}
+
+function renderVotersList(label, list) {
+  if (!list || list.length === 0) {
+    return `<div class="voters-group"><strong>${label}:</strong> —</div>`;
+  }
+
+  return `
+    <div class="voters-group">
+      <strong>${label}:</strong>
+      ${list.map(n => `<span class="voter">${n}</span>`).join(", ")}
+    </div>
+  `;
+}
 
 // ---------- DOM ----------
 const titleEl = document.getElementById("title");
 const descEl = document.getElementById("desc");
-const proposalsEl = document.getElementById("proposals");
 const statusEl = document.getElementById("status");
+const proposalsEl = document.getElementById("proposals");
+
+// organizer + location (dynamicznie, żeby nie grzebać w HTML)
+const organizerEl = document.createElement("div");
+organizerEl.className = "organizer-row";
+
+const locationEl = document.createElement("div");
+locationEl.className = "location-row";
+
+titleEl.after(organizerEl);
+organizerEl.after(locationEl);
 
 // ---------- Guards ----------
+const meetingId = getMeetingId();
 if (!meetingId) {
   statusEl.textContent = "❌ Brak ID spotkania w linku";
   throw new Error("No meetingId");
@@ -48,49 +104,55 @@ if (!nickname) {
 }
 
 // ---------- Load meeting ----------
-db.collection("meetings").doc(meetingId)
-  .onSnapshot(
-    doc => {
-      console.log("MEETING SNAP:", doc.exists);
-
-      if (!doc.exists) {
-        statusEl.textContent = "❌ Spotkanie nie istnieje";
-        return;
-      }
-
-      const m = doc.data();
-      titleEl.textContent = m.title || "Spotkanie";
-      descEl.textContent = m.description || "";
-      statusEl.textContent = "✅ Spotkanie załadowane";
-    },
-    err => {
-      console.error("MEETING ERROR:", err);
-      statusEl.textContent = "❌ Błąd ładowania spotkania";
+db.collection("meetings").doc(meetingId).onSnapshot(
+  doc => {
+    if (!doc.exists) {
+      statusEl.textContent = "❌ Spotkanie nie istnieje";
+      return;
     }
-  );
 
-//Render voters list
+    const m = doc.data();
 
-function renderVotersList(label, list) {
-  if (!list || list.length === 0) {
-    return `<div class="voters-group"><strong>${label}:</strong> —</div>`;
+    titleEl.textContent = m.title || "Spotkanie";
+    descEl.textContent = m.description || "";
+
+    // 👤 Organizer
+    organizerEl.innerHTML = m.organizerName
+      ? `👤 Organizator: <strong>${m.organizerName}</strong>`
+      : "";
+
+    // 📍 Lokalizacja
+    let activeLocation = null;
+
+    if (Array.isArray(m.locations) && m.locations.length > 0) {
+      if (m.locationMode === "multiple") {
+        activeLocation = getMostPopularLocation(m.locations);
+      } else {
+        activeLocation = m.locations[0];
+      }
+    }
+
+    locationEl.innerHTML = activeLocation
+      ? `📍 <strong>${activeLocation.name}</strong>${
+          m.locationMode === "multiple"
+            ? ` <span class="badge-hot">🔥 najpopularniejsza</span>`
+            : ""
+        }`
+      : "";
+
+    statusEl.textContent = "✅ Spotkanie załadowane";
+  },
+  err => {
+    console.error(err);
+    statusEl.textContent = "❌ Błąd ładowania spotkania";
   }
-
-  return `
-    <div class="voters-group">
-      <strong>${label}:</strong>
-      ${list.map(n => `<span class="voter">${n}</span>`).join(", ")}
-    </div>
-  `;
-}
-
+);
 
 // ---------- Load proposals ----------
 db.collection(`meetings/${meetingId}/proposals`)
   .orderBy("createdAt", "asc")
   .onSnapshot(
     snapshot => {
-      console.log("PROPOSALS:", snapshot.size);
       proposalsEl.innerHTML = "";
 
       if (snapshot.empty) {
@@ -98,51 +160,49 @@ db.collection(`meetings/${meetingId}/proposals`)
         return;
       }
 
-      snapshot.forEach(doc =>
-  renderProposal({ id: doc.id, ...doc.data() })
-);
+      let maxWeight = 0;
+      const proposals = [];
+
+      snapshot.forEach(doc => {
+        const p = { id: doc.id, ...doc.data() };
+        const stats = getVoteStats(p);
+        maxWeight = Math.max(maxWeight, stats.weight);
+        proposals.push(p);
+      });
+
+      const THRESHOLD = maxWeight * 0.8;
+
+      proposals.forEach(p =>
+        renderProposal(p, THRESHOLD)
+      );
     },
     err => {
-      console.error("PROPOSALS ERROR:", err);
+      console.error(err);
       proposalsEl.innerHTML = "<p>❌ Błąd ładowania terminów</p>";
     }
   );
 
-function getVoters(p) {
-  if (p.voters && typeof p.voters === "object") {
-    return {
-      yes: Array.isArray(p.voters.yes) ? p.voters.yes : [],
-      maybe: Array.isArray(p.voters.maybe) ? p.voters.maybe : [],
-      no: Array.isArray(p.voters.no) ? p.voters.no : [],
-    };
-  }
-
-  return {
-    yes: Array.isArray(p.yes) ? p.yes : [],
-    maybe: Array.isArray(p.maybe) ? p.maybe : [],
-    no: Array.isArray(p.no) ? p.no : [],
-  };
-}
-
-
-
 // ---------- Render ----------
-function renderProposal(p) {
+function renderProposal(p, THRESHOLD) {
+  const stats = getVoteStats(p);
   const voters = getVoters(p);
+  const isPopular =
+    stats.weight > 0 && stats.weight >= THRESHOLD;
 
   const wrapper = document.createElement("div");
-  wrapper.className = "proposal-row";
+  wrapper.className = `proposal-row ${isPopular ? "popular" : ""}`;
 
   wrapper.innerHTML = `
     <div class="proposal-summary">
       <div class="proposal-date">
         📅 ${p.date || ""} ${p.time || ""}
+        ${isPopular ? `<span class="badge-hot">🔥</span>` : ""}
       </div>
 
       <div class="proposal-votes">
-        <span>✅ ${voters.yes.length}</span>
-        <span>🤔 ${voters.maybe.length}</span>
-        <span>❌ ${voters.no.length}</span>
+        <span>✅ ${stats.yes}</span>
+        <span>🤔 ${stats.maybe}</span>
+        <span>❌ ${stats.no}</span>
       </div>
     </div>
 
@@ -165,52 +225,20 @@ function renderProposal(p) {
   proposalsEl.appendChild(wrapper);
 }
 
-
-
-
-// ---------- Voting ----------
-window.vote = async (proposalId, type) => {
-  const ref = db.doc(`meetings/${meetingId}/proposals/${proposalId}`);
-
-  const snap = await ref.get();
-  if (!snap.exists) return;
-
-  const voters = snap.data().voters || { yes: [], maybe: [], no: [] };
-  const updates = {};
-
-  ["yes", "maybe", "no"].forEach(k => {
-    if (k === type) {
-      if (voters[k].includes(nickname)) {
-        updates[`voters.${k}`] = firebase.firestore.FieldValue.arrayRemove(nickname);
-      } else {
-        updates[`voters.${k}`] = firebase.firestore.FieldValue.arrayUnion(nickname);
-      }
-    } else {
-      if (voters[k].includes(nickname)) {
-        updates[`voters.${k}`] = firebase.firestore.FieldValue.arrayRemove(nickname);
-      }
-    }
-  });
-
-  await ref.update(updates);
-};
-
 // ---------- Buttons ----------
 const voteBtn = document.getElementById("voteBtn");
 const openAppBtn = document.getElementById("openAppBtn");
 const openAppBtnFooter = document.getElementById("openAppBtnFooter");
 
 if (voteBtn) {
-  voteBtn.addEventListener("click", (e) => {
+  voteBtn.addEventListener("click", e => {
     e.preventDefault();
     window.location.href = `/meeting/vote.html#/${meetingId}`;
   });
 }
 
-
 function openApp() {
-  // TODO: deep link do appki
-  alert("📲 Otwieranie aplikacji (TODO)");
+  alert("📲 Otwieranie aplikacji (TODO: deep link)");
 }
 
 if (openAppBtn) openAppBtn.addEventListener("click", openApp);
