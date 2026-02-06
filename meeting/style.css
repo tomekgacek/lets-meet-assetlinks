@@ -114,6 +114,30 @@ img {
   color: #6a6f91;
 }
 
+.organizer-row,
+.location-row {
+  font-size: 14px;
+  margin: 6px 0;
+  color: #6A89CC;
+  font-weight: 600;
+}
+
+.badge-hot {
+  margin-left: 6px;
+  background: #FFF4E6;
+  color: #FF6B00;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.proposal-row.popular {
+  border: 2px solid #FF6B00;
+  background: #FFF4E6;
+}
+
+
 /* =========================
    DESCRIPTION
 ========================= */
