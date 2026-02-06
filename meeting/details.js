@@ -1,5 +1,8 @@
 console.log("✅ details.js loaded");
 
+let currentSort = "date";
+let cachedProposals = [];
+
 // ---------- Firebase ----------
 const firebaseConfig = {
   apiKey: "AIzaSyA...",
@@ -22,28 +25,21 @@ function getMeetingId() {
 }
 
 function getVoters(p) {
-  if (p.voters && typeof p.voters === "object") {
-    return {
-      yes: Array.isArray(p.voters.yes) ? p.voters.yes : [],
-      maybe: Array.isArray(p.voters.maybe) ? p.voters.maybe : [],
-      no: Array.isArray(p.voters.no) ? p.voters.no : [],
-    };
-  }
-
   return {
-    yes: Array.isArray(p.yes) ? p.yes : [],
-    maybe: Array.isArray(p.maybe) ? p.maybe : [],
-    no: Array.isArray(p.no) ? p.no : [],
+    yes: Array.isArray(p?.voters?.yes) ? p.voters.yes : [],
+    maybe: Array.isArray(p?.voters?.maybe) ? p.voters.maybe : [],
+    no: Array.isArray(p?.voters?.no) ? p.voters.no : [],
   };
 }
 
 function getVoteStats(p) {
   const v = getVoters(p);
-  const yes = v.yes.length;
-  const maybe = v.maybe.length;
-  const no = v.no.length;
-  const weight = yes + maybe * 0.5;
-  return { yes, maybe, no, weight };
+  return {
+    yes: v.yes.length,
+    maybe: v.maybe.length,
+    no: v.no.length,
+    weight: v.yes.length + v.maybe.length * 0.5
+  };
 }
 
 function getMostPopularLocation(locations = []) {
@@ -57,7 +53,7 @@ function getMostPopularLocation(locations = []) {
 }
 
 function renderVotersList(label, list) {
-  if (!list || list.length === 0) {
+  if (!list.length) {
     return `<div class="voters-group"><strong>${label}:</strong> —</div>`;
   }
 
@@ -74,16 +70,8 @@ const titleEl = document.getElementById("title");
 const descEl = document.getElementById("desc");
 const statusEl = document.getElementById("status");
 const proposalsEl = document.getElementById("proposals");
-
-// organizer + location (dynamicznie, żeby nie grzebać w HTML)
-const organizerEl = document.createElement("div");
-organizerEl.className = "organizer-row";
-
-const locationEl = document.createElement("div");
-locationEl.className = "location-row";
-
-titleEl.after(organizerEl);
-organizerEl.after(locationEl);
+const organizerEl = document.getElementById("organizer");
+const locationEl = document.getElementById("location");
 
 // ---------- Guards ----------
 const meetingId = getMeetingId();
@@ -116,29 +104,39 @@ db.collection("meetings").doc(meetingId).onSnapshot(
     titleEl.textContent = m.title || "Spotkanie";
     descEl.textContent = m.description || "";
 
-    // 👤 Organizer
+    // Organizer
     organizerEl.innerHTML = m.organizerName
       ? `👤 Organizator: <strong>${m.organizerName}</strong>`
       : "";
 
-    // 📍 Lokalizacja
+    // Lokalizacja
     let activeLocation = null;
 
     if (Array.isArray(m.locations) && m.locations.length > 0) {
-      if (m.locationMode === "multiple") {
-        activeLocation = getMostPopularLocation(m.locations);
-      } else {
-        activeLocation = m.locations[0];
-      }
+      activeLocation =
+        m.locationMode === "multiple"
+          ? getMostPopularLocation(m.locations)
+          : m.locations[0];
     }
 
-    locationEl.innerHTML = activeLocation
-      ? `📍 <strong>${activeLocation.name}</strong>${
+    if (activeLocation?.name) {
+      const query = encodeURIComponent(activeLocation.name);
+      const mapUrl = `https://www.google.com/maps/search/?api=1&query=${query}`;
+
+      locationEl.innerHTML = `
+        Lokalizacja:
+        <a href="${mapUrl}" target="_blank" rel="noopener">
+          <strong>${activeLocation.name}</strong>
+        </a>
+        ${
           m.locationMode === "multiple"
-            ? ` <span class="badge-hot">🔥 najpopularniejsza</span>`
+            ? ` <span class="badge-hot">🔥</span>`
             : ""
-        }`
-      : "";
+        }
+      `;
+    } else {
+      locationEl.innerHTML = "";
+    }
 
     statusEl.textContent = "✅ Spotkanie załadowane";
   },
@@ -153,28 +151,13 @@ db.collection(`meetings/${meetingId}/proposals`)
   .orderBy("createdAt", "asc")
   .onSnapshot(
     snapshot => {
-      proposalsEl.innerHTML = "";
-
-      if (snapshot.empty) {
-        proposalsEl.innerHTML = "<p>Brak zaproponowanych terminów</p>";
-        return;
-      }
-
-      let maxWeight = 0;
-      const proposals = [];
+      cachedProposals = [];
 
       snapshot.forEach(doc => {
-        const p = { id: doc.id, ...doc.data() };
-        const stats = getVoteStats(p);
-        maxWeight = Math.max(maxWeight, stats.weight);
-        proposals.push(p);
+        cachedProposals.push({ id: doc.id, ...doc.data() });
       });
 
-      const THRESHOLD = maxWeight * 0.8;
-
-      proposals.forEach(p =>
-        renderProposal(p, THRESHOLD)
-      );
+      renderProposals();
     },
     err => {
       console.error(err);
@@ -182,12 +165,51 @@ db.collection(`meetings/${meetingId}/proposals`)
     }
   );
 
-// ---------- Render ----------
+// ---------- Sorting + render ----------
+function renderProposals() {
+  proposalsEl.innerHTML = "";
+
+  if (cachedProposals.length === 0) {
+    proposalsEl.innerHTML = "<p>Brak zaproponowanych terminów</p>";
+    return;
+  }
+
+  let maxWeight = 0;
+  cachedProposals.forEach(p => {
+    maxWeight = Math.max(maxWeight, getVoteStats(p).weight);
+  });
+
+  const THRESHOLD = maxWeight * 0.8;
+
+  const sorted = [...cachedProposals].sort((a, b) => {
+    if (currentSort === "popular") {
+      return getVoteStats(b).weight - getVoteStats(a).weight;
+    }
+    return new Date(a.date) - new Date(b.date);
+  });
+
+  sorted.forEach(p => renderProposal(p, THRESHOLD));
+}
+
+// ---------- Sort buttons ----------
+document.querySelectorAll(".sort-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    currentSort = btn.dataset.sort;
+
+    document
+      .querySelectorAll(".sort-btn")
+      .forEach(b => b.classList.remove("active"));
+
+    btn.classList.add("active");
+    renderProposals();
+  });
+});
+
+// ---------- Render proposal ----------
 function renderProposal(p, THRESHOLD) {
   const stats = getVoteStats(p);
   const voters = getVoters(p);
-  const isPopular =
-    stats.weight > 0 && stats.weight >= THRESHOLD;
+  const isPopular = stats.weight > 0 && stats.weight >= THRESHOLD;
 
   const wrapper = document.createElement("div");
   wrapper.className = `proposal-row ${isPopular ? "popular" : ""}`;
@@ -241,5 +263,5 @@ function openApp() {
   alert("📲 Otwieranie aplikacji (TODO: deep link)");
 }
 
-if (openAppBtn) openAppBtn.addEventListener("click", openApp);
-if (openAppBtnFooter) openAppBtnFooter.addEventListener("click", openApp);
+openAppBtn?.addEventListener("click", openApp);
+openAppBtnFooter?.addEventListener("click", openApp);
