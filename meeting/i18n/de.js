@@ -34,5 +34,18 @@ window.I18N_DE = {
   title: "Lets Meet",
   subtitle: "Triff dich mit Freunden und bestätige deine sichere Rückkehr nach Hause.",
   cta: "Bei Google Play herunterladen",
-  qr: "Scannen, um die App herunterzuladen"
+  qr: "Scannen, um die App herunterzuladen",
+
+    votePageTitle: "Lets Meet – Abstimmung",
+  // loadingMeeting: "Wird geladen…",
+  voteTitle: "📅 Termin auswählen",
+  back: "⬅️ Zurück zu den Details",
+
+  yesVote: "Ja",
+  maybeVote: "Vielleicht",
+  noVote: "Nein",
+
+  // nickPrompt: "Gib deinen Nicknamen ein",
+  // nickRequired: "Der Nickname muss mindestens 2 Zeichen haben",
+  // meetingNotFound: "Treffen nicht gefunden"
 };
