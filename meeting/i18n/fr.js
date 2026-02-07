@@ -10,7 +10,7 @@ window.I18N_FR = {
   noMeetingId: "❌ ID de réunion manquant",
 
   organizer: "👤 Organisateur",
-  location: "Lieu",
+  location: "🌍 Lieu",
 
   proposedDates: "📅 Dates proposées",
   sortDate: "📅 Date",
@@ -34,5 +34,14 @@ window.I18N_FR = {
     title: "Lets Meet",
   subtitle: "Rencontrez vos amis et confirmez votre retour en toute sécurité.",
   cta: "Télécharger sur Google Play",
-  qr: "Scannez pour télécharger l’application"
+  qr: "Scannez pour télécharger l’application",
+
+    votePageTitle: "Lets Meet – Vote",
+  // loadingMeeting: "Chargement…",
+  voteTitle: "📅 Choisissez une date",
+  back: "⬅️ Retour aux détails",
+
+  yesVote: "Oui",
+  maybeVote: "Peut-être",
+  noVote: "Non",
 };
