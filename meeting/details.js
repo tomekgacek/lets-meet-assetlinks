@@ -229,12 +229,12 @@ function renderProposal(p, THRESHOLD) {
       </div>
     </div>
 
-    <div class="proposal-details" style="display:none">
-      renderVotersList(i18n.t("yes"), voters.yes)
-      renderVotersList(i18n.t("maybe"), voters.maybe)
-      renderVotersList(i18n.t("no"), voters.no)
+<div class="proposal-details" style="display:none">
+  ${renderVotersList(i18n.t("yes"), voters.yes)}
+  ${renderVotersList(i18n.t("maybe"), voters.maybe)}
+  ${renderVotersList(i18n.t("no"), voters.no)}
+</div>
 
-    </div>
   `;
 
   const summary = wrapper.querySelector(".proposal-summary");
