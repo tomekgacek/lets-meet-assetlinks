@@ -76,16 +76,16 @@ const locationEl = document.getElementById("location");
 // ---------- Guards ----------
 const meetingId = getMeetingId();
 if (!meetingId) {
-  statusEl.textContent = "❌ Brak ID spotkania w linku";
+  statusEl.textContent = i18n.t("noMeetingId");
   throw new Error("No meetingId");
 }
 
 // ---------- Nickname ----------
 let nickname = localStorage.getItem(`nickname_${meetingId}`);
 if (!nickname) {
-  nickname = prompt("Podaj swój nick (min 2 znaki):");
+  nickname = prompt(i18n.t("nickPrompt"));
   if (!nickname || nickname.trim().length < 2) {
-    alert("Nick jest wymagany");
+    alert(i18n.t("nickRequired"));
     location.reload();
   }
   localStorage.setItem(`nickname_${meetingId}`, nickname.trim());
@@ -95,19 +95,19 @@ if (!nickname) {
 db.collection("meetings").doc(meetingId).onSnapshot(
   doc => {
     if (!doc.exists) {
-      statusEl.textContent = "❌ Spotkanie nie istnieje";
+      statusEl.textContent = i18n.t("meetingNotFound");
       return;
     }
 
     const m = doc.data();
 
-    titleEl.textContent = m.title || "Spotkanie";
-    descEl.textContent = m.description || "";
+  titleEl.textContent = m.title || "";
+  statusEl.textContent = i18n.t("meetingLoaded");
 
     // Organizer
-    organizerEl.innerHTML = m.organizerName
-      ? `👤 Organizator: <strong>${m.organizerName}</strong>`
-      : "";
+  organizerEl.innerHTML = m.organizerName
+    ? `${i18n.t("organizer")}: <strong>${m.organizerName}</strong>`
+    : "";
 
     // Lokalizacja
     let activeLocation = null;
@@ -124,7 +124,7 @@ db.collection("meetings").doc(meetingId).onSnapshot(
       const mapUrl = `https://www.google.com/maps/search/?api=1&query=${query}`;
 
       locationEl.innerHTML = `
-        Lokalizacja:
+         ${i18n.t("location")}:
         <a href="${mapUrl}" target="_blank" rel="noopener">
           <strong>${activeLocation.name}</strong>
         </a>
@@ -138,11 +138,12 @@ db.collection("meetings").doc(meetingId).onSnapshot(
       locationEl.innerHTML = "";
     }
 
-    statusEl.textContent = "✅ Spotkanie załadowane";
+    //statusEl.textContent = "✅ Spotkanie załadowane";
   },
   err => {
     console.error(err);
-    statusEl.textContent = "❌ Błąd ładowania spotkania";
+//    statusEl.textContent = "❌ Błąd ładowania spotkania";
+    statusEl.textContent = i18n.t("meetingLoadError");
   }
 );
 
@@ -161,7 +162,7 @@ db.collection(`meetings/${meetingId}/proposals`)
     },
     err => {
       console.error(err);
-      proposalsEl.innerHTML = "<p>❌ Błąd ładowania terminów</p>";
+      proposalsEl.innerHTML = `<p>${i18n.t("proposalsLoadError")}</p>`;
     }
   );
 
@@ -170,7 +171,7 @@ function renderProposals() {
   proposalsEl.innerHTML = "";
 
   if (cachedProposals.length === 0) {
-    proposalsEl.innerHTML = "<p>Brak zaproponowanych terminów</p>";
+    proposalsEl.innerHTML = `<p>${i18n.t("noProposals")}</p>`;
     return;
   }
 
@@ -229,9 +230,10 @@ function renderProposal(p, THRESHOLD) {
     </div>
 
     <div class="proposal-details" style="display:none">
-      ${renderVotersList("✅ Tak", voters.yes)}
-      ${renderVotersList("🤔 Może", voters.maybe)}
-      ${renderVotersList("❌ Nie", voters.no)}
+      renderVotersList(i18n.t("yes"), voters.yes)
+      renderVotersList(i18n.t("maybe"), voters.maybe)
+      renderVotersList(i18n.t("no"), voters.no)
+
     </div>
   `;
 
