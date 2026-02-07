@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lets Meet – Głosowanie</title>
+
+  <title data-i18n-title="votePageTitle">Lets Meet</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css" />
@@ -11,29 +12,28 @@
 <body>
 
   <main class="container">
-    <h1 id="title">Ładowanie…</h1>
+    <h1 id="title" data-i18n="loadingMeeting"></h1>
     <p id="desc"></p>
 
     <section class="section">
-      <h2>📅 Wybierz termin</h2>
+      <h2 data-i18n="voteTitle"></h2>
       <div id="proposals"></div>
     </section>
   </main>
+
+  <footer class="cta-bar">
+    <a id="backBtn" class="cta-btn secondary" data-i18n="back"></a>
+  </footer>
 
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
   <!-- I18N -->
-<script src="./meeting/i18n/i18n.js"></script>
-  
-  <!-- JS -->
-  <script src="./vote.js"></script>
-  <footer class="cta-bar">
-  <a id="backBtn" class="cta-btn secondary">
-    ⬅️ Wróć do szczegółów
-  </a>
-</footer>
+  <script src="./meeting/i18n/i18n.js"></script>
+
+  <!-- App -->
+  <script src="./vote.js" defer></script>
 
 </body>
 </html>
