@@ -34,6 +34,19 @@ window.I18N_EN = {
   title: "Lets Meet",
   subtitle: "Meet, hang out and confirm a safe return home.",
   cta: "Get it on Google Play",
-  qr: "Scan to download the app"
+  qr: "Scan to download the app",
+
+    votePageTitle: "Lets Meet – Voting",
+  // loadingMeeting: "Loading…",
+  voteTitle: "📅 Choose a date",
+  back: "⬅️ Back to details",
+
+  yesVote: "Yes",
+  maybeVote: "Maybe",
+  noVote: "No",
+
+  // nickPrompt: "Enter your nickname",
+  // nickRequired: "Nickname must be at least 2 characters long",
+  // meetingNotFound: "Meeting not found"
   
 };
