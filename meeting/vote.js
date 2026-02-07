@@ -77,11 +77,15 @@ function renderProposal(id, p) {
     no: Array.isArray(p.voters?.no) ? p.voters.no : (p.no || []),
   };
 
-  const myVote =
-    ${renderVoteButton(id, "yes", i18n.t("yes"), myVote)}
-    ${renderVoteButton(id, "maybe", i18n.t("maybe"), myVote)}
-    ${renderVoteButton(id, "no", i18n.t("no"), myVote)}
-    null;
+const myVote =
+  voters.yes.includes(nickname)
+    ? "yes"
+    : voters.maybe.includes(nickname)
+    ? "maybe"
+    : voters.no.includes(nickname)
+    ? "no"
+    : null;
+
 
   const el = document.createElement("div");
   el.className = "proposal-row";
