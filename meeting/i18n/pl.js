@@ -30,4 +30,9 @@ window.I18N_PL = {
 
   chooseDate: "📅 Wybierz termin",
   backToDetails: "⬅️ Wróć do szczegółów",
+
+  title: "Lets Meet",
+  subtitle: "Spotkaj się ze znajomymi i potwierdź bezpieczny powrót do domu.",
+  cta: "Pobierz z Google Play",
+  qr: "Zeskanuj, aby pobrać aplikację"
 };
