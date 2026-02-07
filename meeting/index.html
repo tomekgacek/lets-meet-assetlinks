@@ -15,17 +15,24 @@
   <header class="app-banner">
     <div class="app-banner-left">
       <img src="./logo.png" alt="Lets Meet" class="app-logo" />
-      <span>Otwórz w aplikacji Lets Meet</span>
+      <span data-i18n="openInApp"></span>
     </div>
     <div class="app-banner-actions">
-      <a id="openAppBtn" class="btn btn-primary">Otwórz</a>
-      <a href="https://play.google.com/store/apps/details?id=YOUR_PACKAGE_NAME" class="btn btn-secondary" target="_blank">Google Play</a>
+      <a id="openAppBtn" class="btn btn-primary" data-i18n="open"></a>
+      <a href="https://play.google.com/store/apps/details?id=com.tomekgacek.letsmeet" class="btn btn-secondary" target="_blank">Google Play</a>
     </div>
+    <div class="lang-switch">
+  <button onclick="i18n.setLanguage('pl')">🇵🇱</button>
+  <button onclick="i18n.setLanguage('en')">🇬🇧</button>
+  <button onclick="i18n.setLanguage('de')">🇩🇪</button>
+  <button onclick="i18n.setLanguage('fr')">🇫🇷</button>
+</div>
+
   </header>
 
   <!-- MAIN CONTENT -->
   <main class="container">
-    <h1 id="title">Ładowanie spotkania…</h1>
+    <h1 id="title" data-i18n="loadingMeeting"></h1>
 <p id="desc"></p>
 
 <div id="organizer" class="organizer-row"></div>
@@ -35,10 +42,10 @@
 
 
     <section class="section">
-      <h2>📅 Proponowane terminy</h2>
+      <h2 data-i18n="proposedDates"></h2>
       <div class="sort-bar">
-  <button data-sort="date" class="sort-btn active">📅 Data</button>
-  <button data-sort="popular" class="sort-btn">🔥 Popularność</button>
+  <button data-sort="date" class="sort-btn active" data-i18n="sortDate"></button>
+  <button data-sort="popular" class="sort-btn" data-i18n="sortPopular"></button>
 </div>
 
       <div id="proposals">
@@ -49,8 +56,8 @@
 
   <!-- FOOTER CTA -->
   <footer class="cta-bar">
-    <a id="voteBtn" class="cta-btn primary">👍 Głosuj</a>
-    <a id="openAppBtnFooter" class="cta-btn secondary">📲 Otwórz w aplikacji</a>
+    <a id="voteBtn" class="cta-btn primary" data-i18n="vote"></a>
+    <a id="openAppBtnFooter" class="cta-btn secondary" data-i18n="openAppFooter"></a>
   </footer>
 
   <!-- Firebase -->
