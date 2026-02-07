@@ -21,12 +21,15 @@
       <a id="openAppBtn" class="btn btn-primary" data-i18n="open"></a>
       <a href="https://play.google.com/store/apps/details?id=com.tomekgacek.letsmeet" class="btn btn-secondary" target="_blank">Google Play</a>
     </div>
-    <div class="lang-switch">
-  <button onclick="i18n.setLanguage('pl')">🇵🇱</button>
-  <button onclick="i18n.setLanguage('en')">🇬🇧</button>
-  <button onclick="i18n.setLanguage('de')">🇩🇪</button>
-  <button onclick="i18n.setLanguage('fr')">🇫🇷</button>
+<div class="lang-switch">
+  <select id="langSelect">
+    <option value="pl">🇵🇱 Polski</option>
+    <option value="en">🇬🇧 English</option>
+    <option value="de">🇩🇪 Deutsch</option>
+    <option value="fr">🇫🇷 Français</option>
+  </select>
 </div>
+
 
   </header>
 
@@ -64,7 +67,20 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
+  <!-- I18N -->
+<script>
+  const langSelect = document.getElementById("langSelect");
+
+  langSelect.value = localStorage.getItem("lang") || document.documentElement.lang;
+
+  langSelect.addEventListener("change", e => {
+    i18n.setLanguage(e.target.value);
+  });
+</script>
+
+  
   <!-- JS -->
   <script src="./details.js" defer></script>
+  
 </body>
 </html>
