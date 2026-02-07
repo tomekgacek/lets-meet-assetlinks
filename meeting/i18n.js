@@ -1,42 +1,56 @@
-const dictionaries = {
-  pl: window.I18N_PL,
-  en: window.I18N_EN,
-  de: window.I18N_DE,
-  fr: window.I18N_FR,
+const i18n = {
+  lang: "en",
+
+  dicts: {
+    pl: window.I18N_PL,
+    en: window.I18N_EN,
+    de: window.I18N_DE,
+    fr: window.I18N_FR,
+  },
+
+  t(key) {
+    return this.dicts[this.lang]?.[key] ?? key;
+  },
+
+  setLanguage(lang, updateUrl = true) {
+    if (!this.dicts[lang]) return;
+
+    this.lang = lang;
+    localStorage.setItem("lang", lang);
+
+    if (updateUrl) {
+      const url = new URL(window.location.href);
+      url.searchParams.set("lang", lang);
+      window.history.replaceState({}, "", url.toString());
+    }
+
+    this.apply();
+  },
+
+  apply() {
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.dataset.i18n;
+      el.textContent = this.t(key);
+    });
+  }
 };
 
-let currentLang = "pl";
+// ---------- INIT ----------
+(function initI18n() {
+  const params = new URLSearchParams(window.location.search);
+  const urlLang = params.get("lang");
 
-function detectLanguage() {
-  const saved = localStorage.getItem("lang");
-  if (saved && dictionaries[saved]) return saved;
+  const storedLang = localStorage.getItem("lang");
 
-  const browser = navigator.language.slice(0, 2);
-  if (dictionaries[browser]) return browser;
+  const browserLang = navigator.language?.slice(0, 2);
 
-  return "en";
-}
+  const lang =
+    (urlLang && i18n.dicts[urlLang]) ||
+    (storedLang && i18n.dicts[storedLang]) ||
+    (browserLang && i18n.dicts[browserLang]) ||
+    "en";
 
-function setLanguage(lang) {
-  if (!dictionaries[lang]) return;
+  i18n.setLanguage(lang, false);
+})();
 
-  currentLang = lang;
-  localStorage.setItem("lang", lang);
-  translatePage();
-}
-
-function t(key) {
-  return dictionaries[currentLang]?.[key] || key;
-}
-
-function translatePage() {
-  document.querySelectorAll("[data-i18n]").forEach(el => {
-    const key = el.dataset.i18n;
-    el.textContent = t(key);
-  });
-}
-
-currentLang = detectLanguage();
-document.addEventListener("DOMContentLoaded", translatePage);
-
-window.i18n = { t, setLanguage, currentLang };
+window.i18n = i18n;
