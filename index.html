@@ -1,11 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Lets Meet Asset Links</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lets Meet</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0f172a;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+      padding: 24px;
+      max-width: 420px;
+    }
+
+    img.logo {
+      max-width: 220px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+    }
+
+    p {
+      opacity: 0.85;
+      margin-bottom: 24px;
+    }
+
+    a.play {
+      display: inline-block;
+      background: #22c55e;
+      color: #022c22;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 14px 24px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+
+    .qr img {
+      margin-top: 12px;
+      width: 160px;
+      height: 160px;
+      background: #ffffff;
+      padding: 8px;
+      border-radius: 12px;
+    }
+
+    .qr p {
+      font-size: 0.9rem;
+      margin-top: 8px;
+      opacity: 0.7;
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Lets Meet Asset Links</h1>
-  <p>Assetlinks.json is available at <a href=".well-known/assetlinks.json">.well-known/assetlinks.json</a></p>
+  <div class="container">
+    <img src="meeting/logo.png" alt="Lets Meet logo" class="logo" />
+
+    <h1 id="title"></h1>
+    <p id="subtitle"></p>
+
+    <a
+      id="cta"
+      class="play"
+      href="https://play.google.com/store/apps/details?id=com.tomekgacek.letsmeet"
+      target="_blank"
+      rel="noopener"
+    ></a>
+
+    <div class="qr">
+      <img
+        src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://play.google.com/store/apps/details?id=com.tomekgacek.letsmeet"
+        alt="QR code Google Play"
+      />
+      <p id="qr"></p>
+    </div>
+  </div>
+
+  <script>
+    const supported = ["en", "pl", "de", "fr"];
+    const lang = navigator.language.slice(0, 2);
+    const selected = supported.includes(lang) ? lang : "en";
+
+    const script = document.createElement("script");
+    script.src = `meeting/i18n/${selected}.js`;
+    script.onload = () => {
+      // zakładamy: window.I18N
+      document.getElementById("title").textContent = I18N.title;
+      document.getElementById("subtitle").textContent = I18N.subtitle;
+      document.getElementById("cta").textContent = I18N.cta;
+      document.getElementById("qr").textContent = I18N.qr;
+    };
+
+    document.body.appendChild(script);
+  </script>
 </body>
 </html>
