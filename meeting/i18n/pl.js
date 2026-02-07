@@ -41,9 +41,9 @@ window.I18N_PL = {
   voteTitle: "📅 Wybierz termin",
   back: "⬅️ Wróć do szczegółów",
 
-  // yes: "Tak",
-  // maybe: "Może",
-  // no: "Nie",
+  yesVote: "Tak",
+  maybeVote: "Może",
+  noVote: "Nie",
 
   // nickPrompt: "Podaj swój nick",
   // nickRequired: "Nick musi mieć co najmniej 2 znaki",
