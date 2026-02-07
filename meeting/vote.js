@@ -38,9 +38,9 @@ if (!meetingId) {
 // --- Nickname
 let nickname = localStorage.getItem(`nickname_${meetingId}`);
 if (!nickname) {
-  nickname = prompt("Podaj swój nick (min 2 znaki):");
+  nickname = prompt(i18n.t("nickPrompt"));
   if (!nickname || nickname.trim().length < 2) {
-    alert("Nick jest wymagany");
+    alert(i18n.t("nickRequired"));
     location.reload();
   }
   localStorage.setItem(`nickname_${meetingId}`, nickname.trim());
@@ -54,7 +54,7 @@ const descEl = document.getElementById("desc");
 // --- Load meeting
 db.collection("meetings").doc(meetingId).onSnapshot(doc => {
   if (!doc.exists) {
-    titleEl.innerText = "❌ Spotkanie nie istnieje";
+    titleEl.innerText = i18n.t("meetingNotFound");
     return;
   }
   const m = doc.data();
@@ -78,9 +78,9 @@ function renderProposal(id, p) {
   };
 
   const myVote =
-    voters.yes.includes(nickname) ? "yes" :
-    voters.maybe.includes(nickname) ? "maybe" :
-    voters.no.includes(nickname) ? "no" :
+    ${renderVoteButton(id, "yes", i18n.t("yes"), myVote)}
+    ${renderVoteButton(id, "maybe", i18n.t("maybe"), myVote)}
+    ${renderVoteButton(id, "no", i18n.t("no"), myVote)}
     null;
 
   const el = document.createElement("div");
