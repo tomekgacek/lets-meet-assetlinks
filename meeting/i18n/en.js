@@ -30,4 +30,10 @@ window.I18N_EN = {
 
   chooseDate: "📅 Choose a date",
   backToDetails: "⬅️ Back to details",
+
+  title: "Lets Meet",
+  subtitle: "Meet, hang out and confirm a safe return home.",
+  cta: "Get it on Google Play",
+  qr: "Scan to download the app"
+  
 };
