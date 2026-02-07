@@ -1,10 +1,33 @@
 window.I18N_PL = {
-  loading: "Ładowanie…",
+  openInApp: "Otwórz w aplikacji Lets Meet",
+  open: "Otwórz",
+  googlePlay: "Google Play",
+
+  loadingMeeting: "Ładowanie spotkania…",
+  meetingLoaded: "✅ Spotkanie załadowane",
   meetingNotFound: "❌ Spotkanie nie istnieje",
-  voteTitle: "📅 Wybierz termin",
-  voteYes: "✅ Tak",
-  voteMaybe: "🤔 Może",
-  voteNo: "❌ Nie",
-  yourVote: "Twój głos",
-  backToDetails: "⬅️ Powrót do szczegółów",
+  meetingLoadError: "❌ Błąd ładowania spotkania",
+  noMeetingId: "❌ Brak ID spotkania w linku",
+
+  organizer: "👤 Organizator",
+  location: "Lokalizacja",
+
+  proposedDates: "📅 Proponowane terminy",
+  sortDate: "📅 Data",
+  sortPopular: "🔥 Popularność",
+  noProposals: "Brak zaproponowanych terminów",
+  proposalsLoadError: "❌ Błąd ładowania terminów",
+
+  vote: "👍 Głosuj",
+  openAppFooter: "📲 Otwórz w aplikacji",
+
+  nickPrompt: "Podaj swój nick (min 2 znaki):",
+  nickRequired: "Nick jest wymagany",
+
+  yes: "✅ Tak",
+  maybe: "🤔 Może",
+  no: "❌ Nie",
+
+  chooseDate: "📅 Wybierz termin",
+  backToDetails: "⬅️ Wróć do szczegółów",
 };
