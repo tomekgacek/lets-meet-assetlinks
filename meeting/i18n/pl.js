@@ -35,4 +35,17 @@ window.I18N_PL = {
   subtitle: "Spotkaj się ze znajomymi i potwierdź bezpieczny powrót do domu.",
   cta: "Pobierz z Google Play",
   qr: "Zeskanuj, aby pobrać aplikację"
+
+    votePageTitle: "Lets Meet – Głosowanie",
+  // loadingMeeting: "Ładowanie…",
+  voteTitle: "📅 Wybierz termin",
+  back: "⬅️ Wróć do szczegółów",
+
+  // yes: "Tak",
+  // maybe: "Może",
+  // no: "Nie",
+
+  // nickPrompt: "Podaj swój nick",
+  // nickRequired: "Nick musi mieć co najmniej 2 znaki",
+  // meetingNotFound: "Nie znaleziono spotkania"
 };
