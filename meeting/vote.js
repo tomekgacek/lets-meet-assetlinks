@@ -104,9 +104,10 @@ const myVote =
     </div>
 
     <div class="vote-buttons">
-      ${renderVoteButton(id, "yes", "✅ Tak", myVote)}
-      ${renderVoteButton(id, "maybe", "🤔 Może", myVote)}
-      ${renderVoteButton(id, "no", "❌ Nie", myVote)}
+${renderVoteButton(id, "yes", `✅ ${i18n.t("yes")}`, myVote)}
+${renderVoteButton(id, "maybe", `🤔 ${i18n.t("maybe")}`, myVote)}
+${renderVoteButton(id, "no", `❌ ${i18n.t("no")}`, myVote)}
+
     </div>
   `;
 
