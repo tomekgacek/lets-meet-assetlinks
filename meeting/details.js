@@ -1,5 +1,10 @@
 console.log("✅ details.js loaded");
 
+if (!window.i18n) {
+  throw new Error("i18n not loaded — check script order");
+}
+
+
 let currentSort = "date";
 let cachedProposals = [];
 
