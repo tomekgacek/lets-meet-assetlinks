@@ -1,247 +1,279 @@
 console.log("✅ details.js loaded");
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (!window.i18n) {
-    console.error("❌ i18n not loaded");
-    return;
-  }
 
-  let currentSort = "date";
-  let cachedProposals = [];
-  let meetingData = null;
+if (!window.i18n) {
+console.error("❌ i18n not loaded");
+return;
+}
 
-  // ---------- Firebase ----------
-  const firebaseConfig = {
-    apiKey: "AIzaSyA...",
-    authDomain: "lets-meet.firebaseapp.com",
-    projectId: "lets-meet-app-47969",
-    storageBucket: "lets-meet.appspot.com",
-    messagingSenderId: "1234567890",
-    appId: "1:1234567890:web:abcdef123456"
-  };
+let currentSort="date";
+let cachedProposals=[];
+let meetingData=null;
 
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-  }
-  const db = firebase.firestore();
+const firebaseConfig={
+apiKey:"AIzaSyA...",
+authDomain:"lets-meet.firebaseapp.com",
+projectId:"lets-meet-app-47969",
+storageBucket:"lets-meet.appspot.com",
+messagingSenderId:"1234567890",
+appId:"1:1234567890:web:abcdef123456"
+};
 
-  // ---------- Helpers ----------
-  function getMeetingId() {
-    if (window.location.hash.includes("/meeting/")) {
-      return window.location.hash.split("/meeting/")[1];
-    }
-    return null;
-  }
+if(!firebase.apps.length){
+firebase.initializeApp(firebaseConfig);
+}
+const db=firebase.firestore();
 
-  function getVoters(p) {
-    return {
-      yes: Array.isArray(p?.voters?.yes) ? p.voters.yes : [],
-      maybe: Array.isArray(p?.voters?.maybe) ? p.voters.maybe : [],
-      no: Array.isArray(p?.voters?.no) ? p.voters.no : []
-    };
-  }
+function getMeetingId(){
+if(window.location.hash.includes("/meeting/")){
+return window.location.hash.split("/meeting/")[1];
+}
+return null;
+}
 
-  function getVoteStats(p) {
-    const v = getVoters(p);
-    return {
-      yes: v.yes.length,
-      maybe: v.maybe.length,
-      no: v.no.length,
-      weight: v.yes.length + v.maybe.length * 0.5
-    };
-  }
+function getVoters(p){
+return{
+yes:Array.isArray(p?.voters?.yes)?p.voters.yes:[],
+maybe:Array.isArray(p?.voters?.maybe)?p.voters.maybe:[],
+no:Array.isArray(p?.voters?.no)?p.voters.no:[]
+};
+}
 
-  function getMostPopularLocation(locations = []) {
-    if (!Array.isArray(locations) || locations.length === 0) return null;
+function getVoteStats(p){
+const v=getVoters(p);
+return{
+yes:v.yes.length,
+maybe:v.maybe.length,
+no:v.no.length,
+weight:v.yes.length+v.maybe.length*0.5
+};
+}
 
-    return [...locations].sort((a, b) => {
-      const av = Array.isArray(a.voters) ? a.voters.length : 0;
-      const bv = Array.isArray(b.voters) ? b.voters.length : 0;
-      return bv - av;
-    })[0];
-  }
+function getMostPopularLocation(locations=[]){
+if(!Array.isArray(locations)||!locations.length)return null;
 
-  function renderVotersList(label, list) {
-    if (!list.length) {
-      return `<div class="voters-group"><strong>${label}:</strong> —</div>`;
-    }
+return[...locations].sort((a,b)=>{
+const av=Array.isArray(a.voters)?a.voters.length:0;
+const bv=Array.isArray(b.voters)?b.voters.length:0;
+return bv-av;
+})[0];
+}
 
-    return `
-      <div class="voters-group">
-        <strong>${label}:</strong>
-        ${list.map(n => `<span class="voter">${n}</span>`).join(", ")}
-      </div>
-    `;
-  }
+function renderVotersList(label,list){
+if(!list.length){
+return `<div class="voters-group"><strong>${label}:</strong> —</div>`;
+}
 
-  // ---------- DOM ----------
-  const titleEl = document.getElementById("title");
-  const statusEl = document.getElementById("status");
-  const proposalsEl = document.getElementById("proposals");
-  const organizerEl = document.getElementById("organizer");
-  const locationEl = document.getElementById("location");
+return `
+<div class="voters-group">
+<strong>${label}:</strong>
+${list.map(n=>`<span class="voter">${n}</span>`).join(", ")}
+</div>
+`;
+}
 
-  // ---------- Guards ----------
-  const meetingId = getMeetingId();
-  if (!meetingId) {
-    statusEl.textContent = i18n.t("noMeetingId");
-    return;
-  }
+const titleEl=document.getElementById("title");
+const statusEl=document.getElementById("status");
+const proposalsEl=document.getElementById("proposals");
+const organizerEl=document.getElementById("organizer");
+const locationEl=document.getElementById("location");
 
-  // ---------- Nickname ----------
-  let nickname = localStorage.getItem(`nickname_${meetingId}`);
-  if (!nickname) {
-    nickname = prompt(i18n.t("nickPrompt"));
-    if (!nickname || nickname.trim().length < 2) {
-      alert(i18n.t("nickRequired"));
-      location.reload();
-      return;
-    }
-    localStorage.setItem(`nickname_${meetingId}`, nickname.trim());
-  }
+const meetingId=getMeetingId();
 
-  // ---------- Static render (language-aware) ----------
-  function renderStatic() {
-    if (!meetingData) return;
+if(!meetingId){
+if(statusEl){
+statusEl.textContent=i18n.t("noMeetingId");
+}
+return;
+}
 
-    titleEl.textContent = meetingData.title || "";
-    statusEl.textContent = i18n.t("meetingLoaded");
+let nickname=localStorage.getItem(`nickname_${meetingId}`);
 
-    organizerEl.innerHTML = meetingData.organizerName
-      ? `${i18n.t("organizer")}: <strong>${meetingData.organizerName}</strong>`
-      : "";
+if(!nickname){
+nickname=prompt(i18n.t("nickPrompt"));
+if(!nickname||nickname.trim().length<2){
+alert(i18n.t("nickRequired"));
+location.reload();
+return;
+}
+localStorage.setItem(`nickname_${meetingId}`,nickname.trim());
+}
 
-    let activeLocation = null;
+function renderStatic(){
 
-    if (Array.isArray(meetingData.locations) && meetingData.locations.length) {
-      activeLocation =
-        meetingData.locationMode === "multiple"
-          ? getMostPopularLocation(meetingData.locations)
-          : meetingData.locations[0];
-    }
+if(!meetingData)return;
 
-    if (activeLocation?.name) {
-      const query = encodeURIComponent(activeLocation.name);
-      const mapUrl = `https://www.google.com/maps/search/?api=1&query=${query}`;
+titleEl.textContent=meetingData.title||"";
 
-      locationEl.innerHTML = `
-        ${i18n.t("location")}:
-        <a href="${mapUrl}" target="_blank" rel="noopener">
-          <strong>${activeLocation.name}</strong>
-        </a>
-        ${meetingData.locationMode === "multiple" ? " <span class='badge-hot'>🔥</span>" : ""}
-      `;
-    } else {
-      locationEl.innerHTML = "";
-    }
-  }
+organizerEl.innerHTML=meetingData.organizerName
+?`${i18n.t("organizer")}: <strong>${meetingData.organizerName}</strong>`
+:"";
 
-  // ---------- Load meeting ----------
-  db.collection("meetings")
-    .doc(meetingId)
-    .onSnapshot(
-      doc => {
-        if (!doc.exists) {
-          statusEl.textContent = i18n.t("meetingNotFound");
-          return;
-        }
-        meetingData = doc.data();
-        renderStatic();
-      },
-      err => {
-        console.error(err);
-        statusEl.textContent = i18n.t("meetingLoadError");
-      }
-    );
+let activeLocation=null;
 
-  // ---------- Load proposals ----------
-  db.collection(`meetings/${meetingId}/proposals`)
-    .orderBy("createdAt", "asc")
-    .onSnapshot(
-      snapshot => {
-        cachedProposals = [];
-        snapshot.forEach(doc => {
-          cachedProposals.push({ id: doc.id, ...doc.data() });
-        });
-        renderProposals();
-      },
-      err => {
-        console.error(err);
-        proposalsEl.innerHTML = `<p>${i18n.t("proposalsLoadError")}</p>`;
-      }
-    );
+if(Array.isArray(meetingData.locations)&&meetingData.locations.length){
+activeLocation=
+meetingData.locationMode==="multiple"
+?getMostPopularLocation(meetingData.locations)
+:meetingData.locations[0];
+}
 
-  // ---------- Render proposals ----------
-  function renderProposals() {
-    proposalsEl.innerHTML = "";
+if(activeLocation?.name){
+const query=encodeURIComponent(activeLocation.name);
+const mapUrl=`https://www.google.com/maps/search/?api=1&query=${query}`;
 
-    if (!cachedProposals.length) {
-      proposalsEl.innerHTML = `<p>${i18n.t("noProposals")}</p>`;
-      return;
-    }
+locationEl.innerHTML=`
+${i18n.t("location")}:
+<a href="${mapUrl}" target="_blank" rel="noopener">
+<strong>${activeLocation.name}</strong>
+</a>
+${meetingData.locationMode==="multiple"?" <span class='badge-hot'>🔥</span>":""}
+`;
+}else{
+locationEl.innerHTML="";
+}
 
-    let maxWeight = Math.max(
-      ...cachedProposals.map(p => getVoteStats(p).weight)
-    );
-    const THRESHOLD = maxWeight * 0.8;
+}
 
-    const sorted = [...cachedProposals].sort((a, b) =>
-      currentSort === "popular"
-        ? getVoteStats(b).weight - getVoteStats(a).weight
-        : new Date(a.date) - new Date(b.date)
-    );
+db.collection("meetings").doc(meetingId).onSnapshot(
+doc=>{
+if(!doc.exists){
+statusEl.textContent=i18n.t("meetingNotFound");
+return;
+}
+meetingData=doc.data();
+renderStatic();
+},
+err=>{
+console.error(err);
+statusEl.textContent=i18n.t("meetingLoadError");
+}
+);
 
-    sorted.forEach(p => {
-      const stats = getVoteStats(p);
-      const voters = getVoters(p);
-      const isPopular = stats.weight >= THRESHOLD && stats.weight > 0;
+db.collection(`meetings/${meetingId}/proposals`)
+.orderBy("createdAt","asc")
+.onSnapshot(snapshot=>{
 
-      const el = document.createElement("div");
-      el.className = `proposal-row ${isPopular ? "popular" : ""}`;
+cachedProposals=[];
 
-      el.innerHTML = `
-        <div class="proposal-summary">
-          <div class="proposal-date">📅 ${p.date || ""} ${p.time || ""}
-            ${isPopular ? "<span class='badge-hot'>🔥</span>" : ""}
-          </div>
-          <div class="proposal-votes">
-            <span>✅ ${stats.yes}</span>
-            <span>🤔 ${stats.maybe}</span>
-            <span>❌ ${stats.no}</span>
-          </div>
-        </div>
+snapshot.forEach(doc=>{
+cachedProposals.push({id:doc.id,...doc.data()});
+});
 
-        <div class="proposal-details" style="display:none">
-          ${renderVotersList(i18n.t("yes"), voters.yes)}
-          ${renderVotersList(i18n.t("maybe"), voters.maybe)}
-          ${renderVotersList(i18n.t("no"), voters.no)}
-        </div>
-      `;
+renderProposals();
 
-      el.querySelector(".proposal-summary").addEventListener("click", () => {
-        const d = el.querySelector(".proposal-details");
-        d.style.display = d.style.display === "block" ? "none" : "block";
-      });
+},err=>{
+console.error(err);
+proposalsEl.innerHTML=`<p>${i18n.t("proposalsLoadError")}</p>`;
+});
 
-      proposalsEl.appendChild(el);
-    });
-  }
+function renderProposals(){
 
-  // ---------- Sorting ----------
-  document.querySelectorAll(".sort-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      currentSort = btn.dataset.sort;
-      document.querySelectorAll(".sort-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      renderProposals();
-    });
-  });
+proposalsEl.innerHTML="";
 
-  // ---------- React to language change ----------
-  const originalSetLanguage = i18n.setLanguage.bind(i18n);
-  i18n.setLanguage = lang => {
-    originalSetLanguage(lang);
-    renderStatic();
-    renderProposals();
-  };
+if(!cachedProposals.length){
+proposalsEl.innerHTML=`<p>${i18n.t("noProposals")}</p>`;
+return;
+}
+
+let maxWeight=Math.max(...cachedProposals.map(p=>getVoteStats(p).weight));
+const THRESHOLD=maxWeight*0.8;
+
+const sorted=[...cachedProposals].sort((a,b)=>
+currentSort==="popular"
+?getVoteStats(b).weight-getVoteStats(a).weight
+:new Date(a.date)-new Date(b.date)
+);
+
+sorted.forEach(p=>{
+
+const stats=getVoteStats(p);
+const voters=getVoters(p);
+const isPopular=stats.weight>=THRESHOLD&&stats.weight>0;
+
+const el=document.createElement("div");
+el.className=`proposal-row ${isPopular?"popular":""}`;
+
+el.innerHTML=`
+<div class="proposal-summary">
+<div class="proposal-date">📅 ${p.date||""} ${p.time||""}
+${isPopular?"<span class='badge-hot'>🔥</span>":""}
+</div>
+<div class="proposal-votes">
+<span>✅ ${stats.yes}</span>
+<span>🤔 ${stats.maybe}</span>
+<span>❌ ${stats.no}</span>
+</div>
+</div>
+
+<div class="proposal-details" style="display:none">
+${renderVotersList(i18n.t("yes"),voters.yes)}
+${renderVotersList(i18n.t("maybe"),voters.maybe)}
+${renderVotersList(i18n.t("no"),voters.no)}
+</div>
+`;
+
+el.querySelector(".proposal-summary").addEventListener("click",()=>{
+const d=el.querySelector(".proposal-details");
+d.style.display=d.style.display==="block"?"none":"block";
+});
+
+proposalsEl.appendChild(el);
+
+});
+
+}
+
+document.querySelectorAll(".sort-btn").forEach(btn=>{
+btn.addEventListener("click",()=>{
+currentSort=btn.dataset.sort;
+document.querySelectorAll(".sort-btn").forEach(b=>b.classList.remove("active"));
+btn.classList.add("active");
+renderProposals();
+});
+});
+
+const voteBtn=document.getElementById("voteBtn");
+
+if(voteBtn){
+voteBtn.addEventListener("click",e=>{
+e.preventDefault();
+window.location.href=window.location.href;
+});
+}
+
+/* MENU */
+const menuToggle=document.getElementById("menuToggle");
+const menuPanel=document.getElementById("menuPanel");
+
+if(menuToggle&&menuPanel){
+menuToggle.addEventListener("click",()=>{
+menuPanel.classList.toggle("hidden");
+});
+}
+
+/* BANNER CLOSE */
+const banner=document.getElementById("appBanner");
+const closeBanner=document.getElementById("closeBanner");
+
+if(closeBanner&&banner){
+closeBanner.addEventListener("click",()=>{
+banner.style.display="none";
+localStorage.setItem("hideAppBanner","1");
+});
+}
+
+if(localStorage.getItem("hideAppBanner")==="1"&&banner){
+banner.style.display="none";
+}
+
+const originalSetLanguage=i18n.setLanguage.bind(i18n);
+
+i18n.setLanguage=lang=>{
+originalSetLanguage(lang);
+renderStatic();
+renderProposals();
+};
+
 });
