@@ -44,4 +44,9 @@ window.I18N_FR = {
   yesVote: "Oui",
   maybeVote: "Peut-être",
   noVote: "Non",
+    landingTitle: "Lets Meet",
+  landingHeading: "Organisez des rencontres sans chaos",
+  landingSubtitle: "Créez une rencontre, partagez le lien et votez pour la date idéale.",
+  landingCta: "Télécharger sur Google Play",
+  landingQr: "Scannez pour installer l’application"
 };
