@@ -68,19 +68,22 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
   <!-- I18N -->
-<script>
-  const langSelect = document.getElementById("langSelect");
+  <script src="./meeting/i18n.js"></script>
 
-  langSelect.value = localStorage.getItem("lang") || document.documentElement.lang;
+  <script>
+    const langSelect = document.getElementById("langSelect");
 
-  langSelect.addEventListener("change", e => {
-    i18n.setLanguage(e.target.value);
-  });
-</script>
+    langSelect.value =
+      localStorage.getItem("lang") || document.documentElement.lang || "en";
 
-  
-  <!-- JS -->
+    langSelect.addEventListener("change", e => {
+      i18n.setLanguage(e.target.value);
+    });
+  </script>
+
+  <!-- App -->
   <script src="./details.js" defer></script>
+
   
 </body>
 </html>
