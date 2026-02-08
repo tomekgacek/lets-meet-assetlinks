@@ -12,16 +12,24 @@
 <body>
 
   <!-- APP BANNER -->
-  <header class="app-banner">
-    <div class="app-banner-left">
-      <img src="./logo.png" alt="Lets Meet" class="app-logo" />
-      <span data-i18n="openInApp"></span>
-    </div>
-    <div class="app-banner-actions">
-      <a id="openAppBtn" class="btn btn-primary" data-i18n="open"></a>
-      <a href="https://play.google.com/store/apps/details?id=com.tomekgacek.letsmeet" class="btn btn-secondary" target="_blank">Google Play</a>
-    </div>
-<div class="lang-switch">
+<header class="app-banner" id="appBanner">
+  <div class="app-banner-left">
+    <img src="./logo.png" alt="Lets Meet" class="app-logo" />
+  </div>
+
+  <div class="app-banner-actions">
+    <a
+      href="https://play.google.com/store/apps/details?id=com.tomekgacek.letsmeet"
+      class="btn btn-primary"
+      target="_blank"
+      data-i18n="download"
+    ></a>
+
+    <button class="banner-close" id="closeBanner">✕</button>
+  </div>
+</header>
+
+<div class="lang-switch below-banner">
   <select id="langSelect">
     <option value="pl">🇵🇱 Polski</option>
     <option value="en">🇬🇧 English</option>
@@ -30,8 +38,6 @@
   </select>
 </div>
 
-
-  </header>
 
   <!-- MAIN CONTENT -->
   <main class="container">
@@ -91,6 +97,21 @@
 <!-- App -->
 <script src="./details.js" defer></script>
 
+<script>
+  const banner = document.getElementById("appBanner");
+  const closeBtn = document.getElementById("closeBanner");
+
+  if (closeBtn && banner) {
+    closeBtn.addEventListener("click", () => {
+      banner.style.display = "none";
+      localStorage.setItem("hideAppBanner", "1");
+    });
+  }
+
+  if (localStorage.getItem("hideAppBanner") === "1") {
+    banner.style.display = "none";
+  }
+</script>
 
   
 </body>
