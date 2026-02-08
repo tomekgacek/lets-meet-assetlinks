@@ -195,6 +195,8 @@ function renderProposals() {
   });
 
   sorted.forEach(p => renderProposal(p, THRESHOLD));
+  i18n.apply();
+
 }
 
 // ---------- Sort buttons ----------
