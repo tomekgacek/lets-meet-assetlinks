@@ -48,5 +48,11 @@ window.I18N_EN = {
   // nickPrompt: "Enter your nickname",
   // nickRequired: "Nickname must be at least 2 characters long",
   // meetingNotFound: "Meeting not found"
+
+    landingTitle: "Lets Meet",
+  landingHeading: "Plan meetings without chaos",
+  landingSubtitle: "Create a meeting, share a link and vote on the best time.",
+  landingCta: "Get the app on Google Play",
+  landingQr: "Scan to install the app"
   
 };
