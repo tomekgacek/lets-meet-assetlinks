@@ -1,69 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lets Meet – Szczegóły spotkania</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Lets Meet – Szczegóły spotkania</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./style.css"/>
 </head>
 <body>
 
 <header class="app-banner" id="appBanner">
-  <div class="app-banner-left">
-    <img src="./logo.png" alt="Lets Meet" class="app-logo" />
-  </div>
 
-  <div class="app-banner-actions">
+<div class="app-banner-left">
+<img src="./logo.png" alt="Lets Meet" class="app-logo"/>
+</div>
 
-    <a
-      href="https://play.google.com/store/apps/details?id=com.tomekgacek.letsmeet"
-      class="btn btn-primary"
-      target="_blank"
-      data-i18n="download"
-    ></a>
+<div class="app-banner-actions">
 
-    <button class="menu-toggle" id="menuToggle">☰</button>
+<a
+href="https://play.google.com/store/apps/details?id=com.tomekgacek.letsmeet"
+class="btn btn-primary"
+target="_blank"
+data-i18n="download"></a>
 
-    <button class="banner-close" id="closeBanner">✕</button>
+<button id="menuToggle" class="hamburger">☰</button>
 
-  </div>
+</div>
+
 </header>
 
-<div class="menu-panel hidden" id="menuPanel">
-  <select id="langSelect">
-    <option value="pl">🇵🇱</option>
-    <option value="en">🇬🇧</option>
-    <option value="de">🇩🇪</option>
-    <option value="fr">🇫🇷</option>
-  </select>
+<!-- HAMBURGER MENU -->
+<div id="menuPanel" class="menu hidden">
+
+<select id="langSelect">
+<option value="pl">🇵🇱 Polski</option>
+<option value="en">🇬🇧 English</option>
+<option value="de">🇩🇪 Deutsch</option>
+<option value="fr">🇫🇷 Français</option>
+</select>
+
+<button id="closeBanner" class="menu-close">✕</button>
+
 </div>
 
 <main class="container">
-  <h1 id="title" data-i18n="loadingMeeting"></h1>
-  <p id="desc"></p>
 
-  <div id="organizer" class="organizer-row"></div>
-  <div id="location" class="location-row"></div>
+<h1 id="title" data-i18n="loadingMeeting"></h1>
+<p id="desc"></p>
 
-  <p id="status"></p>
+<div id="organizer" class="organizer-row"></div>
+<div id="location" class="location-row"></div>
 
-  <section class="section">
-    <h2 data-i18n="proposedDates"></h2>
+<p id="status"></p>
 
-    <div class="sort-bar">
-      <button data-sort="date" class="sort-btn active" data-i18n="sortDate"></button>
-      <button data-sort="popular" class="sort-btn" data-i18n="sortPopular"></button>
-    </div>
+<section class="section">
 
-    <div id="proposals"></div>
-  </section>
+<h2 data-i18n="proposedDates"></h2>
+
+<div class="sort-bar">
+<button data-sort="date" class="sort-btn active" data-i18n="sortDate"></button>
+<button data-sort="popular" class="sort-btn" data-i18n="sortPopular"></button>
+</div>
+
+<div id="proposals"></div>
+
+</section>
+
 </main>
 
 <footer class="cta-bar">
-  <a href="#" id="voteBtn" class="cta-btn primary" data-i18n="vote"></a>
-  <a href="#" id="openAppBtnFooter" class="cta-btn secondary" data-i18n="openAppFooter"></a>
+<a href="#" id="voteBtn" class="cta-btn primary" data-i18n="vote"></a>
+<a href="#" id="openAppBtnFooter" class="cta-btn secondary" data-i18n="openAppFooter"></a>
 </footer>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
@@ -76,33 +84,16 @@
 <script src="./i18n.js"></script>
 
 <script>
-const langSelect = document.getElementById("langSelect");
+const langSelect=document.getElementById("langSelect");
 
-langSelect.value =
-  localStorage.getItem("lang") || document.documentElement.lang || "en";
+langSelect.value=localStorage.getItem("lang")||document.documentElement.lang||"en";
 
-langSelect.addEventListener("change", e => {
-  i18n.setLanguage(e.target.value);
+langSelect.addEventListener("change",e=>{
+i18n.setLanguage(e.target.value);
 });
 </script>
 
 <script src="./details.js" defer></script>
-
-<script defer>
-const banner = document.getElementById("appBanner");
-const closeBtn = document.getElementById("closeBanner");
-
-if (closeBtn && banner) {
-  closeBtn.addEventListener("click", () => {
-    banner.style.display = "none";
-    localStorage.setItem("hideAppBanner", "1");
-  });
-}
-
-if (localStorage.getItem("hideAppBanner") === "1") {
-  banner.style.display = "none";
-}
-</script>
 
 </body>
 </html>
