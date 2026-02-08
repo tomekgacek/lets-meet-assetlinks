@@ -43,7 +43,7 @@ window.I18N_PL = {
 
   yesVote: "Tak",
   maybeVote: "Może",
-  noVote: "Nie",
+  noVote: "Nie"
 
   // nickPrompt: "Podaj swój nick",
   // nickRequired: "Nick musi mieć co najmniej 2 znaki",
