@@ -34,9 +34,10 @@ window.I18N_PL = {
   title: "Lets Meet",
   subtitle: "Spotkaj się ze znajomymi i potwierdź bezpieczny powrót do domu.",
   cta: "Pobierz z Google Play",
-  qr: "Zeskanuj, aby pobrać aplikację"
+  qr: "Zeskanuj, aby pobrać aplikację",
+  
+  votePageTitle: "Lets Meet – Głosowanie",
 
-    votePageTitle: "Lets Meet – Głosowanie",
   // loadingMeeting: "Ładowanie…",
   voteTitle: "📅 Wybierz termin",
   back: "⬅️ Wróć do szczegółów",
