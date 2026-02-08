@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lets Meet</title>
+
+  <title data-i18n="landingTitle">Lets Meet</title>
 
   <style>
     body {
@@ -70,15 +71,15 @@
   <div class="container">
     <img src="meeting/logo.png" alt="Lets Meet logo" class="logo" />
 
-    <h1 id="title"></h1>
-    <p id="subtitle"></p>
+    <h1 data-i18n="landingHeading"></h1>
+    <p data-i18n="landingSubtitle"></p>
 
     <a
-      id="cta"
       class="play"
       href="https://play.google.com/store/apps/details?id=com.tomekgacek.letsmeet"
       target="_blank"
       rel="noopener"
+      data-i18n="landingCta"
     ></a>
 
     <div class="qr">
@@ -86,26 +87,18 @@
         src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://play.google.com/store/apps/details?id=com.tomekgacek.letsmeet"
         alt="QR code Google Play"
       />
-      <p id="qr"></p>
+      <p data-i18n="landingQr"></p>
     </div>
   </div>
 
-  <script>
-    const supported = ["en", "pl", "de", "fr"];
-    const lang = navigator.language.slice(0, 2);
-    const selected = supported.includes(lang) ? lang : "en";
+  <!-- I18N dictionaries -->
+  <script src="meeting/i18n/en.js"></script>
+  <script src="meeting/i18n/pl.js"></script>
+  <script src="meeting/i18n/de.js"></script>
+  <script src="meeting/i18n/fr.js"></script>
 
-    const script = document.createElement("script");
-    script.src = `meeting/i18n/${selected}.js`;
-    script.onload = () => {
-      // zakładamy: window.I18N
-      document.getElementById("title").textContent = I18N.title;
-      document.getElementById("subtitle").textContent = I18N.subtitle;
-      document.getElementById("cta").textContent = I18N.cta;
-      document.getElementById("qr").textContent = I18N.qr;
-    };
+  <!-- I18N engine -->
+  <script src="meeting/i18n.js"></script>
 
-    document.body.appendChild(script);
-  </script>
 </body>
 </html>
