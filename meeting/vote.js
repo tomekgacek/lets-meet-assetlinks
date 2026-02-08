@@ -1,4 +1,7 @@
 console.log("✅ vote.js loaded");
+console.log("meetingId:", meetingId);
+console.log("nickname key:", `nickname_${meetingId}`);
+
 
 document.addEventListener("DOMContentLoaded", () => {
   if (!window.i18n) {
@@ -23,13 +26,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const db = firebase.firestore();
 
   // ---------- Helpers ----------
-  function getMeetingId() {
-    if (window.location.hash) {
-      return window.location.hash.replace("#/", "");
-    }
-    const parts = window.location.pathname.split("/");
-    return parts[parts.length - 1];
+function getMeetingId() {
+  if (window.location.hash.includes("/meeting/")) {
+    return window.location.hash.split("/meeting/")[1];
   }
+  return null;
+}
+
 
   const meetingId = getMeetingId();
   if (!meetingId) {
