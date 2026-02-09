@@ -54,6 +54,14 @@ window.I18N_EN = {
   landingSubtitle: "Create a meeting, share a link and vote on the best time.",
   landingCta: "Get the app on Google Play",
   landingQr: "Scan to install the app",
-  download: "Download"
+  download: "Download",
+  voteDate: "Vote for date",
+voteLocation: "Vote for locations",
+voteForLocation: "Vote for location",
+
+openInMaps: "Open in Maps",
+votesCount: "{count} votes",
+vote: "Vote",
+voted: "Voted"
   
 };
