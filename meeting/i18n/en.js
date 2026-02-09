@@ -53,6 +53,7 @@ window.I18N_EN = {
   landingHeading: "Plan meetings without chaos",
   landingSubtitle: "Create a meeting, share a link and vote on the best time.",
   landingCta: "Get the app on Google Play",
-  landingQr: "Scan to install the app"
+  landingQr: "Scan to install the app",
+  download: "Pobierz"
   
 };
