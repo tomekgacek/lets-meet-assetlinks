@@ -104,7 +104,13 @@ function renderStatic(){
 
 if(!meetingData)return;
 
-titleEl.textContent=meetingData.title||"";
+titleEl.textContent = meetingData.title || "";
+
+const descEl = document.getElementById("desc");
+if (descEl) {
+  descEl.textContent = meetingData.description || "";
+}
+
 
 organizerEl.innerHTML=meetingData.organizerName
 ?`${i18n.t("organizer")}: <strong>${meetingData.organizerName}</strong>`
@@ -253,20 +259,6 @@ menuPanel.classList.toggle("hidden");
 });
 }
 
-/* BANNER CLOSE */
-const banner=document.getElementById("appBanner");
-const closeBanner=document.getElementById("closeBanner");
-
-if(closeBanner&&banner){
-closeBanner.addEventListener("click",()=>{
-banner.style.display="none";
-localStorage.setItem("hideAppBanner","1");
-});
-}
-
-if(localStorage.getItem("hideAppBanner")==="1"&&banner){
-banner.style.display="none";
-}
 
 const originalSetLanguage=i18n.setLanguage.bind(i18n);
 
