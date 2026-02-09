@@ -240,14 +240,36 @@ renderProposals();
 });
 });
 
-const voteBtn=document.getElementById("voteBtn");
+/* CTA BUTTONS */
 
-if(voteBtn){
-voteBtn.addEventListener("click",e=>{
-e.preventDefault();
-window.location.href=window.location.href;
-});
+const voteBtn = document.getElementById("voteBtn");
+const openAppBtn = document.getElementById("openAppBtnFooter");
+
+if (voteBtn) {
+  voteBtn.addEventListener("click", e => {
+    e.preventDefault();
+    window.location.href = `/meeting/vote.html#/${meetingId}`;
+  });
 }
+
+if (openAppBtn) {
+  openAppBtn.addEventListener("click", e => {
+    e.preventDefault();
+
+    const deepLink = `letsmeet://meeting/${meetingId}`;
+    const playStore =
+      "https://play.google.com/store/apps/details?id=com.tomekgacek.letsmeet";
+
+    // próbujemy otworzyć appkę
+    window.location.href = deepLink;
+
+    // fallback do Play Store
+    setTimeout(() => {
+      window.location.href = playStore;
+    }, 800);
+  });
+}
+
 
 /* MENU */
 const menuToggle=document.getElementById("menuToggle");
