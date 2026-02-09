@@ -54,5 +54,13 @@ window.I18N_DE = {
   landingSubtitle: "Erstelle ein Treffen, teile den Link und stimme über den Termin ab.",
   landingCta: "App bei Google Play herunterladen",
   landingQr: "Scannen, um die App zu installieren",
-  download: "Herunterladen"
+  download: "Herunterladen",
+  voteDate: "Für Termin abstimmen",
+voteLocation: "Für Orte abstimmen",
+voteForLocation: "Abstimmung über Orte",
+
+openInMaps: "In Maps öffnen",
+votesCount: "{count} Stimmen",
+vote: "Abstimmen",
+voted: "Abgestimmt"
 };
