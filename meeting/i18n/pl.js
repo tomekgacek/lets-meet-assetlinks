@@ -54,5 +54,6 @@ window.I18N_PL = {
   landingHeading: "Ustal termin bez chaosu",
   landingSubtitle: "Utwórz spotkanie, udostępnij link i zagłosuj na najlepszy termin.",
   landingCta: "Pobierz aplikację z Google Play",
-  landingQr: "Zeskanuj kod, aby zainstalować aplikację"
+  landingQr: "Zeskanuj kod, aby zainstalować aplikację",
+  download: "Pobierz"
 };
