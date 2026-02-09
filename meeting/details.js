@@ -50,6 +50,8 @@ weight:v.yes.length+v.maybe.length*0.5
 };
 }
 
+  
+
 function getMostPopularLocation(locations=[]){
 if(!Array.isArray(locations)||!locations.length)return null;
 
@@ -88,7 +90,8 @@ statusEl.textContent=i18n.t("noMeetingId");
 return;
 }
 
-let nickname=localStorage.getItem(`nickname_${meetingId}`);
+const nickname = localStorage.getItem(`nickname_${meetingId}`) || "";
+
 
 if(!nickname){
 nickname=prompt(i18n.t("nickPrompt"));
@@ -150,11 +153,20 @@ return;
 }
 meetingData=doc.data();
 renderStatic();
-},
-err=>{
-console.error(err);
-statusEl.textContent=i18n.t("meetingLoadError");
-}
+    if (
+      voteLocationBtn &&
+      Array.isArray(meetingData.locations) &&
+      meetingData.locations.length > 1
+    ) {
+      voteLocationBtn.classList.remove("hidden");
+      voteLocationBtn.href =
+        `./vote-locations.html?meetingId=${meetingId}&nickname=${nickname}`;
+    }
+  },
+  err => {
+    console.error(err);
+    statusEl.textContent = i18n.t("meetingLoadError");
+  }
 );
 
 db.collection(`meetings/${meetingId}/proposals`)
@@ -242,7 +254,7 @@ renderProposals();
 
 /* CTA BUTTONS */
 
-const voteBtn = document.getElementById("voteBtn");
+const voteBtn = document.getElementById("voteDateBtn");
 const openAppBtn = document.getElementById("openAppBtnFooter");
 
 if (voteBtn) {
