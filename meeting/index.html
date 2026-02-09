@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -84,14 +84,21 @@ data-i18n="download"></a>
 <script src="./i18n.js"></script>
 
 <script>
-const langSelect=document.getElementById("langSelect");
+const langSelect = document.getElementById("langSelect");
 
-langSelect.value=localStorage.getItem("lang")||document.documentElement.lang||"en";
+const defaultLang =
+  localStorage.getItem("lang") ||
+  document.documentElement.lang ||
+  "en";
 
-langSelect.addEventListener("change",e=>{
-i18n.setLanguage(e.target.value);
+langSelect.value = defaultLang;
+i18n.setLanguage(defaultLang); 
+
+langSelect.addEventListener("change", e => {
+  i18n.setLanguage(e.target.value);
 });
 </script>
+
 
 <script src="./details.js" defer></script>
 
