@@ -115,12 +115,16 @@ img {
 }
 
 .organizer-row,
-.location-row {
-  font-size: 14px;
-  margin: 6px 0;
-  color: #6A89CC;
-  font-weight: 600;
+.location-row a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
 }
+
+.location-row a:hover {
+  opacity: 0.8;
+}
+
 
 .badge-hot {
   margin-left: 6px;
