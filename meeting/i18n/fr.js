@@ -48,5 +48,6 @@ window.I18N_FR = {
   landingHeading: "Organisez des rencontres sans chaos",
   landingSubtitle: "Créez une rencontre, partagez le lien et votez pour la date idéale.",
   landingCta: "Télécharger sur Google Play",
-  landingQr: "Scannez pour installer l’application"
+  landingQr: "Scannez pour installer l’application",
+  download: "télécharger"
 };
