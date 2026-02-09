@@ -80,6 +80,8 @@ const statusEl=document.getElementById("status");
 const proposalsEl=document.getElementById("proposals");
 const organizerEl=document.getElementById("organizer");
 const locationEl=document.getElementById("location");
+const voteLocationBtn = document.getElementById("voteLocationBtn");
+
 
 const meetingId=getMeetingId();
 
@@ -90,7 +92,7 @@ statusEl.textContent=i18n.t("noMeetingId");
 return;
 }
 
-const nickname = localStorage.getItem(`nickname_${meetingId}`) || "";
+let nickname = localStorage.getItem(`nickname_${meetingId}`) || "";
 
 
 if(!nickname){
