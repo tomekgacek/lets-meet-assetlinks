@@ -49,5 +49,13 @@ window.I18N_FR = {
   landingSubtitle: "Créez une rencontre, partagez le lien et votez pour la date idéale.",
   landingCta: "Télécharger sur Google Play",
   landingQr: "Scannez pour installer l’application",
-  download: "Télécharger"
+  download: "Télécharger",
+  voteDate: "Voter pour la date",
+voteLocation: "Voter pour les lieux",
+voteForLocation: "Vote pour le lieu",
+
+openInMaps: "Ouvrir dans Maps",
+votesCount: "{count} votes",
+vote: "Voter",
+voted: "Voté"
 };
