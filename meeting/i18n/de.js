@@ -53,5 +53,6 @@ window.I18N_DE = {
   landingHeading: "Treffen planen – ganz ohne Chaos",
   landingSubtitle: "Erstelle ein Treffen, teile den Link und stimme über den Termin ab.",
   landingCta: "App bei Google Play herunterladen",
-  landingQr: "Scannen, um die App zu installieren"
+  landingQr: "Scannen, um die App zu installieren",
+  download: "Herunterladen"
 };
