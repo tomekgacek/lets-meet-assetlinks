@@ -1,6 +1,4 @@
 console.log("✅ vote.js loaded");
-console.log("meetingId:", meetingId);
-console.log("nickname key:", `nickname_${meetingId}`);
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -27,11 +25,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ---------- Helpers ----------
 function getMeetingId() {
-  if (window.location.hash.includes("/meeting/")) {
-    return window.location.hash.split("/meeting/")[1];
-  }
-  return null;
+  const hash = window.location.hash;
+  if (!hash) return null;
+  return hash.replace("#/", "");
 }
+
 
 
   const meetingId = getMeetingId();
