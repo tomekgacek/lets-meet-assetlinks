@@ -423,6 +423,37 @@ cursor:pointer;
 font-weight:700;
 }
 
+--header location vote
+.meeting-header-location {
+  margin-bottom: 24px;
+}
+
+.meeting-header-location h1 {
+  margin-bottom: 4px;
+}
+
+.meeting-header-location p {
+  color: #666;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background: #fff;
+}
+
+.card.voted {
+  border-color: #4caf50;
+  background: #e8f5e9;
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+
 
 /* =========================
    DESKTOP ENHANCEMENTS
