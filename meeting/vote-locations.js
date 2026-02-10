@@ -32,13 +32,17 @@ const locationsEl = document.getElementById("locations");
 function loadLocations() {
   const ref = db.collection("meetings").doc(meetingId);
 
-  ref.onSnapshot(snap => {
-    if (!snap.exists) return;
+ref.onSnapshot(snap => {
+  if (!snap.exists) return;
 
-    const locations = snap.data().locations || [];
-    renderLocations(locations);
-  });
-}
+  const data = snap.data();
+
+  document.getElementById("meeting-name").textContent = data.name || "";
+  document.getElementById("meeting-description").textContent = data.description || "";
+
+  renderLocations(data.locations || []);
+});
+
 
 
 function renderLocations(locations) {
@@ -51,7 +55,7 @@ function renderLocations(locations) {
     const voted = nickname && voters.includes(nickname);
 
     const div = document.createElement("div");
-    div.className = "card";
+    div.className = `card ${voted ? "voted" : ""}`;
 
     div.innerHTML = `
       <h3>📍 ${loc.name}</h3>
@@ -90,8 +94,10 @@ await db.collection("meetings").doc(meetingId).update({
   locations: updated,
 });
 
-
-  renderLocations(updated);
 }
 
 loadLocations();
+
+if (window.i18n && i18n.render) {
+  i18n.render();
+}
