@@ -63,5 +63,8 @@ voteForLocation: "Głosowanie na lokalizacje",
 openInMaps: "Otwórz w Mapach",
 votesCount: "{count} głosów",
 vote: "Głosuj",
-voted: "Oddano głos"
+voted: "Oddano głos",
+multipleLocations: "Wiele lokalizacji ({count})",
+showAllLocations: "Pokaż wszystkie"
+
 };
