@@ -30,9 +30,11 @@ const db = firebase.firestore();
 const locationsEl = document.getElementById("locations");
 
 function loadLocations() {
+  if (unsubscribeLocations) unsubscribeLocations();
+
   const ref = db.collection("meetings").doc(meetingId);
 
-  ref.onSnapshot(snap => {
+  unsubscribeLocations = ref.onSnapshot(snap => {
     if (!snap.exists) return;
 
     const data = snap.data();
@@ -44,6 +46,13 @@ function loadLocations() {
   });
 }
 
+
+const originalSetLanguage = i18n.setLanguage.bind(i18n);
+
+i18n.setLanguage = (lang, updateUrl = true) => {
+  originalSetLanguage(lang, updateUrl);
+  loadLocations(); 
+};
 
 
 
