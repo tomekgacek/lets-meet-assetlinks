@@ -8,9 +8,16 @@ const i18n = {
     fr: window.I18N_FR,
   },
 
-  t(key) {
-    return this.dicts[this.lang]?.[key] ?? key;
-  },
+t(key, vars = {}) {
+  let text = this.dicts[this.lang]?.[key] ?? key;
+
+  Object.keys(vars).forEach(k => {
+    text = text.replace(`{${k}}`, vars[k]);
+  });
+
+  return text;
+}
+,
 
   setLanguage(lang, updateUrl = true) {
     if (!this.dicts[lang]) return;
