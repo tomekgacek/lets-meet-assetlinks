@@ -1,18 +1,45 @@
+console.log("✅ vote-locations.js loaded");
+
 const params = new URLSearchParams(window.location.search);
 const meetingId = params.get("meetingId");
 const nickname = params.get("nickname");
 
+if (!meetingId) {
+  alert(i18n.t("noMeetingId"));
+  throw new Error("No meetingId");
+}
+
+/* FIREBASE INIT */
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA...",
+  authDomain: "lets-meet.firebaseapp.com",
+  projectId: "lets-meet-app-47969",
+  storageBucket: "lets-meet.appspot.com",
+  messagingSenderId: "1234567890",
+  appId: "1:1234567890:web:abcdef123456"
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+const db = firebase.firestore();
+
+
 const locationsEl = document.getElementById("locations");
 
-async function loadLocations() {
-  const ref = firebase.firestore().collection("meetings").doc(meetingId);
-  const snap = await ref.get();
+function loadLocations() {
+  const ref = db.collection("meetings").doc(meetingId);
 
-  if (!snap.exists) return;
+  ref.onSnapshot(snap => {
+    if (!snap.exists) return;
 
-  const locations = snap.data().locations || [];
-  renderLocations(locations);
+    const locations = snap.data().locations || [];
+    renderLocations(locations);
+  });
 }
+
 
 function renderLocations(locations) {
   locationsEl.innerHTML = "";
@@ -59,9 +86,10 @@ async function vote(locationId, locations) {
     };
   });
 
-  await firebase.firestore().collection("meetings").doc(meetingId).update({
-    locations: updated,
-  });
+await db.collection("meetings").doc(meetingId).update({
+  locations: updated,
+});
+
 
   renderLocations(updated);
 }
