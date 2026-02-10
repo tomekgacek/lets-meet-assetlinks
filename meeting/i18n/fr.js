@@ -10,7 +10,7 @@ window.I18N_FR = {
   noMeetingId: "❌ ID de réunion manquant",
 
   organizer: "👤 Organisateur",
-  location: "🌍 Lieu",
+  location: "📍 Lieu",
 
   proposedDates: "📅 Dates proposées",
   sortDate: "📅 Date",
