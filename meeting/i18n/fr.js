@@ -57,5 +57,8 @@ voteForLocation: "Vote pour le lieu",
 openInMaps: "Ouvrir dans Maps",
 votesCount: "{count} votes",
 vote: "Voter",
-voted: "Voté"
+voted: "Voté",
+  multipleLocations: "Plusieurs lieux ({count})",
+showAllLocations: "Afficher tous"
+
 };
