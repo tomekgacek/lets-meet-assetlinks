@@ -134,13 +134,35 @@ if(activeLocation?.name){
 const query=encodeURIComponent(activeLocation.name);
 const mapUrl=`https://www.google.com/maps/search/?api=1&query=${query}`;
 
-locationEl.innerHTML=`
-${i18n.t("location")}:
-<a href="${mapUrl}" target="_blank" rel="noopener">
-<strong>${activeLocation.name}</strong>
+const locationsCount = Array.isArray(meetingData.locations)
+  ? meetingData.locations.length
+  : 0;
+
+locationEl.innerHTML = `
+<span class="location-label">${i18n.t("location")}:</span>
+<a
+  href="${mapUrl}"
+  target="_blank"
+  rel="noopener"
+  class="location-link"
+>
+  ${activeLocation.name}
 </a>
-${meetingData.locationMode==="multiple"?" <span class='badge-hot'>🔥</span>":""}
+
+${
+  locationsCount > 1
+    ? `
+    <div class="location-meta">
+      ${i18n.t("multipleLocations", { count: locationsCount })} ·
+      <a href="./vote-locations.html?meetingId=${meetingId}&nickname=${nickname}">
+        ${i18n.t("showAllLocations")}
+      </a>
+    </div>
+    `
+    : ""
+}
 `;
+
 }else{
 locationEl.innerHTML="";
 }
