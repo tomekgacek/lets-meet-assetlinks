@@ -99,7 +99,3 @@ await db.collection("meetings").doc(meetingId).update({
 }
 
 loadLocations();
-
-if (window.i18n && i18n.render) {
-  i18n.render();
-}
