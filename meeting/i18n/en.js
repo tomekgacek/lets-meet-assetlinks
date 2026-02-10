@@ -62,6 +62,9 @@ voteForLocation: "Vote for location",
 openInMaps: "Open in Maps",
 votesCount: "{count} votes",
 vote: "Vote",
-voted: "Voted"
+voted: "Voted",
+multipleLocations: "Multiple locations ({count})",
+showAllLocations: "Show all"
+  
   
 };
