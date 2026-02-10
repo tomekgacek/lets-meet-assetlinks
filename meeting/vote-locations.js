@@ -32,16 +32,18 @@ const locationsEl = document.getElementById("locations");
 function loadLocations() {
   const ref = db.collection("meetings").doc(meetingId);
 
-ref.onSnapshot(snap => {
-  if (!snap.exists) return;
+  ref.onSnapshot(snap => {
+    if (!snap.exists) return;
 
-  const data = snap.data();
+    const data = snap.data();
 
-  document.getElementById("meeting-name").textContent = data.name || "";
-  document.getElementById("meeting-description").textContent = data.description || "";
+    document.getElementById("meeting-name").textContent = data.name || "";
+    document.getElementById("meeting-description").textContent = data.description || "";
 
-  renderLocations(data.locations || []);
-});
+    renderLocations(data.locations || []);
+  });
+}
+
 
 
 
