@@ -1,13 +1,35 @@
+document.addEventListener("DOMContentLoaded", () => {
+
 console.log("✅ vote-locations.js loaded");
 
-const params = new URLSearchParams(window.location.search);
-const meetingId = params.get("meetingId");
-const nickname = params.get("nickname");
+function getMeetingId() {
+  const hash = window.location.hash;
+  if (!hash) return null;
+  const parts = hash.replace("#/", "").split("/");
+  return parts[1] || null;
+}
+
+const meetingId = getMeetingId();
 
 if (!meetingId) {
-  alert(i18n.t("noMeetingId"));
+  alert("No meeting ID");
   throw new Error("No meetingId");
 }
+
+let nickname = localStorage.getItem(`nickname_${meetingId}`);
+
+if (!nickname) {
+  nickname = prompt(i18n.t("nickPrompt"));
+  if (!nickname || nickname.trim().length < 2) {
+    alert(i18n.t("nickRequired"));
+    location.reload();
+    return;
+  }
+  nickname = nickname.trim();
+  localStorage.setItem(`nickname_${meetingId}`, nickname);
+}
+
+
 
 /* FIREBASE INIT */
 
@@ -39,7 +61,7 @@ function loadLocations() {
 
     const data = snap.data();
 
-    document.getElementById("meeting-name").textContent = data.name || "";
+    document.getElementById("meeting-name").textContent = data.title || "";
     document.getElementById("meeting-description").textContent = data.description || "";
 
     renderLocations(data.locations || []);
@@ -74,7 +96,7 @@ function renderLocations(locations) {
         🗺️ ${i18n.t("openInMaps")}
       </a>
       <p>${i18n.t("votesCount", { count: voters.length })}</p>
-      <button class="btn ${voted ? "disabled" : ""}">
+      <button class="btn" ${voted ? "disabled" : ""}>
         ${voted ? i18n.t("voted") : i18n.t("vote")}
       </button>
     `;
@@ -106,5 +128,16 @@ await db.collection("meetings").doc(meetingId).update({
 });
 
 }
+
+// ---------- Back ----------
+const backBtn = document.getElementById("backBtn");
+
+backBtn.addEventListener("click", () => {
+  const params = new URLSearchParams(window.location.search);
+  const lang = params.get("lang") || "pl";
+
+  window.location.href = `/meeting/?lang=${lang}#/meeting/${meetingId}`;
+});
+
 
 loadLocations();
