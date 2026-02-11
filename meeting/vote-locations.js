@@ -26,7 +26,7 @@ if (!firebase.apps.length) {
 
 const db = firebase.firestore();
 
-
+let unsubscribeLocations = null;
 const locationsEl = document.getElementById("locations");
 
 function loadLocations() {
