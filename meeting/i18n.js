@@ -1,3 +1,10 @@
+console.log("I18N loaded:", {
+  pl: window.I18N_PL,
+  en: window.I18N_EN,
+  de: window.I18N_DE,
+  fr: window.I18N_FR,
+});
+
 const i18n = {
   lang: "en",
 
@@ -34,12 +41,18 @@ t(key, vars = {}) {
     this.apply();
   },
 
-  apply() {
-    document.querySelectorAll("[data-i18n]").forEach(el => {
-      const key = el.dataset.i18n;
+apply() {
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.dataset.i18n;
+
+    if (el.tagName === "TITLE") {
+      document.title = this.t(key);
+    } else {
       el.textContent = this.t(key);
-    });
-  }
+    }
+  });
+}
+
 };
 
 // ---------- INIT ----------
@@ -51,11 +64,15 @@ t(key, vars = {}) {
 
   const browserLang = navigator.language?.slice(0, 2);
 
-  const lang =
-    (urlLang && i18n.dicts[urlLang]) ||
-    (storedLang && i18n.dicts[storedLang]) ||
-    (browserLang && i18n.dicts[browserLang]) ||
-    "en";
+let lang = "en";
+
+if (urlLang && i18n.dicts[urlLang]) {
+  lang = urlLang;
+} else if (storedLang && i18n.dicts[storedLang]) {
+  lang = storedLang;
+} else if (browserLang && i18n.dicts[browserLang]) {
+  lang = browserLang;
+}
 
   i18n.setLanguage(lang, false);
 })();
