@@ -81,30 +81,68 @@ i18n.setLanguage = (lang, updateUrl = true) => {
 function renderLocations(locations) {
   locationsEl.innerHTML = "";
 
+  if (!locations.length) return;
+
+  // 🔥 1. Obliczamy max głosów
+  const maxVotes = Math.max(
+    ...locations.map(loc =>
+      Array.isArray(loc.voters) ? loc.voters.length : 0
+    )
+  );
+
+  const THRESHOLD = maxVotes * 0.8;
+
   locations.forEach(loc => {
     if (!loc.name) return;
 
-    const voters = loc.voters || [];
+    const voters = Array.isArray(loc.voters) ? loc.voters : [];
     const voted = nickname && voters.includes(nickname);
+    const isPopular =
+      voters.length >= THRESHOLD && voters.length > 0;
 
     const div = document.createElement("div");
-    div.className = `card ${voted ? "voted" : ""}`;
+    div.className = `card ${voted ? "voted" : ""} ${isPopular ? "popular" : ""}`;
 
     div.innerHTML = `
-      <h3>📍 ${loc.name}</h3>
+      <div class="location-summary">
+        <h3>
+          📍 ${loc.name}
+          ${isPopular ? "<span class='badge-hot'>🔥</span>" : ""}
+        </h3>
+        <p>${i18n.t("votesCount", { count: voters.length })}</p>
+      </div>
+
+      <div class="location-details" style="display:none">
+        ${
+          voters.length
+            ? voters.map(v => `<span class="voter">${v}</span>`).join(", ")
+            : `<span>—</span>`
+        }
+      </div>
+
       <a href="https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lng}" target="_blank">
         🗺️ ${i18n.t("openInMaps")}
       </a>
-      <p>${i18n.t("votesCount", { count: voters.length })}</p>
+
       <button class="btn" ${voted ? "disabled" : ""}>
         ${voted ? i18n.t("voted") : i18n.t("vote")}
       </button>
     `;
 
-    div.querySelector("button").onclick = () => vote(loc.id, locations);
+    // toggle lista głosujących
+    div.querySelector(".location-summary").addEventListener("click", () => {
+      const details = div.querySelector(".location-details");
+      details.style.display =
+        details.style.display === "block" ? "none" : "block";
+    });
+
+    div.querySelector("button").onclick = () =>
+      vote(loc.id, locations);
+
     locationsEl.appendChild(div);
   });
 }
+
 
 async function vote(locationId, locations) {
   if (!nickname) return;
