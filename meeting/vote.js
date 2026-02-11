@@ -169,9 +169,13 @@ function getMeetingId() {
   };
 
   // ---------- Back ----------
-  backBtn.addEventListener("click", () => {
-    window.location.href = `/meeting/details.html#/meeting/${meetingId}`;
-  });
+backBtn.addEventListener("click", () => {
+  const params = new URLSearchParams(window.location.search);
+  const lang = params.get("lang") || "pl";
+
+  window.location.href = `/meeting/?lang=${lang}#/meeting/${meetingId}`;
+});
+
 
   // ---------- React to language change ----------
   const originalSetLanguage = i18n.setLanguage.bind(i18n);
