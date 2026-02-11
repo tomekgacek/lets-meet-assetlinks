@@ -177,15 +177,19 @@ return;
 }
 meetingData=doc.data();
 renderStatic();
-    if (
-      voteLocationBtn &&
-      Array.isArray(meetingData.locations) &&
-      meetingData.locations.length > 1
-    ) {
-      voteLocationBtn.classList.remove("hidden");
-      voteLocationBtn.href =
-        `./vote-locations.html?meetingId=${meetingId}&nickname=${nickname}`;
-    }
+if (voteLocationBtn) {
+  const locationsCount = Array.isArray(meetingData.locations)
+    ? meetingData.locations.length
+    : 0;
+
+  if (locationsCount > 1) {
+    voteLocationBtn.classList.remove("hidden");
+    voteLocationBtn.href =
+      `./vote-locations.html?meetingId=${meetingId}&nickname=${nickname}`;
+  } else {
+    voteLocationBtn.classList.add("hidden");
+  }
+}
   },
   err => {
     console.error(err);
