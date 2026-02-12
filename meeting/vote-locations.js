@@ -179,3 +179,6 @@ backBtn.addEventListener("click", () => {
 
 
 loadLocations();
+
+});
+
