@@ -131,9 +131,10 @@ function renderLocations(locations) {
         🗺️ ${i18n.t("openInMaps")}
       </a>
 
-      <button class="btn" ${voted ? "disabled" : ""}>
+      <button class="btn">
         ${voted ? i18n.t("voted") : i18n.t("vote")}
       </button>
+
     `;
 
     // toggle lista głosujących
