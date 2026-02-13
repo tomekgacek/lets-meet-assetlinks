@@ -1,6 +1,9 @@
 /* =========================
    RESET & BASE
 ========================= */
+.hidden {
+  display: none !important;
+}
 
 * {
   box-sizing: border-box;
