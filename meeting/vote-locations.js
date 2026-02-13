@@ -3,10 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
 console.log("✅ vote-locations.js loaded");
 
 function getMeetingId() {
-  const hash = window.location.hash;
-  if (!hash) return null;
-  const parts = hash.replace("#/", "").split("/");
-  return parts[1] || null;
+  const params = new URLSearchParams(window.location.search);
+  return params.get("meetingId");
 }
 
 const meetingId = getMeetingId();
@@ -15,8 +13,17 @@ if (!meetingId) {
   alert("No meeting ID");
   throw new Error("No meetingId");
 }
+  
+const params = new URLSearchParams(window.location.search);
+let nickname = params.get("nickname");
 
-let nickname = localStorage.getItem(`nickname_${meetingId}`);
+if (nickname) {
+  nickname = nickname.trim();
+  localStorage.setItem(`nickname_${meetingId}`, nickname);
+} else {
+  nickname = localStorage.getItem(`nickname_${meetingId}`);
+}
+
 
 if (!nickname) {
   nickname = prompt(i18n.t("nickPrompt"));
