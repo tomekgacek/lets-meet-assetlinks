@@ -479,6 +479,27 @@ font-weight:700;
   margin-top: 0;
 }
 
+/* =========================
+   Store buttons
+========================= */
+
+.store-buttons {
+display: flex;
+justify-content: center;
+gap: 16px;
+flex-wrap: wrap;
+margin-top: 10px;
+}
+
+.cta-secondary {
+padding: 18px 36px;
+border-radius: 18px;
+font-weight: 600;
+font-size: 18px;
+background: rgba(255,255,255,0.08);
+border: 1px solid rgba(255,255,255,0.2);
+color: #d1d5db;
+}
 
 
 /* =========================
