@@ -550,10 +550,10 @@ filter: grayscale(20%);
 transform: none;
 }
 
-.final .store-section {
+/* .final .store-section {
 margin-top: 40px;
 justify-content: center;
-}
+} */
 
 .coming-soon {
 position: absolute;
