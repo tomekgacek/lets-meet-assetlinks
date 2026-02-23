@@ -513,15 +513,27 @@ flex-wrap: wrap;
 margin-top: 40px;
 }
 
+/*
 .store-badge {
 position: relative;
 display: inline-block;
 transition: transform 0.25s ease, filter 0.25s ease;
 }
 
-.store-badge img {
+ .store-badge img {
 height: 64px;
 display: block;
+} */
+
+.store-badge {
+height: 64px;
+display: flex;
+align-items: center;
+}
+
+.store-badge img {
+max-height: 100%;
+width: auto;
 }
 
 .store-badge:hover {
