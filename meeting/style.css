@@ -506,35 +506,25 @@ color: #d1d5db;
 /* STORE SECTION */
 
 .store-section {
-display: flex;
-justify-content: center;
-gap: 22px;
-flex-wrap: wrap;
-margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  gap: 22px;
+  flex-wrap: wrap;
+  margin-top: 40px;
 }
 
-/*
 .store-badge {
-position: relative;
-display: inline-block;
-transition: transform 0.25s ease, filter 0.25s ease;
-}
-
- .store-badge img {
-height: 64px;
-display: block;
-} */
-
-.store-badge {
-height: 64px;
-display: flex;
-align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .store-badge img {
-max-height: 100%;
-width: auto;
+  height: 60px;     
+  width: auto;       
+  display: block;
 }
+
 
 .store-badge:hover {
 transform: translateY(-6px);
