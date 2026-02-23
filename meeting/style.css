@@ -555,6 +555,11 @@ color: #cbd5e1;
 letter-spacing: 0.5px;
 }
 
+.final h3 {
+  margin-bottom: 30px; 
+}
+
+
 /* =========================
    DESKTOP ENHANCEMENTS
 ========================= */
