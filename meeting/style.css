@@ -502,6 +502,52 @@ color: #d1d5db;
 }
 
 
+
+/* STORE SECTION */
+
+.store-section {
+display: flex;
+justify-content: center;
+gap: 22px;
+flex-wrap: wrap;
+margin-top: 40px;
+}
+
+.store-badge {
+position: relative;
+display: inline-block;
+transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.store-badge img {
+height: 64px;
+display: block;
+}
+
+.store-badge:hover {
+transform: translateY(-6px);
+}
+
+.store-badge.disabled {
+opacity: 0.6;
+cursor: not-allowed;
+filter: grayscale(20%);
+}
+
+.store-badge.disabled:hover {
+transform: none;
+}
+
+.coming-soon {
+position: absolute;
+bottom: -22px;
+left: 50%;
+transform: translateX(-50%);
+font-size: 13px;
+color: #cbd5e1;
+letter-spacing: 0.5px;
+}
+
 /* =========================
    DESKTOP ENHANCEMENTS
 ========================= */
