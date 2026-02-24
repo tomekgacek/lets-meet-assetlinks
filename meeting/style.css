@@ -597,8 +597,12 @@ letter-spacing: 0.5px;
 
 .contact-section {
   text-align: center;
-  margin-top: 60px;
-  margin-bottom: 100px;
+  margin-top: 100px;
+  margin-bottom: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
 }
 
 .contact-section h3 {
@@ -619,21 +623,26 @@ letter-spacing: 0.5px;
 }
 
 .ask-btn {
-  display: inline-block;
-  margin-top: 16px;
-  padding: 12px 28px;
-  border-radius: 14px;
-  font-weight: 700;
-  background: linear-gradient(135deg, #8b5cf6, #3b82f6);
-  color: white;
-  text-decoration: none;
-  transition: 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .ask-btn:hover {
   transform: translateY(-3px);
 }
+.mail-icon {
+  font-size: 18px;
+  transform: translateY(-1px);
+}
 
+/* Built by */
+
+.built-by {
+  font-size: 13px;
+  color: #9ca3af;
+  letter-spacing: 0.5px;
+}
 /* =========================
    DESKTOP ENHANCEMENTS
 ========================= */
