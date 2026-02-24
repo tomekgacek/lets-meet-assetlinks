@@ -559,6 +559,32 @@ letter-spacing: 0.5px;
   margin-bottom: 30px; 
 }
 
+.qr-section {
+ display: flex;
+ justify-content: center;
+ gap: 60px;
+ margin-top: 40px;
+ flex-wrap: wrap;
+}
+
+.qr-box {
+ text-align: center;
+}
+
+.qr-box img {
+ width: 140px;
+ height: 140px;
+ border-radius: 18px;
+ background: white;
+ padding: 10px;
+}
+
+.qr-box p {
+ margin-top: 10px;
+ font-size: 14px;
+ color: #cbd5e1;
+}
+
 
 /* =========================
    DESKTOP ENHANCEMENTS
