@@ -568,12 +568,12 @@ letter-spacing: 0.5px;
   flex-wrap: nowrap; 
 }
 
-@media (max-width: 480px) {
+/* @media (max-width: 480px) {
   .qr-section {
     flex-direction: column;
     align-items: center;
   }
-}
+} */
 
 
 
