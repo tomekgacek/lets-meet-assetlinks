@@ -1,11 +1,13 @@
-{
-  "applinks": {
-    "apps": [],
-    "details": [
-      {
-        "appID": "38KVX3C9VT.com.tomekgacek.letsmeet",
-        "paths": [ "/meeting/*" ]
-      }
-    ]
+[
+  {
+    "applinks": {
+      "apps": [],
+      "details": [
+        {
+          "appID": "38KVX3C9VT.com.tomekgacek.letsmeet",
+          "paths": [ "/meeting/*" ]
+        }
+      ]
+    }
   }
-}
+]
