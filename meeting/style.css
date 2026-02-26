@@ -5,7 +5,7 @@
   display: none !important;
 }
 
-* {
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
@@ -381,7 +381,7 @@ img {
   color: #3a3750;
 }
 
-//SORT BAR
+/* SORT BAR */
 .sort-bar {
   display: flex;
   gap: 8px;
@@ -449,7 +449,7 @@ cursor:pointer;
 font-weight:700;
 }
 
---header location vote
+/* HEADER LOCATION VOTE */
 .meeting-header-location {
   margin-bottom: 24px;
 }
@@ -648,23 +648,23 @@ letter-spacing: 0.5px;
 .built-by {
   font-size: 11px;
   /* color: #9ca3af; */
-  color: #c7cbd1,
+  color: #c7cbd1;
   letter-spacing: 0.5px;
 }
 /* =========================
    DESKTOP ENHANCEMENTS
 ========================= */
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   .container {
     max-width: 720px;
     margin: 0 auto;
-  }
+  } 
 
   .meeting-header h1 {
     font-size: 26px;
   }
-
+*/
   .map-image {
     height: 220px;
   }
