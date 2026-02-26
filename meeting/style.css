@@ -647,7 +647,8 @@ letter-spacing: 0.5px;
 
 .built-by {
   font-size: 11px;
-  color: #9ca3af;
+  /* color: #9ca3af; */
+  color: #c7cbd1,
   letter-spacing: 0.5px;
 }
 /* =========================
