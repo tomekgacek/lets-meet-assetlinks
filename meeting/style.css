@@ -173,13 +173,6 @@ body {
   box-sizing: border-box;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #f6f7fb;
-  color: #2d2a3a;
-}
 
 a {
   text-decoration: none;
@@ -254,10 +247,6 @@ img {
    LAYOUT
 ========================= */
 
-.container {
-  padding: 16px;
-  padding-bottom: 110px; /* miejsce na CTA */
-}
 
 .section {
   margin-top: 26px;
@@ -819,16 +808,6 @@ letter-spacing: 0.5px;
    DESKTOP ENHANCEMENTS
 ========================= */
 
-/* @media (min-width: 768px) {
-  .container {
-    max-width: 720px;
-    margin: 0 auto;
-  } 
-
-  .meeting-header h1 {
-    font-size: 26px;
-  }
-*/
   .map-image {
     height: 220px;
   }
