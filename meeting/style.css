@@ -605,11 +605,11 @@ letter-spacing: 0.5px;
 
 .contact-section {
   text-align: center;
-  margin-top: 100px;
-  margin-bottom: 120px;
+  margin: 120px auto 140px auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 28px;
 }
 
@@ -647,10 +647,11 @@ letter-spacing: 0.5px;
 /* Built by */
 
 .built-by {
-  font-size: 11px;
-  /* color: #9ca3af; */
-  color: #c7cbd1;
-  letter-spacing: 0.5px;
+  font-size: 10px;
+  color: #9ca3af;
+  letter-spacing: 0.6px;
+  margin-top: 10px;
+  text-align: center;
 }
 
 .footer-section {
