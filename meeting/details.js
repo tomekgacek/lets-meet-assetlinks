@@ -75,12 +75,83 @@ ${list.map(n=>`<span class="voter">${n}</span>`).join(", ")}
 `;
 }
 
+function renderProgressBar(yes, maybe, no) {
+  const total = yes + maybe + no;
+  if (total === 0) {
+    return `<div class="vote-progress"><div class="no-votes-text">${i18n.t("noVotesYet")}</div></div>`;
+  }
+  const yP = (yes / total) * 100;
+  const mP = (maybe / total) * 100;
+  const nP = (no / total) * 100;
+  return `
+    <div class="vote-progress">
+      <div class="progress-bar">
+        ${yP > 0 ? `<div class="segment seg-yes" style="flex:${yP}"></div>` : ""}
+        ${mP > 0 ? `<div class="segment seg-maybe" style="flex:${mP}"></div>` : ""}
+        ${nP > 0 ? `<div class="segment seg-no" style="flex:${nP}"></div>` : ""}
+      </div>
+      <div class="progress-legend">
+        <span><span class="legend-dot yes"></span> ${Math.round(yP)}%</span>
+        <span><span class="legend-dot maybe"></span> ${Math.round(mP)}%</span>
+        <span><span class="legend-dot no"></span> ${Math.round(nP)}%</span>
+      </div>
+    </div>
+  `;
+}
+
+function escapeHtml(str) {
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function renderCommentsSection(proposal) {
+  const comments = Array.isArray(proposal.comments) ? proposal.comments : [];
+  const count = comments.length;
+
+  const commentsList = comments
+    .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+    .map(c => {
+      const time = c.createdAt ? new Date(c.createdAt).toLocaleString() : "";
+      return `
+        <div class="comment-item">
+          <span class="comment-author">${escapeHtml(c.author || "")}</span>
+          <span>${escapeHtml(c.text || "")}</span>
+          <span class="comment-time">${time}</span>
+        </div>
+      `;
+    }).join("");
+
+  return `
+    <div class="comments-section">
+      <button class="comments-toggle" data-proposal-id="${proposal.id}">
+        ${i18n.t("showComments", { count })}
+      </button>
+      <div class="comments-body" style="display:none" data-comments-for="${proposal.id}">
+        <div class="comments-list">
+          ${count > 0 ? commentsList : `<div class="no-votes-text">${i18n.t("noComments")}</div>`}
+        </div>
+        <div class="comment-form">
+          <input type="text" class="comment-input" maxlength="200"
+                 placeholder="${i18n.t("addComment")}"
+                 data-comment-input="${proposal.id}" />
+          <button class="comment-submit" data-comment-submit="${proposal.id}">
+            ${i18n.t("send")}
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 const titleEl=document.getElementById("title");
 const statusEl=document.getElementById("status");
 const proposalsEl=document.getElementById("proposals");
 const organizerEl=document.getElementById("organizer");
 const locationEl=document.getElementById("location");
 const voteLocationBtn = document.getElementById("voteLocationBtn");
+const confirmedBannerEl = document.getElementById("confirmedBanner");
+const bestDateBannerEl = document.getElementById("bestDateBanner");
 
 
 const meetingId=getMeetingId();
@@ -167,6 +238,20 @@ ${
 locationEl.innerHTML="";
 }
 
+// Confirmed date banner
+if (confirmedBannerEl) {
+  if (meetingData.confirmedDate) {
+    confirmedBannerEl.innerHTML = `
+      <div class="confirmed-banner">
+        <span class="icon">✅</span>
+        <span>${i18n.t("confirmedDate")}: ${meetingData.confirmedDate}</span>
+      </div>
+    `;
+  } else {
+    confirmedBannerEl.innerHTML = "";
+  }
+}
+
 }
 
 db.collection("meetings").doc(meetingId).onSnapshot(
@@ -220,11 +305,30 @@ proposalsEl.innerHTML="";
 
 if(!cachedProposals.length){
 proposalsEl.innerHTML=`<p>${i18n.t("noProposals")}</p>`;
+if (bestDateBannerEl) bestDateBannerEl.innerHTML = "";
 return;
 }
 
 let maxWeight=Math.max(...cachedProposals.map(p=>getVoteStats(p).weight));
 const THRESHOLD=maxWeight*0.8;
+
+// Best date banner
+if (bestDateBannerEl) {
+  const best = [...cachedProposals].sort((a, b) =>
+    getVoteStats(b).weight - getVoteStats(a).weight
+  )[0];
+  const bestStats = getVoteStats(best);
+  if (bestStats.weight > 0 && !meetingData?.confirmedDate) {
+    bestDateBannerEl.innerHTML = `
+      <div class="best-date-banner">
+        <span class="icon">🏆</span>
+        <span>${i18n.t("bestDate")}: ${best.date || ""}${best.time ? " " + best.time : ""} — 👍 ${bestStats.yes}</span>
+      </div>
+    `;
+  } else {
+    bestDateBannerEl.innerHTML = "";
+  }
+}
 
 const sorted=[...cachedProposals].sort((a,b)=>
 currentSort==="popular"
@@ -237,6 +341,7 @@ sorted.forEach(p=>{
 const stats=getVoteStats(p);
 const voters=getVoters(p);
 const isPopular=stats.weight>=THRESHOLD&&stats.weight>0;
+const total = stats.yes + stats.maybe + stats.no;
 
 const el=document.createElement("div");
 el.className=`proposal-row ${isPopular?"popular":""}`;
@@ -253,17 +358,65 @@ ${isPopular?"<span class='badge-hot'>🔥</span>":""}
 </div>
 </div>
 
+${renderProgressBar(stats.yes, stats.maybe, stats.no)}
+
 <div class="proposal-details" style="display:none">
 ${renderVotersList(i18n.t("yes"),voters.yes)}
 ${renderVotersList(i18n.t("maybe"),voters.maybe)}
 ${renderVotersList(i18n.t("no"),voters.no)}
 </div>
+
+${renderCommentsSection(p)}
 `;
 
 el.querySelector(".proposal-summary").addEventListener("click",()=>{
 const d=el.querySelector(".proposal-details");
 d.style.display=d.style.display==="block"?"none":"block";
 });
+
+// Comments toggle
+const commToggle = el.querySelector(".comments-toggle");
+if (commToggle) {
+  commToggle.addEventListener("click", () => {
+    const body = el.querySelector(`.comments-body[data-comments-for="${p.id}"]`);
+    if (body) {
+      const visible = body.style.display === "block";
+      body.style.display = visible ? "none" : "block";
+      commToggle.textContent = visible
+        ? i18n.t("showComments", { count: (Array.isArray(p.comments) ? p.comments.length : 0) })
+        : i18n.t("hideComments");
+    }
+  });
+}
+
+// Comment submit
+const commSubmit = el.querySelector(`[data-comment-submit="${p.id}"]`);
+const commInput = el.querySelector(`[data-comment-input="${p.id}"]`);
+if (commSubmit && commInput) {
+  commSubmit.addEventListener("click", async () => {
+    const text = commInput.value.trim();
+    if (!text || text.length < 1) return;
+    commSubmit.disabled = true;
+    try {
+      const ref = db.doc(`meetings/${meetingId}/proposals/${p.id}`);
+      await ref.update({
+        comments: firebase.firestore.FieldValue.arrayUnion({
+          author: nickname,
+          text: text,
+          createdAt: new Date().toISOString()
+        })
+      });
+      commInput.value = "";
+    } catch (e) {
+      console.error("Comment error:", e);
+    }
+    commSubmit.disabled = false;
+  });
+
+  commInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") commSubmit.click();
+  });
+}
 
 proposalsEl.appendChild(el);
 

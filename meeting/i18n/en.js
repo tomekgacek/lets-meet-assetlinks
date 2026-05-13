@@ -64,7 +64,15 @@ votesCount: "{count} votes",
 vote: "Vote",
 voted: "Voted",
 multipleLocations: "Multiple locations ({count})",
-showAllLocations: "Show all"
-  
-  
+showAllLocations: "Show all",
+
+confirmedDate: "Confirmed date",
+bestDate: "Best option",
+comments: "Comments",
+noComments: "No comments yet",
+addComment: "Add a comment…",
+send: "Send",
+noVotesYet: "No votes yet",
+showComments: "💬 Comments ({count})",
+hideComments: "Hide comments"
 };

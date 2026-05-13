@@ -598,6 +598,215 @@ letter-spacing: 0.5px;
  color: #cbd5e1;
 }
 
+/* =========================
+   CONFIRMED BANNER
+========================= */
+
+.confirmed-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #e8f5e9;
+  border: 1px solid #4CAF50;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-top: 14px;
+  font-weight: 600;
+  font-size: 15px;
+  color: #2e7d32;
+}
+
+.confirmed-banner .icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+/* =========================
+   BEST DATE BANNER
+========================= */
+
+.best-date-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #FFF8E1;
+  border: 1px solid #FFB300;
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #e65100;
+}
+
+.best-date-banner .icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+/* =========================
+   VOTE PROGRESS BAR
+========================= */
+
+.vote-progress {
+  margin-top: 10px;
+}
+
+.progress-bar {
+  display: flex;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #e0e0e0;
+}
+
+.progress-bar .segment {
+  height: 100%;
+  transition: flex 0.3s ease;
+}
+
+.progress-bar .seg-yes {
+  background: #4CAF50;
+}
+
+.progress-bar .seg-maybe {
+  background: #FFC107;
+}
+
+.progress-bar .seg-no {
+  background: #F44336;
+}
+
+.progress-legend {
+  display: flex;
+  gap: 12px;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #6a6f91;
+}
+
+.progress-legend span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.legend-dot.yes { background: #4CAF50; }
+.legend-dot.maybe { background: #FFC107; }
+.legend-dot.no { background: #F44336; }
+
+/* =========================
+   COMMENTS
+========================= */
+
+.comments-section {
+  margin-top: 12px;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+}
+
+.comments-toggle {
+  background: none;
+  border: none;
+  color: #6a89cc;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 8px;
+}
+
+.comments-toggle:hover {
+  text-decoration: underline;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.comment-item {
+  background: #f6f7fb;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.comment-author {
+  font-weight: 700;
+  color: #3a3750;
+  margin-right: 6px;
+}
+
+.comment-time {
+  font-size: 11px;
+  color: #9aa0b8;
+  margin-left: 6px;
+}
+
+.comment-form {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.comment-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #e6e7ef;
+  border-radius: 10px;
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+}
+
+.comment-input:focus {
+  border-color: #6a89cc;
+}
+
+.comment-submit {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #6a89cc, #9a5dc6);
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.comment-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.no-votes-text {
+  font-size: 12px;
+  color: #9aa0b8;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+/* =========================
+   CONTAINER padding fix
+========================= */
+
+.container {
+  padding: 16px;
+  padding-bottom: 110px;
+}
+
 .contact-section {
   text-align: center;
   margin: 120px auto 140px auto;

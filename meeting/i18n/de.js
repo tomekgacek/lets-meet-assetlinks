@@ -65,6 +65,15 @@ votesCount: "{count} Stimmen",
 vote: "Abstimmen",
 voted: "Abgestimmt",
   multipleLocations: "Mehrere Standorte ({count})",
-showAllLocations: "Alle anzeigen"
+showAllLocations: "Alle anzeigen",
 
+confirmedDate: "Bestätigter Termin",
+bestDate: "Beste Option",
+comments: "Kommentare",
+noComments: "Noch keine Kommentare",
+addComment: "Kommentar hinzufügen…",
+send: "Senden",
+noVotesYet: "Noch keine Stimmen",
+showComments: "💬 Kommentare ({count})",
+hideComments: "Kommentare ausblenden"
 };

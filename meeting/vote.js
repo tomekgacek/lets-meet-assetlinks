@@ -55,6 +55,8 @@ function getMeetingId() {
   const titleEl = document.getElementById("title");
   const descEl = document.getElementById("desc");
   const backBtn = document.getElementById("backBtn");
+  const confirmedBannerEl = document.getElementById("confirmedBanner");
+  const bestDateBannerEl = document.getElementById("bestDateBanner");
 
   let cachedProposals = [];
   let meetingData = null;
@@ -67,12 +69,128 @@ function getMeetingId() {
     }
     meetingData = doc.data();
     renderStatic();
+    renderBanners();
   });
 
   function renderStatic() {
     if (!meetingData) return;
     titleEl.textContent = meetingData.title || "";
     descEl.textContent = meetingData.description || "";
+  }
+
+  function renderBanners() {
+    // Confirmed date banner
+    if (confirmedBannerEl) {
+      if (meetingData && meetingData.confirmedDate) {
+        confirmedBannerEl.innerHTML = `
+          <div class="confirmed-banner">
+            <span class="icon">✅</span>
+            <span>${i18n.t("confirmedDate")}: ${meetingData.confirmedDate}</span>
+          </div>
+        `;
+      } else {
+        confirmedBannerEl.innerHTML = "";
+      }
+    }
+
+    // Best date banner
+    if (bestDateBannerEl && cachedProposals.length > 0) {
+      const best = [...cachedProposals].sort((a, b) => {
+        const aV = getVoters(a);
+        const bV = getVoters(b);
+        return (bV.yes.length + bV.maybe.length * 0.5) - (aV.yes.length + aV.maybe.length * 0.5);
+      })[0];
+      const bestVoters = getVoters(best);
+      const bestWeight = bestVoters.yes.length + bestVoters.maybe.length * 0.5;
+      if (bestWeight > 0 && !(meetingData && meetingData.confirmedDate)) {
+        bestDateBannerEl.innerHTML = `
+          <div class="best-date-banner">
+            <span class="icon">🏆</span>
+            <span>${i18n.t("bestDate")}: ${best.date || ""}${best.time ? " " + best.time : ""} — 👍 ${bestVoters.yes.length}</span>
+          </div>
+        `;
+      } else {
+        bestDateBannerEl.innerHTML = "";
+      }
+    } else if (bestDateBannerEl) {
+      bestDateBannerEl.innerHTML = "";
+    }
+  }
+
+  function getVoters(p) {
+    return {
+      yes: Array.isArray(p.voters?.yes) ? p.voters.yes : [],
+      maybe: Array.isArray(p.voters?.maybe) ? p.voters.maybe : [],
+      no: Array.isArray(p.voters?.no) ? p.voters.no : []
+    };
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function renderProgressBar(yes, maybe, no) {
+    const total = yes + maybe + no;
+    if (total === 0) {
+      return `<div class="vote-progress"><div class="no-votes-text">${i18n.t("noVotesYet")}</div></div>`;
+    }
+    const yP = (yes / total) * 100;
+    const mP = (maybe / total) * 100;
+    const nP = (no / total) * 100;
+    return `
+      <div class="vote-progress">
+        <div class="progress-bar">
+          ${yP > 0 ? `<div class="segment seg-yes" style="flex:${yP}"></div>` : ""}
+          ${mP > 0 ? `<div class="segment seg-maybe" style="flex:${mP}"></div>` : ""}
+          ${nP > 0 ? `<div class="segment seg-no" style="flex:${nP}"></div>` : ""}
+        </div>
+        <div class="progress-legend">
+          <span><span class="legend-dot yes"></span> ${Math.round(yP)}%</span>
+          <span><span class="legend-dot maybe"></span> ${Math.round(mP)}%</span>
+          <span><span class="legend-dot no"></span> ${Math.round(nP)}%</span>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderCommentsSection(proposal) {
+    const comments = Array.isArray(proposal.comments) ? proposal.comments : [];
+    const count = comments.length;
+    const commentsList = comments
+      .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+      .map(c => {
+        const time = c.createdAt ? new Date(c.createdAt).toLocaleString() : "";
+        return `
+          <div class="comment-item">
+            <span class="comment-author">${escapeHtml(c.author || "")}</span>
+            <span>${escapeHtml(c.text || "")}</span>
+            <span class="comment-time">${time}</span>
+          </div>
+        `;
+      }).join("");
+
+    return `
+      <div class="comments-section">
+        <button class="comments-toggle" data-proposal-id="${proposal.id}">
+          ${i18n.t("showComments", { count })}
+        </button>
+        <div class="comments-body" style="display:none" data-comments-for="${proposal.id}">
+          <div class="comments-list">
+            ${count > 0 ? commentsList : `<div class="no-votes-text">${i18n.t("noComments")}</div>`}
+          </div>
+          <div class="comment-form">
+            <input type="text" class="comment-input" maxlength="200"
+                   placeholder="${i18n.t("addComment")}"
+                   data-comment-input="${proposal.id}" />
+            <button class="comment-submit" data-comment-submit="${proposal.id}">
+              ${i18n.t("send")}
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
   }
 
   // ---------- Proposals ----------
@@ -84,17 +202,14 @@ function getMeetingId() {
         cachedProposals.push({ id: doc.id, ...doc.data() });
       });
       renderProposals();
+      renderBanners();
     });
 
   function renderProposals() {
     proposalsEl.innerHTML = "";
 
     cachedProposals.forEach(p => {
-      const voters = {
-        yes: Array.isArray(p.voters?.yes) ? p.voters.yes : [],
-        maybe: Array.isArray(p.voters?.maybe) ? p.voters.maybe : [],
-        no: Array.isArray(p.voters?.no) ? p.voters.no : []
-      };
+      const voters = getVoters(p);
 
       const myVote =
         voters.yes.includes(nickname) ? "yes" :
@@ -114,12 +229,60 @@ function getMeetingId() {
           </div>
         </div>
 
+        ${renderProgressBar(voters.yes.length, voters.maybe.length, voters.no.length)}
+
         <div class="vote-buttons">
           ${renderVoteBtn(p.id, "yes", myVote)}
           ${renderVoteBtn(p.id, "maybe", myVote)}
           ${renderVoteBtn(p.id, "no", myVote)}
         </div>
+
+        ${renderCommentsSection(p)}
       `;
+
+      // Comments toggle
+      const commToggle = el.querySelector(".comments-toggle");
+      if (commToggle) {
+        commToggle.addEventListener("click", () => {
+          const body = el.querySelector(`.comments-body[data-comments-for="${p.id}"]`);
+          if (body) {
+            const visible = body.style.display === "block";
+            body.style.display = visible ? "none" : "block";
+            commToggle.textContent = visible
+              ? i18n.t("showComments", { count: (Array.isArray(p.comments) ? p.comments.length : 0) })
+              : i18n.t("hideComments");
+          }
+        });
+      }
+
+      // Comment submit
+      const commSubmit = el.querySelector(`[data-comment-submit="${p.id}"]`);
+      const commInput = el.querySelector(`[data-comment-input="${p.id}"]`);
+      if (commSubmit && commInput) {
+        commSubmit.addEventListener("click", async () => {
+          const text = commInput.value.trim();
+          if (!text || text.length < 1) return;
+          commSubmit.disabled = true;
+          try {
+            const ref = db.doc(`meetings/${meetingId}/proposals/${p.id}`);
+            await ref.update({
+              comments: firebase.firestore.FieldValue.arrayUnion({
+                author: nickname,
+                text: text,
+                createdAt: new Date().toISOString()
+              })
+            });
+            commInput.value = "";
+          } catch (e) {
+            console.error("Comment error:", e);
+          }
+          commSubmit.disabled = false;
+        });
+
+        commInput.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") commSubmit.click();
+        });
+      }
 
       proposalsEl.appendChild(el);
     });
@@ -183,5 +346,6 @@ backBtn.addEventListener("click", () => {
     originalSetLanguage(lang);
     renderStatic();
     renderProposals();
+    renderBanners();
   };
 });
