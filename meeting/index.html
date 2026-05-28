@@ -48,6 +48,22 @@ data-i18n="download"></a>
 
 <main class="container">
 
+<!-- DOWNLOAD PROMO POPUP -->
+<div id="promoOverlay" class="promo-overlay hidden">
+  <div class="promo-modal">
+    <div class="promo-icon">📲</div>
+    <h2 class="promo-title" data-i18n="promoTitle"></h2>
+    <p class="promo-desc" data-i18n="promoDesc"></p>
+    <div class="promo-buttons">
+      <a href="https://play.google.com/store/apps/details?id=com.tomekgacek.letsmeet"
+         target="_blank" class="promo-btn promo-btn-primary">
+        <span data-i18n="promoDownload"></span>
+      </a>
+      <button id="promoDismiss" class="promo-btn promo-btn-secondary" data-i18n="promoContinueWeb"></button>
+    </div>
+  </div>
+</div>
+
 <h1 id="title" data-i18n="loadingMeeting"></h1>
 <p id="desc"></p>
 
@@ -105,6 +121,32 @@ i18n.setLanguage(defaultLang);
 langSelect.addEventListener("change", e => {
   i18n.setLanguage(e.target.value);
 });
+
+// --- Promo popup logic ---
+(function initPromo() {
+  const overlay = document.getElementById("promoOverlay");
+  const dismissBtn = document.getElementById("promoDismiss");
+  const PROMO_KEY = "promoDismissed";
+
+  if (sessionStorage.getItem(PROMO_KEY)) return;
+
+  // Show popup after a short delay so user sees the page first
+  setTimeout(() => {
+    overlay.classList.remove("hidden");
+  }, 1500);
+
+  dismissBtn.addEventListener("click", () => {
+    overlay.classList.add("hidden");
+    sessionStorage.setItem(PROMO_KEY, "1");
+  });
+
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) {
+      overlay.classList.add("hidden");
+      sessionStorage.setItem(PROMO_KEY, "1");
+    }
+  });
+})();
 </script>
 
 

@@ -69,5 +69,10 @@ window.I18N_ES = {
   send: "Enviar",
   noVotesYet: "Aún no hay votos",
   showComments: "💬 Comentarios ({count})",
-  hideComments: "Ocultar comentarios"
+  hideComments: "Ocultar comentarios",
+
+  promoTitle: "Descubre la experiencia completa",
+  promoDesc: "La app Lets Meet ofrece más — notificaciones, recordatorios y una experiencia más fluida. Pero también puedes seguir aquí en la web.",
+  promoDownload: "Descargar la app",
+  promoContinueWeb: "Continuar en la web"
 };

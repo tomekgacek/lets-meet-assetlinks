@@ -69,5 +69,10 @@ addComment: "Ajouter un commentaire…",
 send: "Envoyer",
 noVotesYet: "Aucun vote",
 showComments: "💬 Commentaires ({count})",
-hideComments: "Masquer les commentaires"
+hideComments: "Masquer les commentaires",
+
+promoTitle: "Profitez de l'expérience complète",
+promoDesc: "L'application Lets Meet offre plus — notifications, rappels et une meilleure expérience. Mais vous pouvez aussi continuer ici sur le web.",
+promoDownload: "Télécharger l'appli",
+promoContinueWeb: "Continuer sur le web"
 };

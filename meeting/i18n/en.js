@@ -74,5 +74,10 @@ addComment: "Add a comment…",
 send: "Send",
 noVotesYet: "No votes yet",
 showComments: "💬 Comments ({count})",
-hideComments: "Hide comments"
+hideComments: "Hide comments",
+
+promoTitle: "Get the full experience",
+promoDesc: "The Lets Meet app has more features — notifications, reminders, and a smoother experience. But you can also continue here on the web.",
+promoDownload: "Download the app",
+promoContinueWeb: "Continue on the web"
 };
