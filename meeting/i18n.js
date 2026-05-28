@@ -3,6 +3,7 @@ console.log("I18N loaded:", {
   en: window.I18N_EN,
   de: window.I18N_DE,
   fr: window.I18N_FR,
+  es: window.I18N_ES,
 });
 
 const i18n = {
@@ -13,6 +14,7 @@ const i18n = {
     en: window.I18N_EN,
     de: window.I18N_DE,
     fr: window.I18N_FR,
+    es: window.I18N_ES,
   },
 
 t(key, vars = {}) {
