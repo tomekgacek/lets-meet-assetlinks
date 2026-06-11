@@ -119,6 +119,63 @@ body {
  left: 0;
 }
 
+/* NEW BADGE */
+.video-card {
+ position: relative;
+}
+
+.badge-new {
+ position: absolute;
+ top: 12px;
+ right: 12px;
+ z-index: 10;
+ background: linear-gradient(135deg, #f59e0b, #ef4444);
+ color: white;
+ font-weight: 700;
+ font-size: 12px;
+ padding: 6px 14px;
+ border-radius: 20px;
+ text-transform: uppercase;
+ letter-spacing: 1px;
+ box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+ animation: pulse-badge 2s ease-in-out infinite;
+}
+
+@keyframes pulse-badge {
+ 0%, 100% { transform: scale(1); }
+ 50% { transform: scale(1.08); }
+}
+
+/* MORE VIDEOS BUTTON */
+.more-videos-btn {
+ display: block;
+ margin: 40px auto 0;
+ padding: 14px 32px;
+ border: 1px solid rgba(255,255,255,0.25);
+ border-radius: 16px;
+ background: rgba(255,255,255,0.08);
+ color: white;
+ font-family: inherit;
+ font-size: 16px;
+ font-weight: 600;
+ cursor: pointer;
+ transition: 0.3s ease;
+ backdrop-filter: blur(10px);
+}
+
+.more-videos-btn:hover {
+ background: rgba(255,255,255,0.15);
+ transform: translateY(-2px);
+}
+
+.videos-hidden {
+ display: none;
+}
+
+.videos-extra {
+ margin-top: 40px;
+}
+
 /* FEATURES */
 .features {
  display: grid;
@@ -203,25 +260,54 @@ body {
  </section>
  <section class="glass-section">
  <div class="videos">
+ <div class="video-card">
+ <span class="badge-new">🔥 New</span>
+ <div class="video-wrapper">
+ <iframe src="https://www.youtube.com/embed/GQYBGM9f8h0"
+ frameborder="0"
+ allowfullscreen></iframe>
+ </div>
+ </div>
+ <div class="video-card">
  <div class="video-wrapper">
  <iframe src="https://www.youtube.com/embed/NeyFQeX3orw"
  frameborder="0"
  allowfullscreen></iframe>
  </div>
+ </div>
+ </div>
+ <div class="videos videos-extra videos-hidden" id="extra-videos">
+ <div class="video-card">
  <div class="video-wrapper">
  <iframe src="https://www.youtube.com/embed/2m5ujc8yD_4"
  frameborder="0"
  allowfullscreen></iframe>
  </div>
- <div class="video-wrapper">
-<iframe 
-  src="https://www.youtube.com/embed/zi6v-PJPt1M"
-  frameborder="0"
-  allowfullscreen>
-</iframe>
- </div>  
  </div>
+ <div class="video-card">
+ <div class="video-wrapper">
+ <iframe src="https://www.youtube.com/embed/zi6v-PJPt1M"
+ frameborder="0"
+ allowfullscreen></iframe>
+ </div>
+ </div>
+ </div>
+ <button class="more-videos-btn" id="more-videos-btn" onclick="toggleVideos()">▶ More videos</button>
  </section>
+
+ <script>
+ function toggleVideos() {
+ const extra = document.getElementById('extra-videos');
+ const btn = document.getElementById('more-videos-btn');
+ if (extra.classList.contains('videos-hidden')) {
+ extra.classList.remove('videos-hidden');
+ btn.textContent = '▲ Less videos';
+ } else {
+ extra.classList.add('videos-hidden');
+ btn.textContent = '▶ More videos';
+ }
+ }
+ </script>
 
  <section class="features">
  <div class="feature">
