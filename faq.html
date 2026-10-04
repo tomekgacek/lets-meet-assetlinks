@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="only light">
+  <meta name="description" content="Answers to frequently asked questions about creating and managing Lets Meet events.">
+  <title>FAQ – Lets Meet</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 20px;
+      font-family: "Inter", system-ui, sans-serif;
+      color: #fff;
+      background:
+        radial-gradient(circle at 20% 20%, #7c3aed 0%, transparent 40%),
+        radial-gradient(circle at 80% 30%, #2563eb 0%, transparent 40%),
+        linear-gradient(160deg, #0f172a, #111827);
+    }
+
+    .container {
+      width: min(100%, 820px);
+      margin: 0 auto;
+      padding: 28px 0 56px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 56px;
+    }
+
+    .home-link {
+      color: #e0e7ff;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .home-link:hover {
+      text-decoration: underline;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .language-select {
+      padding: 10px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 12px;
+      background: #1e293b;
+      color: #fff;
+      font: inherit;
+    }
+
+    h1 {
+      margin: 0 0 32px;
+      font-size: clamp(36px, 8vw, 52px);
+      font-weight: 800;
+      text-align: center;
+      background: linear-gradient(90deg, #fff, #c7d2fe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    details {
+      padding: 22px 24px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px);
+    }
+
+    summary {
+      color: #fff;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.5;
+      cursor: pointer;
+    }
+
+    details p {
+      margin: 14px 0 0;
+      color: #d1d5db;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 520px) {
+      body {
+        padding: 20px 16px;
+      }
+
+      .container {
+        padding-top: 12px;
+      }
+
+      .topbar {
+        margin-bottom: 40px;
+      }
+
+      details {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <nav class="topbar" aria-label="Page navigation" data-i18n-aria-label="pageNavigation">
+      <a class="home-link" href="./" data-i18n="home">← Home</a>
+      <label>
+        <span class="visually-hidden" data-i18n="languageLabel">Language</span>
+        <select class="language-select" id="language-select" aria-label="Language">
+          <option value="de">Deutsch</option>
+          <option value="en">English</option>
+          <option value="es">Español</option>
+          <option value="fr">Français</option>
+          <option value="pl">Polski</option>
+        </select>
+      </label>
+    </nav>
+
+    <h1 data-i18n="title">FAQ</h1>
+    <section class="faq-list" aria-label="Frequently asked questions" data-i18n-aria-label="faqRegion">
+      <details>
+        <summary data-i18n="q1">How do I create a meeting?</summary>
+        <p data-i18n="a1">On the home screen, choose “Create meeting”. Enter a name and organizer; the description, location, and voting deadline are optional. After saving, you can add date suggestions.</p>
+      </details>
+      <details>
+        <summary data-i18n="q2">How do I add a location?</summary>
+        <p data-i18n="a2">When creating a meeting, search for a place and select it from the suggestions. Later, the meeting creator can open the details, choose “Add location” or “Edit location”, and search for more places.</p>
+      </details>
+      <details>
+        <summary data-i18n="q3">Can I add multiple places and change their order?</summary>
+        <p data-i18n="a3">Yes. In location editing, you can add more places, change their order, and remove them. Only the meeting creator can save these changes.</p>
+      </details>
+      <details>
+        <summary data-i18n="q4">How do I add or change suggested dates?</summary>
+        <p data-i18n="a4">After creating a meeting, choose dates in the calendar and save your suggestions. The creator can later open “Edit suggestions”, add dates, change their times, or remove selected dates.</p>
+      </details>
+      <details>
+        <summary data-i18n="q5">How do I confirm a date?</summary>
+        <p data-i18n="a5">Participants vote on the suggested dates. The creator can then choose “Confirm date” in the meeting details. This option appears when suggestions exist and no date has been confirmed yet.</p>
+      </details>
+    </section>
+  </main>
+
+  <script>
+    const translations = {
+      en: {
+        title: "FAQ",
+        home: "← Home",
+        languageLabel: "Language",
+        pageNavigation: "Page navigation",
+        faqRegion: "Frequently asked questions",
+        q1: "How do I create a meeting?",
+        a1: "On the home screen, choose “Create meeting”. Enter a name and organizer; the description, location, and voting deadline are optional. After saving, you can add date suggestions.",
+        q2: "How do I add a location?",
+        a2: "When creating a meeting, search for a place and select it from the suggestions. Later, the meeting creator can open the details, choose “Add location” or “Edit location”, and search for more places.",
+        q3: "Can I add multiple places and change their order?",
+        a3: "Yes. In location editing, you can add more places, change their order, and remove them. Only the meeting creator can save these changes.",
+        q4: "How do I add or change suggested dates?",
+        a4: "After creating a meeting, choose dates in the calendar and save your suggestions. The creator can later open “Edit suggestions”, add dates, change their times, or remove selected dates.",
+        q5: "How do I confirm a date?",
+        a5: "Participants vote on the suggested dates. The creator can then choose “Confirm date” in the meeting details. This option appears when suggestions exist and no date has been confirmed yet."
+      },
+      pl: {
+        title: "FAQ",
+        home: "← Strona główna",
+        languageLabel: "Język",
+        pageNavigation: "Nawigacja strony",
+        faqRegion: "Najczęściej zadawane pytania",
+        q1: "Jak utworzyć spotkanie?",
+        a1: "Na ekranie startowym wybierz „Utwórz spotkanie”. Podaj nazwę i organizatora; opis, lokalizacja i termin głosowania są opcjonalne. Po zapisaniu dodasz propozycje dat.",
+        q2: "Jak dodać lokalizację?",
+        a2: "Przy tworzeniu spotkania wyszukaj miejsce i wybierz je z podpowiedzi. Później twórca spotkania może wejść w szczegóły, wybrać „Dodaj lokalizację” lub „Edytuj lokalizację”, a następnie wyszukać kolejne miejsca.",
+        q3: "Czy można dodać kilka miejsc i zmienić ich kolejność?",
+        a3: "Tak. W edycji lokalizacji można dodać następne miejsca, zmieniać ich kolejność i usuwać je. Zapis zmian jest dostępny dla twórcy spotkania.",
+        q4: "Jak dodać albo zmienić propozycje terminów?",
+        a4: "Po utworzeniu spotkania wybierz daty w kalendarzu i zapisz propozycje. Twórca może później otworzyć „Edytuj propozycje”, dodać terminy, zmienić ich godziny lub usunąć wybrane daty.",
+        q5: "Jak potwierdzić termin?",
+        a5: "Uczestnicy głosują przy wybranych propozycjach. Twórca może potem w szczegółach spotkania wybrać „Potwierdź termin”; ta opcja pojawia się, gdy istnieją propozycje i termin nie został jeszcze potwierdzony."
+      },
+      de: {
+        title: "FAQ",
+        home: "← Startseite",
+        languageLabel: "Sprache",
+        pageNavigation: "Seitennavigation",
+        faqRegion: "Häufig gestellte Fragen",
+        q1: "Wie erstelle ich ein Treffen?",
+        a1: "Wähle auf dem Startbildschirm „Treffen erstellen“. Gib einen Namen und den Organisator an; Beschreibung, Ort und Abstimmungsfrist sind optional. Nach dem Speichern kannst du Terminvorschläge hinzufügen.",
+        q2: "Wie füge ich einen Ort hinzu?",
+        a2: "Suche beim Erstellen eines Treffens nach einem Ort und wähle ihn aus den Vorschlägen aus. Später kann der Ersteller die Details öffnen, „Ort hinzufügen“ oder „Ort bearbeiten“ wählen und nach weiteren Orten suchen.",
+        q3: "Kann ich mehrere Orte hinzufügen und ihre Reihenfolge ändern?",
+        a3: "Ja. Bei der Bearbeitung der Orte kannst du weitere Orte hinzufügen, ihre Reihenfolge ändern und sie entfernen. Änderungen speichern kann der Ersteller des Treffens.",
+        q4: "Wie füge ich Terminvorschläge hinzu oder ändere sie?",
+        a4: "Wähle nach dem Erstellen eines Treffens im Kalender Termine aus und speichere deine Vorschläge. Der Ersteller kann später „Vorschläge bearbeiten“ öffnen, Termine hinzufügen, ihre Uhrzeiten ändern oder ausgewählte Termine entfernen.",
+        q5: "Wie bestätige ich einen Termin?",
+        a5: "Die Teilnehmer stimmen über die vorgeschlagenen Termine ab. Der Ersteller kann anschließend in den Treffendetails „Termin bestätigen“ auswählen. Diese Option wird angezeigt, wenn Vorschläge vorhanden sind und noch kein Termin bestätigt wurde."
+      },
+      fr: {
+        title: "FAQ",
+        home: "← Accueil",
+        languageLabel: "Langue",
+        pageNavigation: "Navigation de la page",
+        faqRegion: "Questions fréquentes",
+        q1: "Comment créer une rencontre ?",
+        a1: "Sur l’écran d’accueil, choisissez « Créer une rencontre ». Indiquez un nom et l’organisateur ; la description, le lieu et la date limite du vote sont facultatifs. Après l’enregistrement, vous pourrez ajouter des dates proposées.",
+        q2: "Comment ajouter un lieu ?",
+        a2: "Lors de la création d’une rencontre, recherchez un lieu et sélectionnez-le parmi les suggestions. Plus tard, le créateur peut ouvrir les détails, choisir « Ajouter un lieu » ou « Modifier le lieu », puis rechercher d’autres lieux.",
+        q3: "Peut-on ajouter plusieurs lieux et modifier leur ordre ?",
+        a3: "Oui. Dans la modification des lieux, vous pouvez en ajouter, changer leur ordre et les supprimer. Seul le créateur de la rencontre peut enregistrer ces modifications.",
+        q4: "Comment ajouter ou modifier les dates proposées ?",
+        a4: "Après avoir créé une rencontre, choisissez des dates dans le calendrier et enregistrez vos propositions. Le créateur peut ensuite ouvrir « Modifier les propositions », ajouter des dates, modifier leurs horaires ou supprimer certaines dates.",
+        q5: "Comment confirmer une date ?",
+        a5: "Les participants votent pour les dates proposées. Le créateur peut ensuite choisir « Confirmer la date » dans les détails de la rencontre. Cette option apparaît lorsqu’il existe des propositions et qu’aucune date n’a encore été confirmée."
+      },
+      es: {
+        title: "Preguntas frecuentes",
+        home: "← Inicio",
+        languageLabel: "Idioma",
+        pageNavigation: "Navegación de la página",
+        faqRegion: "Preguntas frecuentes",
+        q1: "¿Cómo creo una reunión?",
+        a1: "En la pantalla de inicio, elige «Crear reunión». Indica un nombre y quién la organiza; la descripción, la ubicación y la fecha límite para votar son opcionales. Después de guardar, podrás añadir propuestas de fechas.",
+        q2: "¿Cómo añado una ubicación?",
+        a2: "Al crear una reunión, busca un lugar y selecciónalo entre las sugerencias. Más adelante, quien haya creado la reunión puede abrir los detalles, elegir «Añadir ubicación» o «Editar ubicación» y buscar otros lugares.",
+        q3: "¿Se pueden añadir varios lugares y cambiar su orden?",
+        a3: "Sí. Al editar las ubicaciones, puedes añadir más lugares, cambiar su orden y eliminarlos. Solo quien haya creado la reunión puede guardar los cambios.",
+        q4: "¿Cómo añado o cambio las fechas propuestas?",
+        a4: "Después de crear una reunión, elige fechas en el calendario y guarda tus propuestas. Más adelante, quien la haya creado puede abrir «Editar propuestas», añadir fechas, cambiar sus horarios o eliminar las fechas seleccionadas.",
+        q5: "¿Cómo confirmo una fecha?",
+        a5: "Los participantes votan entre las fechas propuestas. Después, quien haya creado la reunión puede elegir «Confirmar fecha» en los detalles. Esta opción aparece cuando hay propuestas y todavía no se ha confirmado ninguna fecha."
+      }
+    };
+
+    const supportedLanguages = Object.keys(translations);
+    const params = new URLSearchParams(window.location.search);
+    const requestedLanguage = params.get("lang");
+    const savedLanguage = localStorage.getItem("lang");
+    const browserLanguage = navigator.language.slice(0, 2);
+    const language = supportedLanguages.includes(requestedLanguage)
+      ? requestedLanguage
+      : supportedLanguages.includes(savedLanguage)
+        ? savedLanguage
+        : supportedLanguages.includes(browserLanguage)
+          ? browserLanguage
+          : "en";
+    const languageSelect = document.getElementById("language-select");
+
+    function setLanguage(language) {
+      const dictionary = translations[language];
+      document.documentElement.lang = language;
+      languageSelect.value = language;
+      document.querySelectorAll("[data-i18n]").forEach(element => {
+        const key = element.dataset.i18n;
+        element.textContent = dictionary[key];
+      });
+      document.querySelectorAll("[data-i18n-aria-label]").forEach(element => {
+        const key = element.dataset.i18nAriaLabel;
+        element.setAttribute("aria-label", dictionary[key]);
+      });
+      document.title = `${dictionary.title} – Lets Meet`;
+      languageSelect.setAttribute("aria-label", dictionary.languageLabel);
+      localStorage.setItem("lang", language);
+      const url = new URL(window.location.href);
+      url.searchParams.set("lang", language);
+      window.history.replaceState({}, "", url);
+    }
+
+    languageSelect.addEventListener("change", event => {
+      setLanguage(event.target.value);
+    });
+    setLanguage(language);
+  </script>
+</body>
+</html>
