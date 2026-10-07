@@ -265,12 +265,17 @@ function getMeetingId() {
           commSubmit.disabled = true;
           try {
             const ref = db.doc(`meetings/${meetingId}/proposals/${p.id}`);
+            const actionAt = new Date().toISOString();
             await ref.update({
               comments: firebase.firestore.FieldValue.arrayUnion({
                 author: nickname,
                 text: text,
-                createdAt: new Date().toISOString()
-              })
+                createdAt: actionAt
+              }),
+              lastActionType: "comment",
+              lastActionByUserId: null,
+              lastActionByName: nickname,
+              lastActionAt: actionAt
             });
             commInput.value = "";
           } catch (e) {
@@ -327,6 +332,11 @@ function getMeetingId() {
         updates[`voters.${k}`] = firebase.firestore.FieldValue.arrayRemove(nickname);
       }
     });
+
+    updates.lastActionType = "vote";
+    updates.lastActionByUserId = null;
+    updates.lastActionByName = nickname;
+    updates.lastActionAt = new Date().toISOString();
 
     await ref.update(updates);
   };
