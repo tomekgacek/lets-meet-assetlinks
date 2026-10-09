@@ -107,6 +107,23 @@
       line-height: 1.7;
     }
 
+    .faq-module + .faq-module {
+      margin-top: 42px;
+    }
+
+    .faq-module {
+      display: grid;
+      gap: 14px;
+    }
+
+    .faq-module h2 {
+      margin: 0 0 16px;
+      color: #e0e7ff;
+      font-size: 22px;
+      line-height: 1.4;
+      margin-bottom: 2px;
+    }
+
     @media (max-width: 520px) {
       body {
         padding: 20px 16px;
@@ -144,30 +161,56 @@
 
     <h1 data-i18n="title">FAQ</h1>
     <section class="faq-list" aria-label="Frequently asked questions" data-i18n-aria-label="faqRegion">
-      <details>
-        <summary data-i18n="q1">How do I create a meeting?</summary>
-        <p data-i18n="a1">On the home screen, choose “Create meeting”. Enter a name and organizer; the description, location, and voting deadline are optional. After saving, you can add date suggestions.</p>
-      </details>
-      <details>
-        <summary data-i18n="q2">How do I add a location?</summary>
-        <p data-i18n="a2">When creating a meeting, search for a place and select it from the suggestions. Later, the meeting creator can open the details, choose “Add location” or “Edit location”, and search for more places.</p>
-      </details>
-      <details>
-        <summary data-i18n="q3">Can I add multiple places and change their order?</summary>
-        <p data-i18n="a3">Yes. In location editing, you can add more places, change their order, and remove them. Only the meeting creator can save these changes.</p>
-      </details>
-      <details>
-        <summary data-i18n="q4">How do I add or change suggested dates?</summary>
-        <p data-i18n="a4">After creating a meeting, choose dates in the calendar and save your suggestions. The creator can later open “Edit suggestions”, add dates, change their times, or remove selected dates.</p>
-      </details>
-      <details>
-        <summary data-i18n="q5">How do I confirm a date?</summary>
-        <p data-i18n="a5">Participants vote on the suggested dates. The creator can then choose “Confirm date” in the meeting details. This option appears when suggestions exist and no date has been confirmed yet.</p>
-      </details>
-      <details>
-        <summary data-i18n="q6">Who can vote?</summary>
-        <p data-i18n="a6">Anyone invited to vote can participate, whether they use the Android or iOS app or vote in a web browser without installing the app. Voting is designed to be accessible to everyone invited.</p>
-      </details>
+      <section class="faq-module" aria-labelledby="meetings-heading">
+        <h2 id="meetings-heading" data-i18n="meetingsModule">Let's Meet — Create and manage meetings</h2>
+        <details>
+          <summary data-i18n="q1">How do I create a meeting?</summary>
+          <p data-i18n="a1">On the home screen, choose “Create meeting”. Enter a name and organizer; the description, location, and voting deadline are optional. After saving, you can add date suggestions.</p>
+        </details>
+        <details>
+          <summary data-i18n="q2">How do I add a location?</summary>
+          <p data-i18n="a2">When creating a meeting, search for a place and select it from the suggestions. Later, the meeting creator can open the details, choose “Add location” or “Edit location”, and search for more places.</p>
+        </details>
+        <details>
+          <summary data-i18n="q3">Can I add multiple places and change their order?</summary>
+          <p data-i18n="a3">Yes. In location editing, you can add more places, change their order, and remove them. Only the meeting creator can save these changes.</p>
+        </details>
+        <details>
+          <summary data-i18n="q4">How do I add or change suggested dates?</summary>
+          <p data-i18n="a4">After creating a meeting, choose dates in the calendar and save your suggestions. The creator can later open “Edit suggestions”, add dates, change their times, or remove selected dates.</p>
+        </details>
+        <details>
+          <summary data-i18n="q5">How do I confirm a date?</summary>
+          <p data-i18n="a5">Participants vote on the suggested dates. The creator can then choose “Confirm date” in the meeting details. This option appears when suggestions exist and no date has been confirmed yet.</p>
+        </details>
+        <details>
+          <summary data-i18n="q6">Who can vote?</summary>
+          <p data-i18n="a6">Anyone invited to vote can participate, whether they use the Android or iOS app or vote in a web browser without installing the app. Voting is designed to be accessible to everyone invited.</p>
+        </details>
+        <details>
+          <summary data-i18n="q11">How do I invite people to a meeting?</summary>
+          <p data-i18n="a11">Open the meeting and use the share option to send its link. Participants can open the link and vote in the app or in a web browser.</p>
+        </details>
+      </section>
+      <section class="faq-module" aria-labelledby="events-heading">
+        <h2 id="events-heading" data-i18n="eventsModule">What’s Happening — Discover events</h2>
+        <details>
+          <summary data-i18n="q7">What is “What’s Happening”?</summary>
+          <p data-i18n="a7">“What’s Happening” helps you discover events near you or in a city you choose. Browse events by category, date range, and distance to find ideas for your next outing.</p>
+        </details>
+        <details>
+          <summary data-i18n="q8">How do I find events in another city?</summary>
+          <p data-i18n="a8">Open “What’s Happening”, tap the location filters, and search for a city. You can also adjust the search radius, date range, and event category.</p>
+        </details>
+        <details>
+          <summary data-i18n="q9">Can I create a meeting from an event?</summary>
+          <p data-i18n="a9">Yes. Tap “Quick Meet” on an event to create a meeting based on it. When event information is available, its date and venue are added to the meeting, and you can share it so others can join and vote.</p>
+        </details>
+        <details>
+          <summary data-i18n="q10">Why can’t I see events near me?</summary>
+          <p data-i18n="a10">Try changing the city, date range, distance, or category. The events shown depend on what’s available in the selected area and period.</p>
+        </details>
+      </section>
     </section>
   </main>
 
@@ -179,6 +222,8 @@
         languageLabel: "Language",
         pageNavigation: "Page navigation",
         faqRegion: "Frequently asked questions",
+        eventsModule: "What’s Happening — Discover events",
+        meetingsModule: "Let's Meet — Create and manage meetings",
         q1: "How do I create a meeting?",
         a1: "On the home screen, choose “Create meeting”. Enter a name and organizer; the description, location, and voting deadline are optional. After saving, you can add date suggestions.",
         q2: "How do I add a location?",
@@ -190,7 +235,17 @@
         q5: "How do I confirm a date?",
         a5: "Participants vote on the suggested dates. The creator can then choose “Confirm date” in the meeting details. This option appears when suggestions exist and no date has been confirmed yet.",
         q6: "Who can vote?",
-        a6: "Anyone invited to vote can participate, whether they use the Android or iOS app or vote in a web browser without installing the app. Voting is designed to be accessible to everyone invited."
+        a6: "Anyone invited to vote can participate, whether they use the Android or iOS app or vote in a web browser without installing the app. Voting is designed to be accessible to everyone invited.",
+        q7: "What is “What’s Happening”?",
+        a7: "“What’s Happening” helps you discover events near you or in a city you choose. Browse events by category, date range, and distance to find ideas for your next outing.",
+        q8: "How do I find events in another city?",
+        a8: "Open “What’s Happening”, tap the location filters, and search for a city. You can also adjust the search radius, date range, and event category.",
+        q9: "Can I create a meeting from an event?",
+        a9: "Yes. Tap “Quick Meet” on an event to create a meeting based on it. When event information is available, its date and venue are added to the meeting, and you can share it so others can join and vote.",
+        q10: "Why can’t I see events near me?",
+        a10: "Try changing the city, date range, distance, or category. The events shown depend on what’s available in the selected area and period.",
+        q11: "How do I invite people to a meeting?",
+        a11: "Open the meeting and use the share option to send its link. Participants can open the link and vote in the app or in a web browser."
       },
       pl: {
         title: "FAQ",
@@ -198,6 +253,8 @@
         languageLabel: "Język",
         pageNavigation: "Nawigacja strony",
         faqRegion: "Najczęściej zadawane pytania",
+        eventsModule: "What’s Happening — Odkrywaj wydarzenia",
+        meetingsModule: "Let's Meet — Tworzenie i zarządzanie spotkaniami",
         q1: "Jak utworzyć spotkanie?",
         a1: "Na ekranie startowym wybierz „Utwórz spotkanie”. Podaj nazwę i organizatora; opis, lokalizacja i termin głosowania są opcjonalne. Po zapisaniu dodasz propozycje dat.",
         q2: "Jak dodać lokalizację?",
@@ -209,7 +266,17 @@
         q5: "Jak potwierdzić termin?",
         a5: "Uczestnicy głosują przy wybranych propozycjach. Twórca może potem w szczegółach spotkania wybrać „Potwierdź termin”; ta opcja pojawia się, gdy istnieją propozycje i termin nie został jeszcze potwierdzony.",
         q6: "Kto może głosować?",
-        a6: "Głosować może każda osoba zaproszona do głosowania — niezależnie od tego, czy korzysta z aplikacji na Androidzie lub iOS, czy głosuje przez przeglądarkę internetową, bez instalowania aplikacji. Głosowanie zaprojektowano tak, aby każdy zaproszony mógł w nim uczestniczyć."
+        a6: "Głosować może każda osoba zaproszona do głosowania — niezależnie od tego, czy korzysta z aplikacji na Androidzie lub iOS, czy głosuje przez przeglądarkę internetową, bez instalowania aplikacji. Głosowanie zaprojektowano tak, aby każdy zaproszony mógł w nim uczestniczyć.",
+        q7: "Czym jest „What’s Happening”?",
+        a7: "„What’s Happening” pomaga odkrywać wydarzenia w pobliżu lub w wybranym mieście. Przeglądaj wydarzenia według kategorii, zakresu dat i odległości, aby znaleźć pomysły na kolejne wyjście.",
+        q8: "Jak znaleźć wydarzenia w innym mieście?",
+        a8: "Otwórz „What’s Happening”, wybierz filtry lokalizacji i wyszukaj miasto. Możesz też zmienić promień wyszukiwania, zakres dat i kategorię wydarzeń.",
+        q9: "Czy mogę utworzyć spotkanie na podstawie wydarzenia?",
+        a9: "Tak. Wybierz „Quick Meet” przy wydarzeniu, aby utworzyć na jego podstawie spotkanie. Jeśli dostępne są informacje o wydarzeniu, jego data i miejsce zostaną dodane do spotkania. Możesz je potem udostępnić, aby inni mogli dołączyć i zagłosować.",
+        q10: "Dlaczego nie widzę wydarzeń w pobliżu?",
+        a10: "Spróbuj zmienić miasto, zakres dat, odległość lub kategorię. Widoczne wydarzenia zależą od tego, co jest dostępne w wybranym miejscu i okresie.",
+        q11: "Jak zaprosić osoby do spotkania?",
+        a11: "Otwórz spotkanie i użyj opcji udostępniania, aby wysłać jego link. Uczestnicy mogą otworzyć link i zagłosować w aplikacji lub przeglądarce internetowej."
       },
       de: {
         title: "FAQ",
@@ -217,6 +284,8 @@
         languageLabel: "Sprache",
         pageNavigation: "Seitennavigation",
         faqRegion: "Häufig gestellte Fragen",
+        eventsModule: "What’s Happening — Veranstaltungen entdecken",
+        meetingsModule: "Let's Meet — Treffen erstellen und verwalten",
         q1: "Wie erstelle ich ein Treffen?",
         a1: "Wähle auf dem Startbildschirm „Treffen erstellen“. Gib einen Namen und den Organisator an; Beschreibung, Ort und Abstimmungsfrist sind optional. Nach dem Speichern kannst du Terminvorschläge hinzufügen.",
         q2: "Wie füge ich einen Ort hinzu?",
@@ -228,7 +297,17 @@
         q5: "Wie bestätige ich einen Termin?",
         a5: "Die Teilnehmer stimmen über die vorgeschlagenen Termine ab. Der Ersteller kann anschließend in den Treffendetails „Termin bestätigen“ auswählen. Diese Option wird angezeigt, wenn Vorschläge vorhanden sind und noch kein Termin bestätigt wurde.",
         q6: "Wer kann abstimmen?",
-        a6: "Abstimmen kann jeder, der dazu eingeladen wurde – unabhängig davon, ob die Person die Android- oder iOS-App nutzt oder ohne App-Installation im Webbrowser abstimmt. Das Abstimmen ist so gestaltet, dass alle Eingeladenen teilnehmen können."
+        a6: "Abstimmen kann jeder, der dazu eingeladen wurde – unabhängig davon, ob die Person die Android- oder iOS-App nutzt oder ohne App-Installation im Webbrowser abstimmt. Das Abstimmen ist so gestaltet, dass alle Eingeladenen teilnehmen können.",
+        q7: "Was ist „What’s Happening“?",
+        a7: "Mit „What’s Happening“ kannst du Veranstaltungen in deiner Nähe oder in einer Stadt deiner Wahl entdecken. Durchsuche Veranstaltungen nach Kategorie, Zeitraum und Entfernung und finde Ideen für deinen nächsten Ausflug.",
+        q8: "Wie finde ich Veranstaltungen in einer anderen Stadt?",
+        a8: "Öffne „What’s Happening“, wähle die Standortfilter und suche nach einer Stadt. Du kannst auch den Suchradius, den Zeitraum und die Veranstaltungskategorie anpassen.",
+        q9: "Kann ich aus einer Veranstaltung ein Treffen erstellen?",
+        a9: "Ja. Tippe bei einer Veranstaltung auf „Quick Meet“, um daraus ein Treffen zu erstellen. Wenn Veranstaltungsinformationen verfügbar sind, werden Datum und Ort zum Treffen hinzugefügt. Du kannst es teilen, damit andere teilnehmen und abstimmen können.",
+        q10: "Warum sehe ich keine Veranstaltungen in meiner Nähe?",
+        a10: "Ändere versuchsweise die Stadt, den Zeitraum, die Entfernung oder die Kategorie. Welche Veranstaltungen angezeigt werden, hängt vom Angebot am ausgewählten Ort und im gewählten Zeitraum ab.",
+        q11: "Wie lade ich Personen zu einem Treffen ein?",
+        a11: "Öffne das Treffen und nutze die Teilen-Funktion, um den Link zu versenden. Teilnehmende können den Link öffnen und in der App oder im Webbrowser abstimmen."
       },
       fr: {
         title: "FAQ",
@@ -236,6 +315,8 @@
         languageLabel: "Langue",
         pageNavigation: "Navigation de la page",
         faqRegion: "Questions fréquentes",
+        eventsModule: "What’s Happening — Découvrir des événements",
+        meetingsModule: "Let's Meet — Créer et gérer des rencontres",
         q1: "Comment créer une rencontre ?",
         a1: "Sur l’écran d’accueil, choisissez « Créer une rencontre ». Indiquez un nom et l’organisateur ; la description, le lieu et la date limite du vote sont facultatifs. Après l’enregistrement, vous pourrez ajouter des dates proposées.",
         q2: "Comment ajouter un lieu ?",
@@ -247,7 +328,17 @@
         q5: "Comment confirmer une date ?",
         a5: "Les participants votent pour les dates proposées. Le créateur peut ensuite choisir « Confirmer la date » dans les détails de la rencontre. Cette option apparaît lorsqu’il existe des propositions et qu’aucune date n’a encore été confirmée.",
         q6: "Qui peut voter ?",
-        a6: "Toute personne invitée à voter peut participer, qu’elle utilise l’application Android ou iOS, ou qu’elle vote depuis un navigateur web sans installer l’application. Le vote est conçu pour être accessible à toutes les personnes invitées."
+        a6: "Toute personne invitée à voter peut participer, qu’elle utilise l’application Android ou iOS, ou qu’elle vote depuis un navigateur web sans installer l’application. Le vote est conçu pour être accessible à toutes les personnes invitées.",
+        q7: "Qu’est-ce que « What’s Happening » ?",
+        a7: "« What’s Happening » vous aide à découvrir des événements près de chez vous ou dans la ville de votre choix. Parcourez les événements par catégorie, période et distance pour trouver des idées de sorties.",
+        q8: "Comment trouver des événements dans une autre ville ?",
+        a8: "Ouvrez « What’s Happening », sélectionnez les filtres de lieu et recherchez une ville. Vous pouvez également modifier le rayon de recherche, la période et la catégorie d’événement.",
+        q9: "Puis-je créer une rencontre à partir d’un événement ?",
+        a9: "Oui. Appuyez sur « Quick Meet » sur un événement pour créer une rencontre à partir de celui-ci. Si les informations de l’événement sont disponibles, sa date et son lieu seront ajoutés à la rencontre. Vous pourrez ensuite la partager pour que d’autres personnes la rejoignent et votent.",
+        q10: "Pourquoi ne vois-je pas d’événements près de chez moi ?",
+        a10: "Essayez de modifier la ville, la période, la distance ou la catégorie. Les événements affichés dépendent de ceux disponibles dans la zone et pendant la période sélectionnées.",
+        q11: "Comment inviter des personnes à une rencontre ?",
+        a11: "Ouvrez la rencontre et utilisez l’option de partage pour envoyer son lien. Les participants peuvent ouvrir ce lien et voter dans l’application ou depuis un navigateur web."
       },
       es: {
         title: "Preguntas frecuentes",
@@ -255,6 +346,8 @@
         languageLabel: "Idioma",
         pageNavigation: "Navegación de la página",
         faqRegion: "Preguntas frecuentes",
+        eventsModule: "What’s Happening — Descubrir eventos",
+        meetingsModule: "Let's Meet — Crear y gestionar reuniones",
         q1: "¿Cómo creo una reunión?",
         a1: "En la pantalla de inicio, elige «Crear reunión». Indica un nombre y quién la organiza; la descripción, la ubicación y la fecha límite para votar son opcionales. Después de guardar, podrás añadir propuestas de fechas.",
         q2: "¿Cómo añado una ubicación?",
@@ -266,7 +359,17 @@
         q5: "¿Cómo confirmo una fecha?",
         a5: "Los participantes votan entre las fechas propuestas. Después, quien haya creado la reunión puede elegir «Confirmar fecha» en los detalles. Esta opción aparece cuando hay propuestas y todavía no se ha confirmado ninguna fecha.",
         q6: "¿Quién puede votar?",
-        a6: "Puede participar cualquier persona invitada a votar, tanto si utiliza la aplicación para Android o iOS como si vota desde un navegador web sin instalar la aplicación. El sistema está diseñado para que todas las personas invitadas puedan participar."
+        a6: "Puede participar cualquier persona invitada a votar, tanto si utiliza la aplicación para Android o iOS como si vota desde un navegador web sin instalar la aplicación. El sistema está diseñado para que todas las personas invitadas puedan participar.",
+        q7: "¿Qué es «What’s Happening»?",
+        a7: "«What’s Happening» te ayuda a descubrir eventos cerca de ti o en la ciudad que elijas. Explora eventos por categoría, fechas y distancia para encontrar ideas para tu próxima salida.",
+        q8: "¿Cómo encuentro eventos en otra ciudad?",
+        a8: "Abre «What’s Happening», pulsa los filtros de ubicación y busca una ciudad. También puedes ajustar el radio de búsqueda, las fechas y la categoría del evento.",
+        q9: "¿Puedo crear una reunión a partir de un evento?",
+        a9: "Sí. Pulsa «Quick Meet» en un evento para crear una reunión basada en él. Si hay información disponible, se añadirán a la reunión la fecha y el lugar del evento. Después podrás compartirla para que otras personas se unan y voten.",
+        q10: "¿Por qué no veo eventos cerca de mí?",
+        a10: "Prueba a cambiar la ciudad, las fechas, la distancia o la categoría. Los eventos que aparecen dependen de la oferta disponible en la zona y el periodo seleccionados.",
+        q11: "¿Cómo invito a otras personas a una reunión?",
+        a11: "Abre la reunión y usa la opción para compartir para enviar su enlace. Los participantes pueden abrirlo y votar desde la aplicación o el navegador web."
       }
     };
 
