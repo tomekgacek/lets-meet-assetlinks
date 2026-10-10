@@ -12,12 +12,12 @@
 <body>
 
 <header class="app-banner" id="appBanner">
+<img src="./lets_meet_pase_pusty.png" alt="" class="app-banner-art" aria-hidden="true"/>
 
 <div class="app-banner-left">
   <img src="./logo.png" alt="Lets Meet" class="app-logo"/>
   <span class="app-banner-text" data-i18n="openInApp"></span>
 </div>
-
 
 <div class="app-banner-actions">
 
@@ -25,9 +25,10 @@
 href="https://lets-meet.me/"
 class="btn btn-primary"
 target="_blank"
+rel="noopener"
 data-i18n="download"></a>
 
-<button id="menuToggle" class="hamburger">☰</button>
+<button id="menuToggle" class="hamburger" aria-controls="menuPanel" aria-expanded="false" data-i18n-aria="languageMenu">☰</button>
 
 </div>
 

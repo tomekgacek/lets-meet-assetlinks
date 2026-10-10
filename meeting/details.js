@@ -475,7 +475,9 @@ const menuPanel=document.getElementById("menuPanel");
 
 if(menuToggle&&menuPanel){
 menuToggle.addEventListener("click",()=>{
-menuPanel.classList.toggle("hidden");
+const isExpanded = menuToggle.getAttribute("aria-expanded") === "true";
+menuToggle.setAttribute("aria-expanded", String(!isExpanded));
+menuPanel.classList.toggle("hidden", isExpanded);
 });
 }
 

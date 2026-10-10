@@ -2,6 +2,7 @@ window.I18N_FR = {
   openInApp: "Ouvrir dans l’application Lets Meet",
   open: "Ouvrir",
   googlePlay: "Google Play",
+  languageMenu: "Ouvrir le menu de sélection de la langue",
 
   loadingMeeting: "Chargement de la réunion…",
   meetingLoaded: "✅ Réunion chargée",

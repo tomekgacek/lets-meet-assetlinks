@@ -53,6 +53,10 @@ apply() {
       el.textContent = this.t(key);
     }
   });
+
+  document.querySelectorAll("[data-i18n-aria]").forEach(el => {
+    el.setAttribute("aria-label", this.t(el.dataset.i18nAria));
+  });
 }
 
 };
