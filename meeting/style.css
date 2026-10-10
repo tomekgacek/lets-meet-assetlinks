@@ -904,6 +904,8 @@ letter-spacing: 0.5px;
   padding: 36px 28px;
   max-width: 360px;
   width: 100%;
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
   text-align: center;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
   animation: slideUp 0.3s ease;
@@ -914,9 +916,13 @@ letter-spacing: 0.5px;
   to { transform: translateY(0); opacity: 1; }
 }
 
-.promo-icon {
-  font-size: 48px;
+.promo-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 190px;
   margin-bottom: 16px;
+  object-fit: contain;
 }
 
 .promo-title {
@@ -970,4 +976,3 @@ letter-spacing: 0.5px;
 .promo-btn-secondary:hover {
   background: #e6e7ef;
 }
-
